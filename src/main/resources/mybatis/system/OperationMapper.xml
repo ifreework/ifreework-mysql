@@ -55,7 +55,7 @@
 		
 	<insert id="add" parameterType="com.ifreework.entity.system.Operation">
 		<selectKey keyProperty="operationId" resultType="String" order="BEFORE">
-			select sys_guid() from dual
+			select  UUID()
 		</selectKey>
 		
 		insert into SYS_OPERATION (<include refid="operationColumns"/>) 

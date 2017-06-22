@@ -39,7 +39,7 @@
 
 	<insert id="add" parameterType="com.ifreework.entity.system.UserRole">
 		<selectKey keyProperty="userRoleId" resultType="String" order="BEFORE">
-			select sys_guid() from dual
+			select UUID()
 		</selectKey>
 		
 		insert into SYS_USER_ROLE (<include refid="userRoleColumns"/>) 

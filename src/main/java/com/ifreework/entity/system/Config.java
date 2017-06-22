@@ -48,6 +48,12 @@ public class Config implements Serializable{
 	public static final String MAIL_STORE_PORT = "mail_store_port"; //邮箱pop3地址端口
 	public static final String MAIL_USER = "mail_user"; //邮箱用户名
 	public static final String MAIL_PASSWORD = "mail_password"; //邮箱密码
+	
+	
+	public static final String WEIXIN_TOKEN = "weixin_token"; //微信token
+	public static final String WEIXIN_APPID = "weixin_appid"; //微信APPID
+	public static final String WEIXIN_APPSECRET = "weixin_appsecret"; //微信APPSECRET
+
 
 	
 	private static Config config;

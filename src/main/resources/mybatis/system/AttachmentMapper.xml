@@ -31,7 +31,7 @@
 
 	<insert id="add" parameterType="com.ifreework.entity.system.Attachment">
 		<selectKey keyProperty="attachmentId" resultType="String" order="BEFORE">
-			select sys_guid() from dual
+			select  UUID()
 		</selectKey>
 		
 		insert into SYS_ATTACHMENT (<include refid="attachmentColumns"/>) 

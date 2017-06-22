@@ -103,7 +103,7 @@
 	
 	<insert id="add" parameterType="com.ifreework.entity.system.Dictionary">
 		<selectKey keyProperty="dictionaryId" resultType="String" order="BEFORE">
-			select sys_guid() from dual
+			select  UUID()
 		</selectKey>
 		
 		insert into SYS_DICTIONARY (<include refid="dictionaryColumns"/>) 

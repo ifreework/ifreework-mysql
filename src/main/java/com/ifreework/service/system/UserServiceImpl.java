@@ -10,6 +10,7 @@
 package com.ifreework.service.system;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -305,7 +306,10 @@ public class UserServiceImpl implements UserService, ShiroAuthInterface {
 	 */
 	@Override
 	public Set<String> queryAuthorityByUserName(String userName) {
-		return userMapper.queryAuthorityByUserName(userName);
+		User user = UserManager.getUser();
+		List<String> roleList = new ArrayList<String>();
+		queryRoleTreeByUserId(user.getUserId(),null,roleList);
+		return userMapper.queryAuthorityByUserName(roleList);
 	}
 
 	/**
@@ -370,10 +374,51 @@ public class UserServiceImpl implements UserService, ShiroAuthInterface {
 	 */
 	@SuppressWarnings("rawtypes")
 	public List queryMenuByUserId() {
-		PageData pd = new PageData();
 		User user = UserManager.getUser();
-		pd.put("userId", user.getUserId());
-		pd.put("parentId", "0");
-		return userMapper.queryMenuByUserId(pd);
+		List<String> roleList = new ArrayList<String>();
+		queryRoleTreeByUserId(user.getUserId(),null,roleList);
+		
+		Map<String,Object> map = new HashMap<String,Object>();
+		map.put("resourceId", "0");
+		queryMenuByUserId(map,roleList);
+		return (List) map.get("children");
+	}
+	
+	/**
+	 * 描述：递归获取用户所拥有的菜单
+	 * @param map 
+	 * @return
+	 */
+	private void queryMenuByUserId(Map<String,Object>  map,List<String> roleList){
+		Map<String,Object> param = new HashMap<String,Object>();
+		param.put("parentId", map.get("resourceId"));
+		param.put("roleList", roleList);
+		
+		List<Map<String,Object>> list = userMapper.queryMenuByUserId(param);
+		map.put("children", list);
+		for (Map<String, Object> m : list) {
+			queryMenuByUserId(m,roleList);
+		}
+	}
+	
+	/**
+	 * 
+	 * 描述： 递归查询当前用户所拥有的角色及下级角色
+	 * @param userId
+	 * @param parentId
+	 * @param roleIdList 
+	 * @return
+	 */
+	private void queryRoleTreeByUserId(String userId,String parentId,List<String> roleIdList){
+		PageData pd = new PageData();
+		pd.put("userId", userId);
+		pd.put("parentId", parentId);
+		List<String> roleList = userMapper.queryRoleTreeByUserId(pd);
+		for (String roleId : roleList) {
+			if(!roleIdList.contains(roleId)){
+				roleIdList.add(roleId);
+				queryRoleTreeByUserId(null,roleId,roleIdList);
+			}
+		}
 	}
 }

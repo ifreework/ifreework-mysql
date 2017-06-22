@@ -54,9 +54,9 @@
 		<result column="ICON_CLS" property="iconCls" />
 		<result column="PK" property="pk" />
 		<result column="REMARKS" property="remarks" />
-		<collection property="children" ofType="pd" javaType="ArrayList"
-			column="{userId=USER_ID,parentId=RESOURCE_ID}" select="queryMenuByUserId" />
 	</resultMap>
+	
+	
 
 	<!-- 字段 -->
 	<sql id="userColumns">
@@ -160,19 +160,13 @@
 
 
 	<!-- 根据userId查询该用户具有的权限 -->
-	<select id="queryAuthorityByUserName" parameterType="string" resultType="string">
-	    select ra.authority_pk
-	      from sys_role_authority ra
-	     inner join (select role_id
-	                   from (select role_id
-	                           from sys_role r
-	                          start with r.role_id in
-	                                     (select ur.role_id
-	                                        from sys_user_role ur inner join sys_user u 
-	                                         	 on ur.user_id = u.user_id and u.username = #{username})
-	                         connect by prior r.role_id = r.parent_id) t1
-	                  group by t1.role_id) t2
-	        on ra.role_id = t2.role_id
+	<select id="queryAuthorityByUserName" parameterType="java.util.List" resultType="string">
+	    select DISTINCT ra.authority_pk
+	      from sys_role_authority ra where ra.role_id in 
+		<foreach collection="list" item="r" 
+            open="(" close=")" separator=",">
+            #{r}
+        </foreach>
 	</select>
 
 
@@ -185,18 +179,36 @@
 	
 	
 	<!-- 根据用户id查询用户所具有的菜单 -->
-	<select id="queryMenuByUserId" parameterType="pd" resultMap="resourceMap">
-		select distinct  re.*,#{userId} user_id from (select r.role_id
-		  from sys_role r
-		 start with r.role_id in
-		            (select ur.role_id from sys_user_role ur where ur.user_id = #{userId})
-		connect by prior r.role_id = r.parent_id ) temp_role -- 查询用户所具有的角色与
-		inner join sys_role_authority ra on temp_role.role_id = ra.role_id --查询角色所拥有的权限
-		inner join sys_authority a on ra.authority_pk = a.pk 
-		inner join sys_resource re on a.resource_id = re.resource_id and re.resource_type = 'M' and re.parent_id = #{parentId} --查询权限所对用资源
-		order by re.resource_order
+	<select id="queryMenuByUserId" parameterType="java.util.Map" resultMap="resourceMap">
+		SELECT DISTINCT
+			re.*
+		FROM
+		 	sys_role_authority ra 
+		INNER JOIN sys_authority a ON ra.authority_pk = a.pk
+		INNER JOIN sys_resource re ON a.resource_id = re.resource_id
+		AND re.resource_type = 'M'
+		AND re.parent_id = #{parentId} -- 查询权限所对用资源
+		where ra.role_id in 
+		
+		<foreach collection="roleList" item="r" 
+            open="(" close=")" separator=",">
+            #{r}
+        </foreach>
+        
+		ORDER BY
+			re.resource_order
 	</select>
 	
+	
+		<!-- 根据用户id和父节点查询查询用户所具子角色 -->
+	<select id="queryRoleTreeByUserId" parameterType="pd" resultType="string">
+		<if test="userId != null ">
+			select role_id from sys_user_role where user_id = #{userId}
+		</if>
+		<if test="parentId != null ">
+			select role_id from sys_role where parent_id = #{parentId}
+		</if>
+	</select>
 	
 	
 	<!-- 修改 -->
@@ -273,7 +285,7 @@
 
 	<insert id="add" parameterType="com.ifreework.entity.system.User">
 		<selectKey keyProperty="userId" resultType="String" order="BEFORE">
-			select sys_guid() from dual 
+			select  UUID()
 		</selectKey>
 
 		insert into SYS_USER (

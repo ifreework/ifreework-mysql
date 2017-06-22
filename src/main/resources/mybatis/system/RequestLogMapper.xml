@@ -89,7 +89,7 @@
 
 	<insert id="add" parameterType="com.ifreework.entity.system.RequestLog">
 		<selectKey keyProperty="requestLogId" resultType="String" order="BEFORE">
-			select sys_guid() from dual
+			select  UUID()
 		</selectKey>
 		insert into SYS_REQUEST_LOG (<include refid="requestLogColumns"/>) 
 		values 
@@ -98,7 +98,7 @@
 			#{ sessionId,jdbcType=VARCHAR },
 			#{ username,jdbcType=VARCHAR },
 			#{ url,jdbcType=VARCHAR },
-			sysdate,
+			now(),
 			#{ responseTime,jdbcType=INTEGER },
 			#{ requestIp,jdbcType=VARCHAR },
 			#{ browser,jdbcType=VARCHAR },

@@ -51,7 +51,7 @@
 		
 	<insert id="add" parameterType="com.ifreework.entity.system.RoleAuthority">
 		<selectKey keyProperty="roleAuthorityId" resultType="String" order="BEFORE">
-			select sys_guid() from dual
+			select  UUID()
 		</selectKey>
 		
 		insert into SYS_ROLE_AUTHORITY (<include refid="roleAuthorityColumns"/>) 

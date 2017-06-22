@@ -1,6 +1,7 @@
 package com.ifreework.mapper.system;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 
@@ -24,9 +25,9 @@ public interface UserMapper {
 	 * @return   
 	 * @throws
 	 */
-	@SuppressWarnings("rawtypes")
-	public List queryMenuByUserId(PageData pd);
+	public List<Map<String,Object>> queryMenuByUserId(Map<String,Object> map);
 	
+	public List<String> queryRoleTreeByUserId(PageData pd);
 	/**
 	 * 
 	 * 描述：查询当前用户具有的所有权限
@@ -36,7 +37,7 @@ public interface UserMapper {
 	 * @return   
 	 * @throws
 	 */
-	public Set<String> queryAuthorityByUserName(String userName);
+	public Set<String> queryAuthorityByUserName(List<String> roleList);
 	
 	/**
 	 * 

@@ -63,7 +63,7 @@
 		(
 		#{ loginLogId,jdbcType=VARCHAR },
 		#{ username,jdbcType=VARCHAR },
-		sysdate,
+		now(),
 		#{ logoutTime,jdbcType=TIMESTAMP },
 		#{ ip,jdbcType=VARCHAR },
 		#{ browser,jdbcType=VARCHAR },
@@ -78,7 +78,7 @@
 	<!-- 删除节点时 -->
 	<update id="update" parameterType="string">
 		update SYS_LOGIN_LOG
-		set LOGOUT_TIME = sysdate
+		set LOGOUT_TIME = now()
 		where LOGIN_LOG_ID = #{loginLogId} and LOGOUT_TIME is null
 	</update>
 </mapper>

@@ -14,8 +14,9 @@ public enum CacheConstant {
 	USER_MENU_PREFIX("user-menu-"),  //用户拥有菜单key前缀
 	
 	CONFIG_CACHE_NAME("sys-configCache"), //系统配置缓存空间
-	CONFIG_CACHE_KEY_NAME("sys-configCache_static_key"); //系统配置key
-	
+	CONFIG_CACHE_KEY_NAME("sys-configCache_static_key"), //系统配置key
+	WEIXIN_CACHE_NAME("weixin_Cache"), //微信缓存key
+	WEIXIN_CACHE_PREFIX("weixin-"); //微信缓存前缀
 	
 	private String value;
 	private CacheConstant(String value){

@@ -1,5 +1,6 @@
 package com.ifreework.service.system;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -104,7 +105,10 @@ public class ResourceServiceImpl  implements ResourceService {
 	private void bathAddAuthority(List<Authority> list,Resource resource){
 		String resourceName = "";
 		String parentId = resource.getParentId();
-		List<Resource> resources = resourceMapper.selectParentResourceList(parentId);
+		List<Resource> resources = new ArrayList<Resource>();
+		selectParentResourceList(parentId,resources);
+		
+		
 		for (int i = resources.size() - 1 ; i >= 0 ; i--) {
 			Resource p = resources.get(i);
 			resourceName += p.getResourceName() + "-";
@@ -117,6 +121,20 @@ public class ResourceServiceImpl  implements ResourceService {
 			auth.setPk(resource.getPk() + "-" + operation.getPk());
 			auth.setAuthorityName(resourceName + "-" + operation.getOperationName());
 			authorityMapper.add(auth);
+		}
+	}
+	
+	/**
+	 * 描述：获取当前节点及所有父节点信息
+	 * @param resourceId
+	 * @param resources 
+	 * @return
+	 */
+	private void selectParentResourceList(String resourceId,List<Resource> resources){
+		Resource resource = resourceMapper.getResourceById(resourceId);
+		if(resource != null){
+			resources.add(resource);
+			selectParentResourceList(resource.getParentId(),resources);
 		}
 	}
 	

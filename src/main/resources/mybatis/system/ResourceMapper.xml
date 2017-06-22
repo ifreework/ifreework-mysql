@@ -116,19 +116,10 @@
 		order by operation_type
 	</select>
 	
-	<!-- 获取当前节点的所有父节点 -->
-	<select id="selectParentResourceList" parameterType="string"
-		resultMap="resource">
-		select *
-		  from sys_resource
-		 start with resource_id = #{resourceId}
-		connect by prior parent_id = resource_id
-				
-	</select>
 
 	<insert id="add" parameterType="com.ifreework.entity.system.Resource">
 		<selectKey order="BEFORE" resultType="String" keyProperty="resourceId">
-			select sys_guid() from dual
+			select  UUID()
 		</selectKey>
 		insert into SYS_RESOURCE (
 		<include refid="resourceColumns" />

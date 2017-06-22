@@ -12,7 +12,6 @@ public interface ResourceMapper  {
 	public Resource getResourceById(String resourceId);
 	public Resource getResourceByPK(String pk);
 	public Resource getResourceByUrl(String url);
-	public List<Resource> selectParentResourceList(String resourceId);
 	
 	
 	public List<Operation> selectOperationWithResourceId(String resourceId);
