@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ifreework.mapper.system.DepartmentMapper">
+	<sql id="departmentColumns">
+			DEPARTMENT_ID,
+			PARENT_ID,
+			IS_LEAF,
+			DEPARTMENT_ORDER,
+			DEPARTMENT_NO,
+			DEPARTMENT_NAME,
+			TEL,
+			ADDRESS,
+			REMARKS,
+			STATUS
+	</sql>
+
+	<resultMap type="com.ifreework.entity.system.Department" id="department">
+		<id column="DEPARTMENT_ID" property="departmentId"/>
+		<result column="PARENT_ID" property="parentId"/>
+		<result column="IS_LEAF" property="isLeaf"/>
+		<result column="DEPARTMENT_ORDER" property="departmentOrder"/>
+		<result column="DEPARTMENT_NO" property="departmentNo"/>
+		<result column="DEPARTMENT_NAME" property="departmentName"/>
+		<result column="TEL" property="tel"/>
+		<result column="ADDRESS" property="address"/>
+		<result column="REMARKS" property="remarks"/>
+		<result column="STATUS" property="status"/>
+	</resultMap>
+	
+	<select id="queryDepartmentList" parameterType="pd"
+		resultMap="department">
+		select
+		<include refid="departmentColumns" />
+		from  SYS_DEPARTMENT  where status = '1'
+		<if test=" id != null and  id != ''">
+		and  PARENT_ID = #{id}
+		</if>
+		<if test=" id == null or  id == ''">
+		and  PARENT_ID = '0'
+		</if>
+		order by department_order 
+	</select>
+	
+	<select id="getDepartmentById" parameterType="string"
+		resultMap="department">
+		select
+		<include refid="departmentColumns" />
+		from  SYS_DEPARTMENT  where 1 = 1
+		and  DEPARTMENT_ID = #{departmentId}
+	</select>
+		
+	<!-- 查询节点下最大的排序 -->
+	<select id="getMaxDepartmentOrder" parameterType="string"
+		resultMap="department">
+		SELECT TMP_PAGE.*, ROWNUM ROW_ID FROM (
+		select 
+		<include refid="departmentColumns" />
+	 	from sys_department where 
+		PARENT_ID = #{parentId}
+	 	order by DEPARTMENT_ORDER DESC ) TMP_PAGE WHERE ROWNUM = 1 
+	</select>
+	
+	<!-- 查询上级节点是否为子节点 -->
+	<select id="getDepartmentByIdAndIsLeaf" parameterType="string"
+		resultMap="department">
+		select 
+		<include refid="departmentColumns" />
+	 	from sys_department where 
+		DEPARTMENT_ID = #{departmentId}
+	 	and IS_LEAF = '1'
+	</select>
+		
+	<insert id="add" parameterType="com.ifreework.entity.system.Department">
+		<selectKey order="BEFORE" resultType="String" keyProperty="departmentId"> 
+			select sys_guid() from dual 
+		</selectKey>
+		insert into SYS_DEPARTMENT (<include refid="departmentColumns"/>) 
+		values 
+		(
+			#{ departmentId,jdbcType=VARCHAR },
+			#{ parentId,jdbcType=VARCHAR },
+			#{ isLeaf,jdbcType=VARCHAR },
+			#{ departmentOrder,jdbcType=INTEGER },
+			#{ departmentNo,jdbcType=VARCHAR },
+			#{ departmentName,jdbcType=VARCHAR },
+			#{ tel,jdbcType=VARCHAR },
+			#{ address,jdbcType=VARCHAR },
+			#{ remarks,jdbcType=VARCHAR },
+			#{ status,jdbcType=VARCHAR }
+		)
+	</insert>
+	
+	<update id="update" parameterType="com.ifreework.entity.system.Department">
+		update  SYS_DEPARTMENT
+		<trim prefix="SET" suffixOverrides=",">  
+	        <if test="parentId != null ">  
+	           PARENT_ID = #{parentId},
+	        </if>  
+	        <if test="isLeaf != null ">  
+	           IS_LEAF = #{isLeaf},
+	        </if>  
+	        <if test="departmentOrder != null ">  
+	           DEPARTMENT_ORDER = #{departmentOrder},
+	        </if>  
+	        <if test="departmentNo != null ">  
+	           DEPARTMENT_NO = #{departmentNo},
+	        </if>  
+	        <if test="departmentName != null ">  
+	           DEPARTMENT_NAME = #{departmentName},
+	        </if>  
+	        <if test="tel != null ">  
+	           TEL = #{tel},
+	        </if>  
+	        <if test="address != null ">  
+	           ADDRESS = #{address},
+	        </if>  
+	        <if test="status != null ">  
+	           STATUS = #{status},
+	        </if>  
+	        <if test="remarks != null ">  
+	           REMARKS = #{remarks}
+	        </if>  
+		</trim>
+			where 
+	        <if test="departmentId != null ">  
+	           DEPARTMENT_ID = #{departmentId}
+	        </if>  
+	</update>
+	
+	<!-- 删除节点时，同步删除该节点下面的子节点 -->
+	<update id="deleteChildren" parameterType="string">
+		update  SYS_DEPARTMENT
+	          set STATUS = '0'
+			where 
+	           PARENT_ID = #{departmentId}
+	</update>
+	
+</mapper>

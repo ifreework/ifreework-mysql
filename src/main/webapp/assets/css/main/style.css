@@ -1,0 +1,301 @@
+/******************************* navbar ********************************************/
+.navbar{
+	z-index: 5;
+}
+.navbar .navbar-inner{
+	background: url(../../img/ui/topbg.gif) repeat-x;
+}
+
+.navbar .navbar-brand small img {
+	margin-left: 10px;
+	width: 40px;
+    margin-top: 3px;
+}
+
+.navbar .logo-text{
+	font-size: 28px;
+	font-weight: bold;
+    line-height: 40px;
+    color: rgb(255, 255, 255);
+    -webkit-text-stroke: 1px blue;
+    letter-spacing: 0.04em;
+    vertical-align: top;
+}
+
+.navbar .sidebar-collapse{
+	left: auto;
+	right: 0;
+}
+
+.navbar .sidebar-collapse .collapse-icon{
+}
+
+.navbar .dropdown-menu:after {
+    border-color: #FFFFFF rgba(0, 0, 0, 0);
+    border-style: solid;
+    border-width: 0 13px 13px;
+    content: "";
+    display: block;
+    right: 11px;
+    margin-left: -15px;
+    position: absolute;
+    top: -10px;
+    width: 0;
+    z-index: 1;
+}
+
+.navbar .navbar-inner .navbar-header .navbar-account .account-area{
+	right: 35px;	
+}
+
+.navbar .navbar-inner .navbar-header .navbar-account .account-area .login-area {
+	    padding: 8px 15px 10px 15px;
+}
+.navbar .navbar-inner .navbar-header .navbar-account .account-area>li.open>a  {
+	background:none;
+    -webkit-box-shadow: 0 2px 5px rgba(0,0,0,1);
+    -moz-box-shadow: 0 2px 5px rgba(0,0,0,1);
+    box-shadow: 0 2px 5px rgba(0,0,0,1);
+}
+
+/******************* user **************************/
+
+.navbar .account-area .dropdown-menu.dropdown-login{
+	padding-top: 10px;
+	min-width: 140px!important;
+}
+.navbar .account-area .dropdown-menu.dropdown-login.dropdown-arrow:BEFORE{
+	width: 0px!important;	
+}
+.navbar .account-area .dropdown-menu.dropdown-login li{
+	border-bottom: 1px solid #f3f3f3!important;
+}
+
+.navbar .account-area .dropdown-menu.dropdown-login  li a {
+    clear: both;
+    color: #777777!important;
+    display: block;
+    font-weight: normal;
+    line-height: 1.42857;
+    padding: 10px 10px!important;
+    white-space: nowrap;
+    font-size: 13px;
+}
+.navbar .account-area .dropdown-menu.dropdown-login  li a:HOVER{
+	color: #39B3D7!important;
+}
+
+
+
+.navbar .account-area .dropdown-menu.dropdown-login li a span{
+	padding: 5px 15px;
+}
+/******************* user end **************************/
+
+
+/******************* sidebar **************************/
+.page-sidebar{
+	border-right:1px solid rgba(0, 0, 0, 0.1);
+}
+
+.page-sidebar:before{
+	background: #f0f9fd;
+	top:0px;
+	border-right:1px solid rgba(0, 0, 0, 0.1);
+	-webkit-box-shadow: none;;
+    -moz-box-shadow: none ;
+    box-shadow: none;
+}
+
+.page-sidebar .sidebar-header-wrapper .searchinput{
+	background: none;
+	border-left: 0;
+	border-right: 0;
+}
+
+.page-sidebar .sidebar-menu .submenu{
+	background-color: #f6fcff;
+}
+
+.page-sidebar .sidebar-menu li.active:AFTER {
+    border-style: solid;
+    border-top: 5px solid transparent;
+    border-right: 7px solid white;
+    border-bottom: 5px solid transparent;
+    border-left: 0;
+    content: "";
+    display: block;
+    right: 0px;
+    margin-left: -15px;
+    position: absolute;
+    top: 13px;
+    width: 0;
+    z-index: 1;
+}
+
+.page-sidebar .sidebar-menu .submenu>li.open>a {
+    background-color: #f6fcff;
+}
+
+.page-sidebar .sidebar-menu li:not(.open):hover:before{
+	background-color: #2dc3e8;
+}
+.page-sidebar .sidebar-menu li:before{
+	top: -1px;
+	background-color: #fb6e52;
+}
+
+.page-sidebar .sidebar-menu a{
+	color: #000000;
+	max-width: 218px;
+}
+.page-sidebar .sidebar-menu>li>a {
+	color:#000;
+	font-weight:600;
+	background:rgb(212, 231, 240);	
+    border-top: 1px solid rgba(0, 0, 0, 0.15);
+}
+
+.page-sidebar .sidebar-menu li.open {
+    
+}
+
+.page-sidebar .sidebar-menu>li>.submenu{
+	background: none;
+	box-shadow:none;
+	-webkit-box-shadow:none;
+	
+}
+
+.page-sidebar .sidebar-menu>li>a:hover{
+	background:rgb(212, 231, 240);	
+}
+
+.page-sidebar .sidebar-menu>li:last-child>a{
+	border-top: 1px solid  rgba(0, 0, 0, 0.1);
+	border-bottom: 1px solid  rgba(0, 0, 0, 0.1);
+}
+
+.page-sidebar .sidebar-menu>li.open>a{
+	background:rgb(212, 231, 240);	
+}
+.page-sidebar .sidebar-menu .submenu li.active>a{
+	background: #3eafe0;;
+}
+.page-sidebar .sidebar-menu .submenu>li .submenu>li>a{
+	color: #777777;
+}
+
+.page-sidebar .sidebar-menu .submenu>li .submenu>li>a>.menu-text{
+	text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    width: 118px;
+    display: inline-block;
+    line-height: 13px;
+}
+
+.page-sidebar.menu-compact .sidebar-menu>li:hover>a {
+    background: #fff;
+}
+
+ .nav .open>a:focus{
+	border-top: 1px solid rgba(0, 0, 0, 0.15);
+}
+
+/***************************************************************************/
+.page-breadcrumbs{
+	background: #edf6fa;
+}
+.breadcrumb>li>a{
+	color: #000;
+}
+.breadcrumb>li.active>a{
+	color: #4b8b6b;
+}
+
+
+.page-breadcrumbs .breadcrumbs-buttons{
+	display: inline-block;
+}
+
+@media only screen and (max-width: 500px) {
+	.page-breadcrumbs .breadcrumbs-buttons{
+		display: none;
+	}
+}
+
+.page-breadcrumbs .breadcrumbs-buttons {
+	display: inline-block;
+	position: absolute;
+	right: 0;
+	top: 0
+}
+.page-breadcrumbs .breadcrumbs-buttons a {
+	position: relative;
+	vertical-align: middle;
+	display: inline-block;
+	z-index: 1029;
+	height: 40px;
+	width: 36px;
+	margin-right: 5px;
+	padding: 8px 10px;
+	color: #dfdfdf;
+	-webkit-transition: all .218s ease;
+	-moz-transition: all .218s ease;
+	-o-transition: all .218s ease;
+	transition: all .218s ease;
+	float: right
+}
+.page-breadcrumbs .breadcrumbs-buttons a:before {
+	display: block;
+	content: "";
+	position: absolute;
+	left: 0;
+	bottom: -3px;
+	right: 0;
+	height: 4px;
+	max-height: 4px;
+	overflow: hidden;
+	background-color: #2dc3e8
+}
+.page-breadcrumbs .breadcrumbs-buttons a:hover {
+	-webkit-box-shadow: 0 0 20px rgba(0,0,0,.2);
+	-moz-box-shadow: 0 0 20px rgba(0,0,0,.2);
+	box-shadow: 0 0 20px rgba(0,0,0,.2);
+	color: #2dc3e8
+}
+.page-breadcrumbs .breadcrumbs-buttons a.active {
+	color: #2dc3e8
+}
+.page-breadcrumbs .breadcrumbs-buttons a i {
+	font-size: 17px;
+	font-style: normal;
+	font-weight: normal;
+	line-height: 27px
+}
+.page-breadcrumbs .breadcrumbs-buttons a.fullscreen:before {
+	background-color: #fb6e52
+}
+.page-breadcrumbs .breadcrumbs-buttons a.fullscreen:hover,.page-breadcrumbs .breadcrumbs-buttons a.fullscreen.active {
+	color: #fb6e52
+}
+.page-breadcrumbs .breadcrumbs-buttons a.refresh:before {
+	background-color: #ffce55
+}
+.page-breadcrumbs .breadcrumbs-buttons a.refresh:hover,.page-breadcrumbs .breadcrumbs-buttons a.refresh.active {
+	color: #ffce55
+}
+.page-breadcrumbs .breadcrumbs-buttons a.backspace:before {
+	background-color: #2dc3e8
+}
+.page-breadcrumbs .breadcrumbs-buttons a.backspace:hover,.page-breadcrumbs .breadcrumbs-buttons a.backspace.active {
+	color: #2dc3e8
+}
+
+
+
+.page-body{
+	padding: 10px 10px 0px 10px;
+	background: #fff;
+}

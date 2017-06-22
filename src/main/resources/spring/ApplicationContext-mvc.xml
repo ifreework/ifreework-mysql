@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:util="http://www.springframework.org/schema/util" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           classpath:org/springframework/beans/factory/xml/spring-beans-4.3.xsd
+           http://www.springframework.org/schema/util 
+           classpath:org/springframework/beans/factory/xml/spring-util-4.3.xsd
+           http://www.springframework.org/schema/aop 
+           classpath:org/springframework/aop/config/spring-aop-4.3.xsd
+           http://www.springframework.org/schema/context 
+           classpath:org/springframework/context/config/spring-context-4.3.xsd
+           http://www.springframework.org/schema/mvc 
+           classpath:org/springframework/web/servlet/config/spring-mvc-4.3.xsd  
+           http://www.springframework.org/schema/tx 
+           classpath:org/springframework/transaction/config/spring-tx-4.3.xsd">
+
+	<context:component-scan base-package="**.controller.**">
+		<context:exclude-filter type="annotation"
+			expression="org.springframework.stereotype.Service" />
+	</context:component-scan>
+
+	<mvc:resources location="/assets/" mapping="/assets/**" />
+
+	<bean
+		class="org.springframework.web.servlet.view.ContentNegotiatingViewResolver">
+		<property name="viewResolvers">
+			<list>
+				<bean
+					class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+					<property name="prefix" value="/WEB-INF/jsp/" />
+					<property name="suffix" value=".jsp" />
+					<property name="viewClass"
+						value="org.springframework.web.servlet.view.InternalResourceView" />
+				</bean>
+			</list>
+		</property>
+		<property name="defaultViews">
+			<list>
+				<bean
+					class="org.springframework.web.servlet.view.json.MappingJackson2JsonView">
+				</bean>
+			</list>
+		</property>
+	</bean>
+	
+	<mvc:annotation-driven  >
+		<mvc:message-converters>
+			<bean
+				class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+				<property name="objectMapper">
+					<bean class="com.ifreework.common.spring.mvc.CustomObjectMapper">
+						<property name="dateFormat">
+							<bean class="java.text.SimpleDateFormat">
+								<constructor-arg type="java.lang.String" value="yyyy/MM/dd HH:mm:ss" />
+							</bean>
+						</property>
+						<property name="serializationInclusion">
+							<value type="com.fasterxml.jackson.annotation.JsonInclude.Include">ALWAYS</value>
+						</property>
+					</bean>
+				</property>
+
+				<property name="supportedMediaTypes">
+					<list>
+						<value>text/html;charset=UTF-8</value>
+						<value>application/json;charset=UTF-8</value>
+						<value>application/x-www-form-urlencoded</value>
+					</list>
+				</property>
+			</bean>
+		</mvc:message-converters>
+		
+	</mvc:annotation-driven>
+
+
+    
+	<!-- 上传拦截，如最大上传值及最小上传值 -->
+	<bean id="multipartResolver"
+		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<property name="maxUploadSize">
+			<value>104857600</value>
+		</property>
+		<property name="maxInMemorySize">
+			<value>4096</value>
+		</property>
+		<property name="defaultEncoding">
+			<value>utf-8</value>
+		</property>
+	</bean>
+
+	<!-- 异常处理工具类 -->
+	<bean id="exceptionResolver" class="com.ifreework.common.exception.ExceptionResolver">
+		<property name="errorPath">
+			<value>/system/error/500</value>
+		</property>
+	</bean>
+
+	<!-- 访问拦截 -->
+	<mvc:interceptors>
+		<mvc:interceptor>
+			<mvc:mapping path="/**"  />
+			<mvc:exclude-mapping path="/assets/**"/>  
+			<bean class="com.ifreework.common.shiro.interceptor.ContextPathInterceptor" />
+		</mvc:interceptor>
+		<mvc:interceptor>
+			<mvc:mapping path="/**" />
+			<mvc:exclude-mapping path="/assets/**"/>  
+			<mvc:exclude-mapping path="/login"/>  
+			<mvc:exclude-mapping path="/logout"/>  
+			<mvc:exclude-mapping path="/system/attachment/download"/>  
+			<mvc:exclude-mapping path="/error/**"/>  
+			<mvc:exclude-mapping path="/websocket/**"/>  
+			<bean class="com.ifreework.common.shiro.interceptor.LoginHandlerInterceptor">
+				<property name="loginPath" value="/"></property>
+				<property name="successPath" value="/main"></property>
+			</bean>
+		</mvc:interceptor>
+		<mvc:interceptor>
+			<mvc:mapping path="/**" />
+			<mvc:exclude-mapping path="/assets/**"/>  
+			<mvc:exclude-mapping path="/login"/>  
+			<mvc:exclude-mapping path="/logout"/>  
+			<mvc:exclude-mapping path="/system/attachment/download"/>  
+			<mvc:exclude-mapping path="/error/**"/>  
+			<mvc:exclude-mapping path="/main"/>  
+			<mvc:exclude-mapping path="/websocket/**"/>  
+			<mvc:exclude-mapping path="/error/**"/>  
+			<bean class="com.ifreework.common.shiro.interceptor.AuthHandlerInterceptor">
+				<property name="unAuthorizedUrl" value="/error/600"></property>
+				<property name="shiroAuth" ref="userService" />
+			</bean>                 
+		</mvc:interceptor>
+		<mvc:interceptor>
+			<mvc:mapping path="/**" />
+			<mvc:exclude-mapping path="/assets/**"/>  
+			<mvc:exclude-mapping path="/login"/>  
+			<mvc:exclude-mapping path="/logout"/>  
+			<mvc:exclude-mapping path="/system/attachment/download"/>  
+			<mvc:exclude-mapping path="/error/**"/>  
+			<mvc:exclude-mapping path="/main"/>  
+			<mvc:exclude-mapping path="/websocket/**"/>  
+			<mvc:exclude-mapping path="/system/loginLog/**"/>  
+			<mvc:exclude-mapping path="/system/requestLog/**"/>  
+			<mvc:exclude-mapping path="/error/**"/>  
+			<bean class="com.ifreework.common.shiro.interceptor.RequestLogHandlerInterceptor">
+				<property name="requestLogManager" ref="requestLogService" />
+			</bean>                 
+		</mvc:interceptor>
+		
+	</mvc:interceptors>
+
+</beans>

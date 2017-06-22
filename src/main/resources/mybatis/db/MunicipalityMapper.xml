@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ifreework.mapper.db.MunicipalityMapper">
+	<sql id="municipalityColumns">
+		MUNICIPALITY_ID,
+		MUNICIPALITY_NAME
+	</sql>
+
+	
+	<resultMap type="java.util.HashMap" id="municipalityMap">
+		<id column="MUNICIPALITY_ID" property="id" />
+		<result column="MUNICIPALITY_NAME" property="text" />
+	</resultMap>
+	
+
+
+	<select id="queryMunicipalityListMap" parameterType="pd" resultMap="municipalityMap">
+		select 
+		<include refid="municipalityColumns"></include>
+		from 
+		db_municipality
+		where PROVINCE_ID = #{provinceId}
+		<if test="municipalityName != null and municipalityName != null">
+			and MUNICIPALITY_NAME like '%${municipalityName}%'
+		</if>
+		order by municipality_id
+	</select>
+</mapper>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:util="http://www.springframework.org/schema/util" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           classpath:org/springframework/beans/factory/xml/spring-beans-4.3.xsd
+           http://www.springframework.org/schema/util 
+           classpath:org/springframework/beans/factory/xml/spring-util-4.3.xsd
+           http://www.springframework.org/schema/aop 
+           classpath:org/springframework/aop/config/spring-aop-4.3.xsd
+           http://www.springframework.org/schema/context 
+           classpath:org/springframework/context/config/spring-context-4.3.xsd
+           http://www.springframework.org/schema/mvc 
+           classpath:org/springframework/web/servlet/config/spring-mvc-4.3.xsd  
+           http://www.springframework.org/schema/tx 
+           classpath:org/springframework/transaction/config/spring-tx-4.3.xsd">
+
+	<bean class="com.ifreework.common.quartz.factory.QuartzJobFactory">
+		<constructor-arg name="jobs">
+			<list>
+				<!--
+				<map>
+					<entry key="jobName" value="WindowsGetMemeryJob" />
+					<entry key="jobClass" value="com.ifreework.job.system.WindowGetMemeryJob" />
+					<entry key="runTime" value="0/60 * * * * ?" />
+				</map>
+				<map>
+					<entry key="jobName" value="WindowsSendMemeryJob" />
+					<entry key="jobClass" value="com.ifreework.job.system.WindowSendMemeryJob" />
+					<entry key="runTime" value="0/60 * * * * ?" />
+				</map>
+				 -->
+			</list>
+		</constructor-arg>
+	</bean>
+
+</beans>

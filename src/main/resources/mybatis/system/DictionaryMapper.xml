@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ifreework.mapper.system.DictionaryMapper">
+	<sql id="dictionaryColumns">
+			DICTIONARY_ID,
+			DICTIONARY_CODE,
+			DICTIONARY_NAME,
+			DICTIONARY_TYPE_ID,
+			PARENT_ID,
+			DESCRIBE,
+			STATUS,
+			IS_LEAF,
+			ORDER_NUM
+	</sql>
+
+	<resultMap type="com.ifreework.entity.system.Dictionary" id="dictionary">
+		<id column="DICTIONARY_ID" property="dictionaryId"/>
+		<result column="DICTIONARY_CODE" property="dictionaryCode"/>
+		<result column="DICTIONARY_NAME" property="dictionaryName"/>
+		<result column="DICTIONARY_TYPE_ID" property="dictionaryTypeId"/>
+		<result column="PARENT_ID" property="parentId"/>
+		<result column="DESCRIBE" property="describe"/>
+		<result column="STATUS" property="status"/>
+		<result column="IS_LEAF" property="isLeaf"/>
+		<result column="ORDER_NUM" property="orderNum"/>
+	</resultMap>
+	
+	<!--  -->
+	<select id="queryDictionaryList" parameterType="pd"
+		resultMap="dictionary">
+		select
+		<include refid="dictionaryColumns" />
+		from  SYS_DICTIONARY  
+		<where>
+			<trim prefixOverrides="and">
+				<if test=" dictionaryTypeId != null and  dictionaryTypeId != ''">
+				and  DICTIONARY_TYPE_ID = #{dictionaryTypeId}
+				</if>
+				<if test=" id != null and  id != ''">
+				and  PARENT_ID = #{id}
+				</if>
+				
+			</trim>
+		</where>
+		order by ORDER_NUM 
+	</select>
+	
+	<select id="getDictionaryById" parameterType="string"
+		resultMap="dictionary">
+		select
+		<include refid="dictionaryColumns" />
+		from  SYS_DICTIONARY  where 1 = 1
+		and  DICTIONARY_ID = #{dictionaryId}
+	</select>
+	
+	<!-- 通过字典编码与类型编码获取该字典 -->
+	<select id="getDictionaryByCode" parameterType="pd"
+		resultMap="dictionary">
+		select
+		<include refid="dictionaryColumns" />
+		from  SYS_DICTIONARY  
+		where 
+			dictionary_code = #{dictionaryCode}
+    		and dictionary_type_id = #{dictionaryTypeId}
+	</select>
+	
+		
+	<!-- 通过类型编码获取该编码下所有数据字典 -->
+	<select id="queryDictionaryByType" parameterType="pd"
+		resultMap="dictionary">
+		select
+		<include refid="dictionaryColumns" />
+		from  SYS_DICTIONARY 
+		where 
+    		dictionary_type_id = #{dictionaryTypeId}
+    	<if test=" parentId != null and  parentId != ''">
+    		and PARENT_ID = #{parentId}
+    	</if>
+	</select>
+	
+	
+	<!-- 查询节点下最大的排序 -->
+	<select id="getMaxDictionaryOrder" parameterType="string"
+		resultMap="dictionary">
+		SELECT TMP_PAGE.*, ROWNUM ROW_ID FROM (
+		select 
+		<include refid="dictionaryColumns" />
+	 	from sys_dictionary where 
+		PARENT_ID = #{parentId}
+	 	order by ORDER_NUM DESC ) TMP_PAGE WHERE ROWNUM = 1 
+	</select>
+	
+	<!-- 查询上级节点是否为子节点 -->
+	<select id="getDictionaryByIdAndIsLeaf" parameterType="string"
+		resultMap="dictionary">
+		select 
+		<include refid="dictionaryColumns" />
+	 	from sys_dictionary where 
+		DICTIONARY_ID = #{dictionaryId}
+	 	and IS_LEAF = '1'
+	</select>
+	
+	<insert id="add" parameterType="com.ifreework.entity.system.Dictionary">
+		<selectKey keyProperty="dictionaryId" resultType="String" order="BEFORE">
+			select sys_guid() from dual
+		</selectKey>
+		
+		insert into SYS_DICTIONARY (<include refid="dictionaryColumns"/>) 
+		values 
+		(
+			#{ dictionaryId,jdbcType=VARCHAR },
+			#{ dictionaryCode,jdbcType=VARCHAR },
+			#{ dictionaryName,jdbcType=VARCHAR },
+			#{ dictionaryTypeId,jdbcType=VARCHAR },
+			#{ parentId,jdbcType=VARCHAR },
+			#{ describe,jdbcType=VARCHAR },
+			#{ status,jdbcType=VARCHAR },
+			#{ isLeaf,jdbcType=VARCHAR },
+			#{ orderNum,jdbcType=INTEGER }
+		)
+	</insert>
+	
+	<update id="update" parameterType="com.ifreework.entity.system.DictionaryType">
+		update  SYS_DICTIONARY
+		<trim prefix="SET" suffixOverrides=",">  
+	        <if test="dictionaryCode != null ">  
+	           DICTIONARY_CODE = #{dictionaryCode},
+	        </if>  
+	        <if test="dictionaryName != null ">  
+	           DICTIONARY_NAME = #{dictionaryName},
+	        </if>  
+	        <if test="dictionaryTypeId != null ">  
+	           DICTIONARY_TYPE_ID = #{dictionaryTypeId},
+	        </if>  
+	        <if test="parentId != null ">  
+	           PARENT_ID = #{parentId},
+	        </if>  
+	        <if test="describe != null ">  
+	           DESCRIBE = #{describe},
+	        </if>  
+	        <if test="status != null ">  
+	           STATUS = #{status},
+	        </if>  
+	        <if test="isLeaf != null ">  
+	           IS_LEAF = #{isLeaf},
+	        </if>  
+	        <if test="orderNum != null ">  
+	           ORDER_NUM = #{orderNum}
+	        </if>  
+		</trim>
+			where 
+	        <if test="dictionaryId != null ">  
+	           DICTIONARY_ID = #{dictionaryId}
+	        </if>  
+	</update>
+</mapper>

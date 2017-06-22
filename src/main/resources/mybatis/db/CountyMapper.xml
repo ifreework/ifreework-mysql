@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ifreework.mapper.db.CountyMapper">
+	<sql id="countyColumns">
+		COUNTY_ID,
+		COUNTY_NAME
+	</sql>
+
+	
+	<resultMap type="java.util.HashMap" id="countyMap">
+		<id column="COUNTY_ID" property="id" />
+		<result column="COUNTY_NAME" property="text" />
+	</resultMap>
+	
+
+
+	<select id="queryCountyListMap" parameterType="pd" resultMap="countyMap">
+		select 
+		<include refid="countyColumns"></include>
+		from 
+		db_county
+		where MUNICIPALITY_ID = #{municipalityId}
+		<if test="countyName != null and countyName != null">
+			and COUNTY_NAME like '%${countyName}%'
+		</if>
+		order by county_id
+	</select>
+</mapper>

@@ -1,0 +1,19 @@
+@charset "utf-8";
+
+body:before{
+	display: none;
+}
+
+#cookieBox{
+	position: inherit;
+	opacity : 1;
+	margin-right: 5px;
+	display: inline-block;
+	vertical-align: middle;
+}
+.cookie-text{
+	display: inline-block;
+}
+.loginbox label{
+	line-height: 30px;
+}

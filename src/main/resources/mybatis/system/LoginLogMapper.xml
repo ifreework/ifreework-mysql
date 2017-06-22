@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ifreework.mapper.system.LoginLogMapper">
+
+	<sql id="loginLogColumns">
+		LOGIN_LOG_ID,
+		USERNAME,
+		LOGIN_TIME,
+		LOGOUT_TIME,
+		IP,
+		BROWSER,
+		BROWSER_VERSION,
+		DEVICE_NAME,
+		OS,
+		DEVICE_TYPE,
+		OS_INFO
+	</sql>
+
+	<resultMap type="com.ifreework.entity.system.LoginLog" id="loginLog">
+		<id column="LOGIN_LOG_ID" property="loginLogId" />
+		<result column="USERNAME" property="username" />
+		<result column="LOGIN_TIME" property="loginTime" />
+		<result column="LOGOUT_TIME" property="logoutTime" />
+		<result column="IP" property="ip" />
+		<result column="BROWSER" property="browser" />
+		<result column="BROWSER_VERSION" property="browserVersion" />
+		<result column="DEVICE_NAME" property="deviceName" />
+		<result column="OS" property="os" />
+		<result column="DEVICE_TYPE" property="deviceType" />
+		<result column="OS_INFO" property="osInfo" />
+	</resultMap>
+
+
+	
+	<select id="queryPageList" parameterType="pd"
+		resultMap="loginLog">
+		select
+		<include refid="loginLogColumns" />
+		from SYS_LOGIN_LOG 
+		<where>
+			<trim  suffixOverrides="and">
+				<if test=" username != null and  username != ''">
+					and USERNAME like '%' || #{username} || '%'
+				</if>
+			</trim>
+		</where>
+		<foreach collection="columns" item="column" index="index"
+            open="order by" close="" separator=",">
+            <if test="column.orderable">
+            	${column.name}   ${column.orderDir}
+            </if>
+        </foreach>
+	</select>
+
+
+	<insert id="add" parameterType="com.ifreework.entity.system.LoginLog">
+
+		insert into SYS_LOGIN_LOG (
+		<include refid="loginLogColumns" />
+		)
+		values
+		(
+		#{ loginLogId,jdbcType=VARCHAR },
+		#{ username,jdbcType=VARCHAR },
+		sysdate,
+		#{ logoutTime,jdbcType=TIMESTAMP },
+		#{ ip,jdbcType=VARCHAR },
+		#{ browser,jdbcType=VARCHAR },
+		#{ browserVersion,jdbcType=VARCHAR },
+		#{ deviceName,jdbcType=VARCHAR },
+		#{ os,jdbcType=VARCHAR },
+		#{ deviceType,jdbcType=VARCHAR },
+		#{ osInfo,jdbcType=VARCHAR }
+		)
+	</insert>
+
+	<!-- 删除节点时 -->
+	<update id="update" parameterType="string">
+		update SYS_LOGIN_LOG
+		set LOGOUT_TIME = sysdate
+		where LOGIN_LOG_ID = #{loginLogId} and LOGOUT_TIME is null
+	</update>
+</mapper>

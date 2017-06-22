@@ -1,0 +1,307 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ifreework.mapper.system.UserMapper">
+	<resultMap type="com.ifreework.entity.system.User" id="userResultMap">
+		<id column="USER_ID" property="userId" />
+		<result column="USERNAME" property="username" />
+		<result column="PASSWORD" property="password" />
+		<result column="PERSON_NAME" property="personName" />
+		<result column="RIGHTS" property="rights" />
+		<result column="ROLE_ID" property="roleId" />
+		<result column="STATUS" property="status" />
+		<result column="SKIN" property="skin" />
+		<result column="EMAIL" property="email" />
+		<result column="USER_NO" property="userNo" />
+		<result column="PHONE" property="phone" />
+		<result column="PROVINCE_ID" property="provinceId" />
+		<result column="MUNICIPALITY_ID" property="municipalityId" />
+		<result column="COUNTY_ID" property="countyId" />
+		<result column="DEAIL_ADDRESS" property="deailAddress" />
+		<result column="IMG_PATH" property="imgPath" />
+		<result column="IS_ONLINE" property="isOnline" />
+		<result column="DEPT_ID" property="deptId" />
+		<result column="BIRTHDAY" property="birthday" />
+		<result column="SCHOOL" property="school" />
+		<result column="REMARKS" property="remarks" />
+		
+		<association property="province" javaType="com.ifreework.entity.db.Province">
+			<result column="PROVINCE_ID" property="provinceId"/>
+			<result column="PROVINCE_NAME" property="provinceName"/>
+		</association>
+		
+		<association property="municipality" javaType="com.ifreework.entity.db.Municipality">
+			<result column="MUNICIPALITY_ID" property="municipalityId"/>
+			<result column="MUNICIPALITY_NAME" property="municipalityName"/>
+		</association>
+		
+		<association property="county" javaType="com.ifreework.entity.db.County">
+			<result column="COUNTY_ID" property="countyId"/>
+			<result column="COUNTY_NAME" property="countyName"/>
+		</association>
+	</resultMap>
+
+
+	<resultMap type="java.util.HashMap" id="resourceMap">
+		<id column="RESOURCE_ID" property="resourceId" />
+		<result column="PARENT_ID" property="parentId" />
+		<result column="RESOURCE_ORDER" property="resourceOrder" />
+		<result column="IS_LEAF" property="isLeaf" />
+		<result column="RESOURCE_TYPE" property="resourceType" />
+		<result column="RESOURCE_NAME" property="resourceName" />
+		<result column="RESOURCE_URL" property="resourceUrl" />
+		<result column="RESOURCE_FLAG" property="resourceFlag" />
+		<result column="ICON_CLS" property="iconCls" />
+		<result column="PK" property="pk" />
+		<result column="REMARKS" property="remarks" />
+		<collection property="children" ofType="pd" javaType="ArrayList"
+			column="{userId=USER_ID,parentId=RESOURCE_ID}" select="queryMenuByUserId" />
+	</resultMap>
+
+	<!-- 字段 -->
+	<sql id="userColumns">
+		USER_ID,
+		USERNAME,
+		PASSWORD,
+		PERSON_NAME,
+		RIGHTS,
+		ROLE_ID,
+		STATUS,
+		SKIN,
+		EMAIL,
+		USER_NO,
+		PHONE,
+		PROVINCE_ID,
+		MUNICIPALITY_ID,
+		COUNTY_ID,
+		DEAIL_ADDRESS,
+		IMG_PATH,
+		IS_ONLINE,
+		DEPT_ID,
+		BIRTHDAY,
+		SCHOOL,
+		REMARKS
+	</sql>
+
+	<sql id="userAllColumns">
+			U.USER_ID,
+			U.USERNAME,
+			U.PASSWORD,
+			U.PERSON_NAME,
+			U.RIGHTS,
+			U.ROLE_ID,
+			U.STATUS,
+			U.SKIN,
+			U.EMAIL,
+			U.USER_NO,
+			U.PHONE,
+			U.PROVINCE_ID,
+			U.MUNICIPALITY_ID,
+			U.COUNTY_ID,
+			U.DEAIL_ADDRESS,
+			U.IMG_PATH,
+			U.IS_ONLINE,
+			U.DEPT_ID,
+			U.BIRTHDAY,
+			U.SCHOOL,
+			U.REMARKS,
+			P.PROVINCE_NAME,
+			M.MUNICIPALITY_NAME,
+			C.COUNTY_NAME
+	</sql>
+
+	<!-- 判断用户名和密码 -->
+	<select id="getUserById" parameterType="string" resultMap="userResultMap">
+		SELECT
+			<include refid="userAllColumns"></include>
+		FROM
+			SYS_USER U
+		LEFT JOIN DB_PROVINCE P ON U.PROVINCE_ID = P.PROVINCE_ID
+		LEFT JOIN DB_MUNICIPALITY M ON U.MUNICIPALITY_ID = M.MUNICIPALITY_ID
+		LEFT JOIN DB_COUNTY C ON U.COUNTY_ID = C.COUNTY_ID
+		where USER_ID = #{ userId }
+	</select>
+	
+	
+	<!-- 根据用户名查询获取用户信息 -->
+	<select id="getUserByUserName" parameterType="string" resultMap="userResultMap">
+		SELECT
+			<include refid="userAllColumns"></include>
+		FROM
+			SYS_USER U
+		LEFT JOIN DB_PROVINCE P ON U.PROVINCE_ID = P.PROVINCE_ID
+		LEFT JOIN DB_MUNICIPALITY M ON U.MUNICIPALITY_ID = M.MUNICIPALITY_ID
+		LEFT JOIN DB_COUNTY C ON U.COUNTY_ID = C.COUNTY_ID
+		where  USERNAME = #{username}
+	</select>
+	
+	
+	
+
+	<select id="queryUserList" parameterType="pd" resultMap="userResultMap">
+		SELECT
+			<include refid="userAllColumns"></include>
+		FROM
+			SYS_USER U
+		LEFT JOIN DB_PROVINCE P ON U.PROVINCE_ID = P.PROVINCE_ID
+		LEFT JOIN DB_MUNICIPALITY M ON U.MUNICIPALITY_ID = M.MUNICIPALITY_ID
+		LEFT JOIN DB_COUNTY C ON U.COUNTY_ID = C.COUNTY_ID
+		where 1=1
+		<if test="username != null and username != '' ">
+			and (USERNAME like '%${username}%' || PERSON_NAME like '%${username}%')
+		</if>
+		<foreach collection="columns" item="column" index="index"
+            open="order by" close="" separator=",">
+            <if test="column.orderable">
+            	${column.name}   ${column.orderDir}
+            </if>
+        </foreach>
+	</select>
+
+
+	<!-- 根据userId查询该用户具有的权限 -->
+	<select id="queryAuthorityByUserName" parameterType="string" resultType="string">
+	    select ra.authority_pk
+	      from sys_role_authority ra
+	     inner join (select role_id
+	                   from (select role_id
+	                           from sys_role r
+	                          start with r.role_id in
+	                                     (select ur.role_id
+	                                        from sys_user_role ur inner join sys_user u 
+	                                         	 on ur.user_id = u.user_id and u.username = #{username})
+	                         connect by prior r.role_id = r.parent_id) t1
+	                  group by t1.role_id) t2
+	        on ra.role_id = t2.role_id
+	</select>
+
+
+	<!-- 根据请求路径查询该用户具有的权限 -->
+	<select id="queryAuthorityByResourceId" parameterType="string" resultType="string">
+	    select a.pk
+		  from  sys_authority a
+		  where a.resource_id = #{resourceId}
+	</select>
+	
+	
+	<!-- 根据用户id查询用户所具有的菜单 -->
+	<select id="queryMenuByUserId" parameterType="pd" resultMap="resourceMap">
+		select distinct  re.*,#{userId} user_id from (select r.role_id
+		  from sys_role r
+		 start with r.role_id in
+		            (select ur.role_id from sys_user_role ur where ur.user_id = #{userId})
+		connect by prior r.role_id = r.parent_id ) temp_role -- 查询用户所具有的角色与
+		inner join sys_role_authority ra on temp_role.role_id = ra.role_id --查询角色所拥有的权限
+		inner join sys_authority a on ra.authority_pk = a.pk 
+		inner join sys_resource re on a.resource_id = re.resource_id and re.resource_type = 'M' and re.parent_id = #{parentId} --查询权限所对用资源
+		order by re.resource_order
+	</select>
+	
+	
+	
+	<!-- 修改 -->
+	<update id="update" parameterType="com.ifreework.entity.system.User">
+		update SYS_USER
+		<trim prefix="SET" suffixOverrides=",">
+			<if test="username != null ">
+				USERNAME = #{username},
+			</if>
+			<if test="password != null ">
+				PASSWORD = #{password},
+			</if>
+			<if test="personName != null ">
+				PERSON_NAME = #{personName},
+			</if>
+			<if test="rights != null ">
+				RIGHTS = #{rights},
+			</if>
+			<if test="roleId != null ">
+				ROLE_ID = #{roleId},
+			</if>
+			<if test="status != null ">
+				STATUS = #{status},
+			</if>
+			<if test="skin != null ">
+				SKIN = #{skin},
+			</if>
+			<if test="email != null ">
+				EMAIL = #{email},
+			</if>
+			<if test="userNo != null ">
+				USER_NO = #{userNo},
+			</if>
+			<if test="phone != null ">
+				PHONE = #{phone},
+			</if>
+			<if test="provinceId != null ">
+				PROVINCE_ID = #{provinceId},
+			</if>
+			<if test="municipalityId != null ">
+				MUNICIPALITY_ID = #{municipalityId},
+			</if>
+			<if test="countyId != null ">
+				COUNTY_ID = #{countyId},
+			</if>
+			<if test="deailAddress != null ">
+				DEAIL_ADDRESS = #{deailAddress},
+			</if>
+			<if test="imgPath != null ">
+				IMG_PATH = #{imgPath},
+			</if>
+			<if test="isOnline != null ">
+				IS_ONLINE = #{isOnline},
+			</if>
+			<if test="deptId != null ">
+				DEPT_ID = #{deptId},
+			</if>
+			<if test="birthday != null ">
+				BIRTHDAY = #{birthday},
+			</if>
+			<if test="school != null ">
+				SCHOOL = #{school},
+			</if>
+			<if test="remarks != null ">
+				REMARKS = #{remarks}
+			</if>
+		</trim>
+		where
+		<if test="userId != null ">
+			USER_ID = #{userId}
+		</if>
+	</update>
+
+
+	<insert id="add" parameterType="com.ifreework.entity.system.User">
+		<selectKey keyProperty="userId" resultType="String" order="BEFORE">
+			select sys_guid() from dual 
+		</selectKey>
+
+		insert into SYS_USER (
+		<include refid="userColumns" />
+		)
+		values
+		(
+		#{ userId,jdbcType=VARCHAR },
+		#{ username,jdbcType=VARCHAR },
+		#{ password,jdbcType=VARCHAR },
+		#{ personName,jdbcType=VARCHAR },
+		#{ rights,jdbcType=VARCHAR },
+		#{ roleId,jdbcType=VARCHAR },
+		#{ status,jdbcType=VARCHAR },
+		#{ skin,jdbcType=VARCHAR },
+		#{ email,jdbcType=VARCHAR },
+		#{ userNo,jdbcType=VARCHAR },
+		#{ phone,jdbcType=VARCHAR },
+		#{ provinceId,jdbcType=VARCHAR },
+		#{ municipalityId,jdbcType=VARCHAR },
+		#{ countyId,jdbcType=VARCHAR },
+		#{ deailAddress,jdbcType=VARCHAR },
+		#{ imgPath,jdbcType=VARCHAR },
+		#{ isOnline,jdbcType=VARCHAR },
+		#{ deptId,jdbcType=VARCHAR },
+		#{ birthday,jdbcType=DATE },
+		#{ school,jdbcType=VARCHAR },
+		#{ remarks,jdbcType=VARCHAR }
+		)
+	</insert>
+</mapper>

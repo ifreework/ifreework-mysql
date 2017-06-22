@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ifreework.mapper.system.UserRoleMapper">
+	<sql id="userRoleColumns">
+		USER_ROLE_ID,
+		USER_ID,
+		ROLE_ID
+	</sql>
+
+	<resultMap type="com.ifreework.entity.system.UserRole"
+		id="userRole">
+		<id column="USER_ROLE_ID" property="userRoleId" />
+		<result column="USER_ID" property="userId" />
+		<result column="ROLE_ID" property="roleId" />
+		<association property="role" javaType="com.ifreework.entity.system.Role">
+			<result column="ROLE_NAME" property="roleName" />
+			<result column="PARENT_ID" property="parentId" />
+			<result column="IS_LEAF" property="isLeaf" />
+			<result column="REMARKS" property="remarks" />
+		</association>
+	</resultMap>
+
+	<select id="queryRoleList" parameterType="pd" resultMap="userRole">
+		select r.*,ur.user_role_id
+		from sys_role r
+		left join sys_user_role ur
+		on r.role_id = ur.role_id
+		and ur.user_id = #{userId}
+		where
+		<if test="id == null or id == ''">
+			 r.parent_id = '0'
+		</if>
+		<if test="id != null and id != ''">
+			 r.parent_id = #{id}
+		</if>
+	</select>
+
+
+	<insert id="add" parameterType="com.ifreework.entity.system.UserRole">
+		<selectKey keyProperty="userRoleId" resultType="String" order="BEFORE">
+			select sys_guid() from dual
+		</selectKey>
+		
+		insert into SYS_USER_ROLE (<include refid="userRoleColumns"/>) 
+		values 
+		(
+			#{ userRoleId,jdbcType=VARCHAR },
+			#{ userId,jdbcType=VARCHAR },
+			#{ roleId,jdbcType=VARCHAR }
+		)
+	</insert>
+
+	<!-- 删除 -->
+	<update id="delete" parameterType="com.ifreework.entity.system.UserRole">
+		delete from SYS_USER_ROLE
+		where
+		USER_ID = #{userId}
+		and ROLE_ID = #{roleId}
+	</update>
+
+</mapper>

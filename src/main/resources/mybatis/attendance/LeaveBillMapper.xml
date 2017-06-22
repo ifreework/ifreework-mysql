@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ifreework.mapper.attendance.LeaveBillMapper">
+	<sql id="leaveBillColumns">
+		LEAVE_BILL_ID,
+		USER_ID,
+		START_TIME,
+		END_TIME,
+		LEAVE_TYPE,
+		LEAVE_CAUSE,
+		STATUS,
+		ATTACHMENT_ID,
+		LEAVE_DAYS,
+		PROCESS_ID,
+		CREATE_TIME
+	</sql>
+
+
+
+	<resultMap type="com.ifreework.entity.attendance.LeaveBill"
+		id="leaveBill">
+		<id column="LEAVE_BILL_ID" property="leaveBillId" />
+		<result column="USER_ID" property="userId" />
+		<result column="START_TIME" property="startTime" />
+		<result column="END_TIME" property="endTime" />
+		<result column="LEAVE_TYPE" property="leaveType" />
+		<result column="LEAVE_CAUSE" property="leaveCause" />
+		<result column="STATUS" property="status" />
+		<result column="ATTACHMENT_ID" property="attachmentId" />
+		<result column="LEAVE_DAYS" property="leaveDays" />
+		<result column="PROCESS_ID" property="processId" />
+		<result column="CREATE_TIME" property="createTime" />
+		
+		<association property="user" javaType="com.ifreework.entity.system.User">
+			<result column="USERNAME" property="username"/>
+			<result column="PERSON_NAME" property="personName"/>
+		</association>
+		
+		<association property="dictionary" javaType="com.ifreework.entity.system.Dictionary">
+			<result column="DICTIONARY_CODE" property="dictionaryCode"/>
+			<result column="DICTIONARY_NAME" property="dictionaryName"/>
+		</association>
+		
+		<collection property="attachments"  javaType="ArrayList"  
+			column="ATTACHMENT_ID" select="selectAttachments" />
+	</resultMap>
+
+
+	<resultMap type="java.util.HashMap"
+		id="leaveBillMap">
+		<id column="LEAVE_BILL_ID" property="leaveBillId" />
+		<result column="USER_ID" property="userId" />
+		<result column="START_TIME" property="startTime" />
+		<result column="END_TIME" property="endTime" />
+		<result column="LEAVE_TYPE" property="leaveType" />
+		<result column="LEAVE_CAUSE" property="leaveCause" />
+		<result column="STATUS" property="status" />
+		<result column="ATTACHMENT_ID" property="attachmentId" />
+		<result column="LEAVE_DAYS" property="leaveDays" />
+		<result column="PROCESS_ID" property="processId" />
+		<result column="CREATE_TIME" property="createTime" />
+		
+		<association property="user" javaType="com.ifreework.entity.system.User">
+			<result column="USERNAME" property="username"/>
+			<result column="PERSON_NAME" property="personName"/>
+		</association>
+		
+		<association property="dictionary" javaType="com.ifreework.entity.system.Dictionary">
+			<result column="DICTIONARY_CODE" property="dictionaryCode"/>
+			<result column="DICTIONARY_NAME" property="dictionaryName"/>
+		</association>
+		
+		<collection property="attachments"  javaType="ArrayList"  
+			column="ATTACHMENT_ID" select="selectAttachments" />
+	</resultMap>
+
+	<resultMap type="com.ifreework.entity.system.Attachment" id="attachment">
+		<id column="ATTACHMENT_ID" property="attachmentId"/>
+		<result column="ATTACHMENT_NAME" property="attachmentName"/>
+		<result column="ATTACHMENT_PATH" property="attachmentPath"/>
+		<result column="ATTACHMENT_SIZE" property="attachmentSize"/>
+		<result column="ATTACHMENT_FORMAT_SIZE" property="attachmentFormatSize"/>
+	</resultMap>
+
+
+	<select id="queryPageList" parameterType="pd" resultMap="leaveBillMap">
+		select
+			u.USERNAME,
+			u.PERSON_NAME,
+			l.LEAVE_BILL_ID,
+			l.USER_ID,
+			l.START_TIME,
+			l.END_TIME,
+			l.LEAVE_TYPE,
+			l.LEAVE_CAUSE,
+			l.STATUS,
+			l.ATTACHMENT_ID,
+			l.LEAVE_DAYS,
+			l.PROCESS_ID,
+			l.CREATE_TIME,
+			d.DICTIONARY_CODE,
+			d.DICTIONARY_NAME
+		from ATT_LEAVE_BILL l
+		inner join SYS_USER u on l.user_id = u.user_id
+		inner join SYS_DICTIONARY d on d.DICTIONARY_TYPE_ID = 'attendance' and d.DICTIONARY_CODE = l.LEAVE_TYPE
+		<where>
+			<trim prefixOverrides="and">
+				<if test="userId != null and userId != ''">
+					and l.USER_ID = #{userId}
+				</if>
+				<if test="startTime != null and startTime != ''">
+					and l.START_TIME &gt;= #{startTime}
+				</if>
+				<if test="endTime != null and endTime != ''">
+					and l.END_TIME &lt;= #{endTime}
+				</if>
+				<if test="leaveType != null and leaveType != ''">
+					and l.LEAVE_TYPE = #{leaveType}
+				</if>
+				<if test="status != null and status != ''">
+					and l.STATUS = #{status}
+				</if>
+			</trim>
+		</where>
+		<foreach collection="columns" item="column" index="index"
+            open="order by" close="" separator=",">
+            <if test="column.orderable">
+            	${column.name}   ${column.orderDir}
+            </if>
+        </foreach>
+	</select>
+
+	<select id="getLeaveBill" parameterType="string" resultMap="leaveBill">
+		select
+			u.USERNAME,
+			u.PERSON_NAME,
+			l.LEAVE_BILL_ID,
+			l.USER_ID,
+			l.START_TIME,
+			l.END_TIME,
+			l.LEAVE_TYPE,
+			l.LEAVE_CAUSE,
+			l.STATUS,
+			l.ATTACHMENT_ID,
+			l.LEAVE_DAYS,
+			l.PROCESS_ID,
+			l.CREATE_TIME,
+			d.DICTIONARY_CODE,
+			d.DICTIONARY_NAME
+		from ATT_LEAVE_BILL l
+		inner join SYS_USER u on l.user_id = u.user_id
+		inner join SYS_DICTIONARY d on d.DICTIONARY_TYPE_ID = 'attendance' and d.DICTIONARY_CODE = l.LEAVE_TYPE
+		where LEAVE_BILL_ID = #{leaveBillId}
+	</select>
+	
+	<select id="selectAttachments" parameterType="string" resultMap="attachment">
+		select *
+		  from sys_attachment
+		 where attachment_id in
+		       (select * from table(splitstr(#{attachmentId,jdbcType=VARCHAR}, ',')))
+	</select>
+	
+	<insert id="add" parameterType="com.ifreework.entity.attendance.LeaveBill">
+		<selectKey keyProperty="leaveBillId" resultType="String"
+			order="BEFORE">
+			select sys_guid() from dual
+		</selectKey>
+
+		insert into ATT_LEAVE_BILL (
+		<include refid="leaveBillColumns" />
+		)
+		values
+		(
+		#{ leaveBillId,jdbcType=VARCHAR },
+		#{ userId,jdbcType=VARCHAR
+		},
+		#{ startTime,jdbcType=TIMESTAMP },
+		#{ endTime,jdbcType=TIMESTAMP },
+		#{
+		leaveType,jdbcType=VARCHAR },
+		#{ leaveCause,jdbcType=VARCHAR },
+		#{
+		status,jdbcType=VARCHAR },
+		#{ attachmentId,jdbcType=VARCHAR },
+		#{ leaveDays,jdbcType=DOUBLE },
+		#{ processId,jdbcType=DOUBLE },
+		#{ createTime,jdbcType=TIMESTAMP }
+		)
+	</insert>
+
+	<update id="update" parameterType="com.ifreework.entity.attendance.LeaveBill">
+		update ATT_LEAVE_BILL
+		<trim prefix="SET" suffixOverrides=",">
+			<if test="userId != null ">
+				USER_ID = #{userId},
+			</if>
+			<if test="startTime != null ">
+				START_TIME = #{startTime},
+			</if>
+			<if test="endTime != null ">
+				END_TIME = #{endTime},
+			</if>
+			<if test="leaveType != null ">
+				LEAVE_TYPE = #{leaveType},
+			</if>
+			<if test="leaveCause != null ">
+				LEAVE_CAUSE = #{leaveCause},
+			</if>
+			<if test="status != null ">
+				STATUS = #{status},
+			</if>
+			<if test="attachmentId != null ">
+				ATTACHMENT_ID = #{attachmentId},
+			</if>
+			<if test="leaveDays != null ">
+				LEAVE_DAYS = #{leaveDays},
+			</if>
+			<if test="processId != null ">
+				PROCESS_ID = #{processId},
+			</if>
+			<if test="createTime != null ">
+				CREATE_TIME = #{createTime}
+			</if>
+		</trim>
+		where
+		<if test="leaveBillId != null ">
+			LEAVE_BILL_ID = #{leaveBillId}
+		</if>
+	</update>
+
+	<delete id="delete" parameterType="string">
+		delete from ATT_LEAVE_BILL
+		where LEAVE_BILL_ID = #{leaveBillId}
+	</delete>
+</mapper>

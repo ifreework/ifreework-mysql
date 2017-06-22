@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:util="http://www.springframework.org/schema/util" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           classpath:org/springframework/beans/factory/xml/spring-beans-4.3.xsd
+           http://www.springframework.org/schema/util 
+           classpath:org/springframework/beans/factory/xml/spring-util-4.3.xsd
+           http://www.springframework.org/schema/aop 
+           classpath:org/springframework/aop/config/spring-aop-4.3.xsd
+           http://www.springframework.org/schema/context 
+           classpath:org/springframework/context/config/spring-context-4.3.xsd
+           http://www.springframework.org/schema/tx 
+           classpath:org/springframework/transaction/config/spring-tx-4.3.xsd">
+
+    
+    
+	<!-- shiro redisManager -->
+	<bean id="redisManager" class="com.ifreework.common.redis.RedisManager">
+		<constructor-arg name="host" value="127.0.0.1"/>
+		<constructor-arg  name="port" value="6379"/>
+		<constructor-arg  name="expire" value="0"/>
+		<constructor-arg name="timeout" value="10000"/>
+		<constructor-arg name="password" value="123456"/>
+	</bean>
+	
+	<!-- ehcache 
+    <bean id="cacheManager" class="org.apache.shiro.cache.ehcache.EhCacheManager">
+        <property name="cacheManagerConfigFile" value="classpath:ehcache/ehcache.xml"/>
+    </bean>
+    -->
+	<!-- cacheManager -->
+	<bean id="cacheManager" class="com.ifreework.common.redis.RedisCacheManager">
+		<property name="redisManager" ref="redisManager" />
+	</bean>
+	
+	
+	<!-- redisSessionDAO -->
+	<bean id="redisSessionDAO" class="com.ifreework.common.shiro.session.RedisSessionDAO">
+		<property name="cacheManager" ref="cacheManager" />
+	</bean>
+	    
+	    
+	<!-- 項目自定义的Realm -->
+	<bean id="shiroRealm" class="com.ifreework.common.shiro.realm.ShiroRealm">
+		<property name="shiroAuth" ref="userService" />
+		<property name="authenticationCachingEnabled" value="false" />
+		<property name="authorizationCachingEnabled" value="false" />
+	</bean>
+
+	
+	<bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
+		<property name="realm" ref="shiroRealm" />
+		<property name="sessionManager" ref="sessionManager"></property>  
+	</bean>
+
+	<!-- session 监听 -->
+	<bean id="shiroSessionListener" class="com.ifreework.common.shiro.listener.ShiroSessionListener">
+		<property name="loginLogManager" ref="loginLogService" />
+	</bean>  
+	
+	
+    <!-- session管理器 -->  
+    <bean id="sessionManager"  
+        class="org.apache.shiro.web.session.mgt.DefaultWebSessionManager">  
+        <!-- 设置全局会话超时时间，默认30分钟(1800000) -->  
+        <property name="globalSessionTimeout" value="1800000" />  
+        <!-- 是否在会话过期后会调用SessionDAO的delete方法删除会话 默认true -->  
+        <property name="deleteInvalidSessions" value="true" />  
+  
+        <!-- 会话验证器调度时间 -->  
+        <property name="sessionValidationInterval" value="1800000" />  
+  
+        <!-- session存储的实现-->  
+        <property name="sessionDAO" ref="redisSessionDAO" />  
+         
+        <!-- 定时检查失效的session -->  
+        <property name="sessionValidationSchedulerEnabled" value="true" />  
+        <property name="sessionIdCookieEnabled" value="true" />  
+        <property name="sessionIdCookie.name" value="jsid"/>  
+        
+        <property name="sessionListeners" ref="shiroSessionListener" />  
+    </bean>  
+    
+	<!-- Shiro Filter -->
+	<bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
+		<property name="securityManager" ref="securityManager" />
+
+		<property name="loginUrl" value="/" />
+
+		<property name="successUrl" value="/main" />
+
+		<property name="unauthorizedUrl" value="/" />
+		<property name="filterChainDefinitions">
+			<value>
+				/resources/** = anon
+			</value>
+		</property>
+	</bean>
+</beans>

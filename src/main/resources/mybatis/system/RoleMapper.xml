@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ifreework.mapper.system.RoleMapper">
+	<sql id="roleColumns">
+			ROLE_ID,
+			ROLE_NAME,
+			PARENT_ID,
+			IS_LEAF,
+			REMARKS
+	</sql>
+
+	<resultMap type="com.ifreework.entity.system.Role" id="role">
+		<id column="ROLE_ID" property="roleId"/>
+		<result column="ROLE_NAME" property="roleName"/>
+		<result column="PARENT_ID" property="parentId"/>
+		<result column="IS_LEAF" property="isLeaf"/>
+		<result column="REMARKS" property="remarks"/>
+	</resultMap>
+	
+	<select id="queryRoleList" parameterType="pd"
+		resultMap="role">
+		select
+		<include refid="roleColumns" />
+		from  SYS_ROLE  where 1 = 1
+		<if test=" id != null and  id != ''">
+		and  PARENT_ID = #{id}
+		</if>
+		<if test=" id == null or  id == ''">
+		and  PARENT_ID = '0'
+		</if>
+	</select>
+	
+	<select id="getRoleById" parameterType="string"
+		resultMap="role">
+		select
+		<include refid="roleColumns" />
+		from  SYS_ROLE  where ROLE_ID = #{roleId}
+	</select>
+	
+	<!-- 查询上级节点是否为子节点 -->
+	<select id="getRoleByIdAndIsLeaf" parameterType="string"
+		resultMap="role">
+		select 
+		<include refid="roleColumns" />
+	 	from sys_role where 
+		ROLE_ID = #{roleId}
+	 	and IS_LEAF = '1'
+	</select>
+		
+	<insert id="add" parameterType="com.ifreework.entity.system.Role">
+		<selectKey order="BEFORE" resultType="String" keyProperty="roleId"> 
+			select sys_guid() from dual 
+		</selectKey>
+		insert into SYS_ROLE (<include refid="roleColumns"/>) 
+		values 
+		(
+			#{ roleId,jdbcType=VARCHAR },
+			#{ roleName,jdbcType=VARCHAR },
+			#{ parentId,jdbcType=VARCHAR },
+			#{ isLeaf,jdbcType=VARCHAR },
+			#{ remarks,jdbcType=VARCHAR }
+		)
+	</insert>
+	
+	<update id="update" parameterType="com.ifreework.entity.system.Role">
+		update  SYS_ROLE
+		<trim prefix="SET" suffixOverrides=",">  
+	        <if test="roleName != null ">  
+	           ROLE_NAME = #{roleName},
+	        </if>  
+	        <if test="parentId != null ">  
+	           PARENT_ID = #{parentId},
+	        </if>  
+	        <if test="isLeaf != null ">  
+	           IS_LEAF = #{isLeaf},
+	        </if>  
+	        <if test="remarks != null ">  
+	           REMARKS = #{remarks}
+	        </if>  
+		</trim>
+			where 
+	        <if test="roleId != null ">  
+	           ROLE_ID = #{roleId}
+	        </if>  
+	</update>
+	
+	<!-- 删除节点时 -->
+	<update id="delete" parameterType="string">
+		delete from SYS_ROLE
+			where 
+	           ROLE_ID = #{roleId}
+	</update>
+	
+	<!-- 删除节点时，同步删除该节点下面的子节点 -->
+	<update id="deleteChildren" parameterType="string">
+		delete from SYS_ROLE
+			where 
+	           PARENT_ID = #{roleId}
+	</update>
+	
+</mapper>

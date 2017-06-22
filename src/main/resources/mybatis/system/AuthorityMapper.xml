@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ifreework.mapper.system.AuthorityMapper">
+	<sql id="authorityColumns">
+		PK,
+		RESOURCE_ID,
+		OPERATION_ID,
+		AUTHORITY_NAME,
+		REMARKS
+	</sql>
+
+	<resultMap type="com.ifreework.entity.system.Authority" id="authority">
+		<id column="PK" property="pk" />
+		<result column="RESOURCE_ID" property="resourceId" />
+		<result column="OPERATION_ID" property="operationId" />
+		<result column="AUTHORITY_NAME" property="authorityName" />
+		<result column="REMARKS" property="remarks" />
+	</resultMap>
+	
+	<select id="queryPageList" parameterType="pd"
+		resultMap="authority">
+		select
+		<include refid="authorityColumns" />
+		from  SYS_AUTHORITY  
+		<where> 
+			<trim prefixOverrides="and">
+				<if test=" pk != null and  pk != ''">
+				   and PK like '%${pk}%' 
+				</if>
+				<if test="authorityName != null and  authorityName != ''">
+				   and AUTHORITY_NAME like '%${authorityName}%' 
+				</if>
+			</trim>
+		</where>
+		<foreach collection="columns" item="column" index="index"
+            open="order by" close="" separator=",">
+            <if test="column.orderable">
+            	${column.name}   ${column.orderDir}
+            </if>
+        </foreach>
+	</select>
+	
+
+	<insert id="add" parameterType="com.ifreework.entity.system.Authority">
+		insert into SYS_AUTHORITY (
+		<include refid="authorityColumns" />
+		)
+		values
+		(
+		#{ pk,jdbcType=VARCHAR },
+		#{ resourceId,jdbcType=VARCHAR },
+		#{ operationId,jdbcType=VARCHAR },
+		#{ authorityName,jdbcType=VARCHAR },
+		#{ remarks,jdbcType=VARCHAR }
+		)
+	</insert>
+
+	<!-- 删除节点时 -->
+	<update id="delete" parameterType="hashMap">
+		delete from SYS_AUTHORITY
+		where
+		RESOURCE_ID = #{resourceId}
+		
+		<if test="deleteList.size() == 0">
+			and 1 = 2
+		</if>
+		<if test="deleteList.size() > 0">
+			and OPERATION_ID in 
+			<foreach collection="deleteList" item="operation" index="index"  open="(" close=")"
+				separator=",">
+				#{operation.operationId}
+			</foreach>
+		</if>
+	</update>
+
+</mapper>

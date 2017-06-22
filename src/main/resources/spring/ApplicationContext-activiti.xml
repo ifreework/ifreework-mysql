@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:util="http://www.springframework.org/schema/util" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           classpath:org/springframework/beans/factory/xml/spring-beans-4.3.xsd
+           http://www.springframework.org/schema/util 
+           classpath:org/springframework/beans/factory/xml/spring-util-4.3.xsd
+           http://www.springframework.org/schema/aop 
+           classpath:org/springframework/aop/config/spring-aop-4.3.xsd
+           http://www.springframework.org/schema/context 
+           classpath:org/springframework/context/config/spring-context-4.3.xsd
+           http://www.springframework.org/schema/mvc 
+           classpath:org/springframework/web/servlet/config/spring-mvc-4.3.xsd  
+           http://www.springframework.org/schema/tx 
+           classpath:org/springframework/transaction/config/spring-tx-4.3.xsd">
+
+	<!-- spring负责创建流程引擎的配置文件 -->
+	<bean id="processEngineConfiguration" class="org.activiti.spring.SpringProcessEngineConfiguration">
+		<!-- 数据源 -->
+		<property name="dataSource" ref="dataSource" />
+		
+		<!-- 配置事务管理器，统一事务 -->
+		<property name="transactionManager" ref="transactionManager" />
+		
+		<!-- 设置建表策略，如果没有表，自动创建表 ,如果数据库activiti表版本较低，将自动更新到当前使用版本-->
+		<!-- 注意：如果数据库中已存在activiti表且版本比当前使用版本高时，会抛出异常 -->
+		<property name="databaseSchemaUpdate" value="true" />
+		
+		<!-- 系统在启动时扫描加载的activiti配置，如果文件修改后，系统会自动扫描加载 
+		<property name="deploymentResources" value="classpath*:/workflow/*/*.bpmn20.xml" /> 
+		-->
+		
+		<property name="mailServerHost" value="smtp.163.com" />  
+        <property name="mailServerPort" value="25" />   
+        <!--默认发送方-->  
+        <property name="mailServerDefaultFrom" value="cd_wangyh@163.com" />  
+        <!--发送方登录用户名-->  
+        <property name="mailServerUsername" value="cd_wangyh@163.com"></property>    
+        <!--发送方登录密码-->  
+        <property name="mailServerPassword" value="wyh198910"></property>   
+        <!--加密方式 一定要有-->  
+        <property name="mailServerUseSSL" value="true" />  
+	</bean>
+	
+	<!-- 创建流程引擎对象 -->
+	<bean id="processEngine" class="org.activiti.spring.ProcessEngineFactoryBean">
+		<property name="processEngineConfiguration" ref="processEngineConfiguration" />
+	</bean>
+
+
+	<!-- 相当于下面的代码 RepositoryServicie repositoryService = processEngine.getRepositoryService(); 
+		RuntimeServicie repositoryService = processEngine.getRuntimeServicie(); TaskServicie 
+		taskServicie = processEngine.getTaskServicie(); HistoryServicie historyServicie 
+		= processEngine.getHistoryServicie(); -->
+	<!-- 由流程引擎对象，提供的方法，创建项目中使用的Activiti工作流的Service -->
+	<bean id="repositoryService" factory-bean="processEngine"
+		factory-method="getRepositoryService" />
+	<bean id="runtimeService" factory-bean="processEngine"
+		factory-method="getRuntimeService" />
+	<bean id="taskService" factory-bean="processEngine"
+		factory-method="getTaskService" />
+	<bean id="historyService" factory-bean="processEngine"
+		factory-method="getHistoryService" />
+	<bean id="formService" factory-bean="processEngine"
+		factory-method="getFormService" />
+
+</beans>

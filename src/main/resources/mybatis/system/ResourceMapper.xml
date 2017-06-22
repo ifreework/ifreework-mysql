@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ifreework.mapper.system.ResourceMapper">
+	<sql id="resourceColumns">
+		RESOURCE_ID,
+		PARENT_ID,
+		RESOURCE_ORDER,
+		IS_LEAF,
+		RESOURCE_TYPE,
+		RESOURCE_NAME,
+		RESOURCE_URL,
+		RESOURCE_FLAG,
+		ICON_CLS,
+		PK,
+		REMARKS
+	</sql>
+
+	<resultMap type="com.ifreework.entity.system.Resource" id="resource">
+		<id column="RESOURCE_ID" property="resourceId" />
+		<result column="PARENT_ID" property="parentId" />
+		<result column="RESOURCE_ORDER" property="resourceOrder" />
+		<result column="IS_LEAF" property="isLeaf" />
+		<result column="RESOURCE_TYPE" property="resourceType" />
+		<result column="RESOURCE_NAME" property="resourceName" />
+		<result column="RESOURCE_URL" property="resourceUrl" />
+		<result column="RESOURCE_FLAG" property="resourceFlag" />
+		<result column="ICON_CLS" property="iconCls" />
+		<result column="PK" property="pk" />
+		<result column="REMARKS" property="remarks" />
+	</resultMap>
+
+	<resultMap type="com.ifreework.entity.system.Operation" id="operation">
+		<id column="OPERATION_ID" property="operationId"/>
+		<result column="PK" property="pk"/>
+		<result column="OPERATION_NAME" property="operationName"/>
+		<result column="REMARKS" property="remarks"/>
+		<result column="OPERATION_TYPE" property="operationType"/>
+		<result column="OPERATION_LEVEL" property="operationLevel"/>
+	</resultMap>
+	
+	
+	<select id="queryResourceList" parameterType="pd" resultMap="resource">
+		select
+		<include refid="resourceColumns" />
+		from SYS_RESOURCE where '1' = '1'
+		<if test=" id != null and  id != ''">
+			and PARENT_ID = #{id}
+		</if>
+		<if test=" id == null or  id == ''">
+			and PARENT_ID = '0'
+		</if>
+		order by resource_order
+	</select>
+
+	<select id="getResourceById" parameterType="string" resultMap="resource">
+		select
+		<include refid="resourceColumns" />
+		from SYS_RESOURCE where RESOURCE_ID = #{resourceId}
+	</select>
+
+	<!-- 查询节点下最大的排序 -->
+	<select id="getMaxResourceOrder" parameterType="string"
+		resultMap="resource">
+		SELECT TMP_PAGE.*, ROWNUM ROW_ID FROM (
+		select
+		<include refid="resourceColumns" />
+		from sys_resource where
+		PARENT_ID = #{parentId}
+		order by RESOURCE_ORDER DESC ) TMP_PAGE WHERE ROWNUM = 1
+	</select>
+
+	<select id="getResourceByPK" parameterType="string" resultMap="resource">
+		select
+		<include refid="resourceColumns" />
+		from SYS_RESOURCE where PK = #{pk}
+	</select>
+	
+	
+	<select id="getResourceByUrl" parameterType="string" resultMap="resource">
+		select
+		<include refid="resourceColumns" />
+		from SYS_RESOURCE where RESOURCE_URL = #{url}
+	</select>
+
+	<!-- 查询上级节点是否为子节点 -->
+	<select id="getResourceByIdAndIsLeaf" parameterType="string"
+		resultMap="resource">
+		select
+		<include refid="resourceColumns" />
+		from sys_resource where
+		RESOURCE_ID = #{resourceId}
+		and IS_LEAF = '1'
+	</select>
+
+	<!-- 查询当前资源已经拥有的操作 -->
+	<select id="selectOperationWithResourceId" parameterType="string"
+		resultMap="operation">
+		select o.*
+		from sys_authority a
+		join sys_operation o
+		on a.operation_id = o.operation_id
+		where a.resource_id = #{resourceId}
+		order by operation_type
+	</select>
+
+	<!-- 查询当前资源尚未拥有的操作 -->
+	<select id="selectNoOperationWithResourceId" parameterType="string"
+		resultMap="operation">
+		select *
+		from sys_operation
+		where operation_id not in
+		(select a.operation_id from sys_authority a where
+			a.resource_id = #{resourceId}
+		)
+		order by operation_type
+	</select>
+	
+	<!-- 获取当前节点的所有父节点 -->
+	<select id="selectParentResourceList" parameterType="string"
+		resultMap="resource">
+		select *
+		  from sys_resource
+		 start with resource_id = #{resourceId}
+		connect by prior parent_id = resource_id
+				
+	</select>
+
+	<insert id="add" parameterType="com.ifreework.entity.system.Resource">
+		<selectKey order="BEFORE" resultType="String" keyProperty="resourceId">
+			select sys_guid() from dual
+		</selectKey>
+		insert into SYS_RESOURCE (
+		<include refid="resourceColumns" />
+		)
+		values
+		(
+		#{ resourceId,jdbcType=VARCHAR },
+		#{ parentId,jdbcType=VARCHAR },
+		#{ resourceOrder,jdbcType=INTEGER },
+		#{ isLeaf,jdbcType=VARCHAR },
+		#{ resourceType,jdbcType=VARCHAR },
+		#{ resourceName,jdbcType=VARCHAR },
+		#{ resourceUrl,jdbcType=VARCHAR },
+		#{ resourceFlag,jdbcType=VARCHAR },
+		#{ iconCls,jdbcType=VARCHAR },
+		#{ pk,jdbcType=VARCHAR },
+		#{ remarks,jdbcType=VARCHAR }
+		)
+	</insert>
+
+	<update id="update" parameterType="com.ifreework.entity.system.Resource">
+		update SYS_RESOURCE
+		<trim prefix="SET" suffixOverrides=",">
+			<if test="parentId != null ">
+				PARENT_ID = #{parentId},
+			</if>
+			<if test="resourceOrder != null ">
+				RESOURCE_ORDER = #{resourceOrder},
+			</if>
+			<if test="isLeaf != null ">
+				IS_LEAF = #{isLeaf},
+			</if>
+			<if test="resourceType != null ">
+				RESOURCE_TYPE = #{resourceType},
+			</if>
+			<if test="resourceName != null ">
+				RESOURCE_NAME = #{resourceName},
+			</if>
+			<if test="resourceUrl != null ">
+				RESOURCE_URL = #{resourceUrl},
+			</if>
+			<if test="resourceFlag != null ">
+				RESOURCE_FLAG = #{resourceFlag},
+			</if>
+			<if test="iconCls != null ">
+				ICON_CLS = #{iconCls},
+			</if>
+			<if test="pk != null ">
+				PK = #{pk},
+			</if>
+			<if test="remarks != null ">
+				REMARKS = #{remarks}
+			</if>
+		</trim>
+		where
+		<if test="resourceId != null ">
+			RESOURCE_ID = #{resourceId}
+		</if>
+	</update>
+
+	<!-- 删除节点时，同步删除该节点下面的子节点 -->
+	<update id="delete" parameterType="string">
+		delete from  SYS_RESOURCE
+		where
+		RESOURCE_ID = #{resourceId}
+	</update>
+	
+	<!-- 删除节点时，同步删除该节点下面的子节点 -->
+	<update id="deleteChildren" parameterType="string">
+		delete from  SYS_RESOURCE
+		where
+		PARENT_ID = #{departmentId}
+	</update>
+
+</mapper>
