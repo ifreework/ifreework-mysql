@@ -3,6 +3,7 @@ package com.ifreework.util;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.ConnectException;
 import java.net.HttpURLConnection;
@@ -73,9 +74,13 @@ public class HttpRequestUtil {
 	 * 
 	 * @param requestUrl
 	 *            请求地址
+	 * @param method
+	 *            请求方法  GET POST
+	 * @param paramStr
+	 *            请求参数
 	 * @return
 	 */
-	public static String httpsRequest(String requestUrl) {
+	public static String httpsRequest(String requestUrl, String method,String paramStr) {
 		StringBuffer buffer = new StringBuffer();
 		try {
 			// 创建SSLContext对象，并使用我们指定的信任管理器初始化
@@ -113,9 +118,18 @@ public class HttpRequestUtil {
 			httpUrlConn.setDoInput(true);
 			httpUrlConn.setUseCaches(false);
 			// 设置请求方式（GET/POST）
-			httpUrlConn.setRequestMethod("GET");
+			httpUrlConn.setRequestMethod(method);
 
-			httpUrlConn.connect();
+			if ("GET".equalsIgnoreCase(method)) {
+				httpUrlConn.connect();
+			}
+			// 当有数据需要提交时
+			if (null != paramStr) {
+				OutputStream outputStream = httpUrlConn.getOutputStream();
+				// 注意编码格式，防止中文乱码
+				outputStream.write(paramStr.getBytes("UTF-8"));
+				outputStream.close();
+			}
 
 			// 将返回的输入流转换成字符串
 			InputStream inputStream = httpUrlConn.getInputStream();
