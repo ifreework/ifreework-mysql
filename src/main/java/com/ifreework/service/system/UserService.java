@@ -107,4 +107,14 @@ public interface UserService {
 	 * @return
 	 */
 	public PageData validateUserName(PageData pd);
+	
+	
+	/**
+	 * 
+	 * 描述：通过用户微信授权code获取用户微信信息
+	 * @param code 用户授权code
+	 * @return 
+	 * @return
+	 */
+	public User getUserByCode(String code);
 }

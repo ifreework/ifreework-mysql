@@ -199,7 +199,7 @@ public class PageData extends HashMap implements Map {
 		}
 		setColumns(map);
 		setOrder(map);
-		log.debug("The page param is {} " , map);
+		log.info("The page param is {} " , map);
 	} 
 
 	/**

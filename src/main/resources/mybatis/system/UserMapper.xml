@@ -22,8 +22,11 @@
 		<result column="IS_ONLINE" property="isOnline" />
 		<result column="DEPT_ID" property="deptId" />
 		<result column="BIRTHDAY" property="birthday" />
-		<result column="SCHOOL" property="school" />
+		<result column="SEX" property="sex" />
 		<result column="REMARKS" property="remarks" />
+		<result column="PRIVILEGE" property="privilege" />
+		<result column="UNIONID" property="unionid" />
+		<result column="PROMOTER" property="promoter" />
 		
 		<association property="province" javaType="com.ifreework.entity.db.Province">
 			<result column="PROVINCE_ID" property="provinceId"/>
@@ -79,8 +82,11 @@
 		IS_ONLINE,
 		DEPT_ID,
 		BIRTHDAY,
-		SCHOOL,
-		REMARKS
+		SEX,
+		REMARKS,
+		PRIVILEGE,
+		UNIONID,
+		PROMOTER
 	</sql>
 
 	<sql id="userAllColumns">
@@ -103,8 +109,11 @@
 			U.IS_ONLINE,
 			U.DEPT_ID,
 			U.BIRTHDAY,
-			U.SCHOOL,
+			U.SEX,
 			U.REMARKS,
+			U.PRIVILEGE,
+			U.UNIONID,
+			U.PROMOTER,
 			P.PROVINCE_NAME,
 			M.MUNICIPALITY_NAME,
 			C.COUNTY_NAME
@@ -269,11 +278,20 @@
 			<if test="birthday != null ">
 				BIRTHDAY = #{birthday},
 			</if>
-			<if test="school != null ">
-				SCHOOL = #{school},
+			<if test="sex != null ">
+				SEX = #{sex},
 			</if>
 			<if test="remarks != null ">
-				REMARKS = #{remarks}
+				REMARKS = #{remarks},
+			</if>
+			<if test="privilege != null ">
+				PRIVILEGE = #{privilege},
+			</if>
+			<if test="unionid != null ">
+				UNIONID = #{unionid},
+			</if>
+			<if test="promoter != null ">
+				PROMOTER = #{promoter}
 			</if>
 		</trim>
 		where
@@ -312,8 +330,11 @@
 		#{ isOnline,jdbcType=VARCHAR },
 		#{ deptId,jdbcType=VARCHAR },
 		#{ birthday,jdbcType=DATE },
-		#{ school,jdbcType=VARCHAR },
-		#{ remarks,jdbcType=VARCHAR }
+		#{ sex,jdbcType=VARCHAR },
+		#{ remarks,jdbcType=VARCHAR },
+		#{ privilege,jdbcType=VARCHAR },
+		#{ unionid,jdbcType=VARCHAR },
+		#{ promoter,jdbcType=VARCHAR }
 		)
 	</insert>
 </mapper>

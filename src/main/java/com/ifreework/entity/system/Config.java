@@ -23,6 +23,7 @@ public class Config implements Serializable{
 	private static final long serialVersionUID = -4773165368555660431L;
 
 	public static final String SYSTEM_NAME = "system_name"; //系统名称
+	public static final String SYSTEM_DOMAIN_NAME = "system_domain_name"; //域名
 	
 	public static final String BUTTON_AUTH_ENABLE = "button_auth_enable"; //是否启用按钮权限
 	

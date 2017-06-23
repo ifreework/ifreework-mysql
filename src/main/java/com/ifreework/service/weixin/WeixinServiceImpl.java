@@ -80,5 +80,5 @@ public class WeixinServiceImpl implements WeixinService {
 		session.process(is, os); // 处理微信消息
 		session.close(); // 关闭Session
 	}
-
+	
 }

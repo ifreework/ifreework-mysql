@@ -10,12 +10,6 @@ import com.ifreework.entity.db.Province;
 public class User implements Serializable{
 	
 	
-	/**    
-	 * serialVersionUID:TODO（用一句话描述这个变量表示什么）    
-	 *    
-	 * @version 1.0    
-	 */    
-	
 	private static final long serialVersionUID = -880792284516769954L;
 	//columns START
 	private String userId;
@@ -37,25 +31,15 @@ public class User implements Serializable{
 	private String isOnline;
 	private String deptId;
 	private Date birthday;
-	private String school;
+	private String sex;
 	private String remarks;
+	private String privilege;
+	private String unionid;
+	private String promoter;
 	
-	private Integer start ;
-	private Integer pageSize;
 	
 	
-	public Integer getStart() {
-		return start;
-	}
-	public void setStart(Integer start) {
-		this.start = start;
-	}
-	public Integer getPageSize() {
-		return pageSize;
-	}
-	public void setPageSize(Integer pageSize) {
-		this.pageSize = pageSize;
-	}
+	
 	private Province province;
 	private Municipality municipality;
 	private County county;
@@ -174,12 +158,6 @@ public class User implements Serializable{
 	public void setBirthday(Date birthday) {
 		this.birthday = birthday;
 	}
-	public String getSchool() {
-		return school;
-	}
-	public void setSchool(String school) {
-		this.school = school;
-	}
 	public String getRemarks() {
 		return remarks;
 	}
@@ -203,6 +181,30 @@ public class User implements Serializable{
 	}
 	public void setCounty(County county) {
 		this.county = county;
+	}
+	public String getSex() {
+		return sex;
+	}
+	public void setSex(String sex) {
+		this.sex = sex;
+	}
+	public String getPrivilege() {
+		return privilege;
+	}
+	public void setPrivilege(String privilege) {
+		this.privilege = privilege;
+	}
+	public String getUnionid() {
+		return unionid;
+	}
+	public void setUnionid(String unionid) {
+		this.unionid = unionid;
+	}
+	public String getPromoter() {
+		return promoter;
+	}
+	public void setPromoter(String promoter) {
+		this.promoter = promoter;
 	}
 
 }

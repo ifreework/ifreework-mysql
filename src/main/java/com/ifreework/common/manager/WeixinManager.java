@@ -1,10 +1,14 @@
 package com.ifreework.common.manager;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.Date;
 import java.util.Map;
 
 import org.apache.shiro.cache.Cache;
 import org.apache.shiro.cache.CacheManager;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
@@ -15,8 +19,11 @@ import com.ifreework.util.StringUtil;
 
 public class WeixinManager {
 
+	private static Logger logger = LoggerFactory.getLogger(WeixinManager.class);
+	
 	private static final String ACCESS_TOKEN_URL = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=APPID&secret=APPSECRET";
-	public static String CREATE_MENU_URL = "https://api.weixin.qq.com/cgi-bin/menu/create?access_token=ACCESS_TOKEN";
+	private static final String CREATE_MENU_URL = "https://api.weixin.qq.com/cgi-bin/menu/create?access_token=ACCESS_TOKEN";
+	private static final String AUTHORIZATION_URL = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=APPID&redirect_uri=REDIRECT_URI&response_type=code&scope=SCOPE&state=STATE#wechat_redirect";
 
 	private static final String TOKEN_KEY = CacheConstant.WEIXIN_CACHE_PREFIX.toString() + "ACCESS_TOKEN";
 	private static final String TOKEN_EXPIRES_KEY = CacheConstant.WEIXIN_CACHE_PREFIX.toString()
@@ -26,7 +33,7 @@ public class WeixinManager {
 
 	/**
 	 * 
-	 * 描述：重新在微信中查询数据，
+	 * 描述：重新在微信中查询AccessToken，
 	 * @return access_token
 	 */
 	private static String resetAccessToken() {
@@ -88,5 +95,21 @@ public class WeixinManager {
 			json.put("errmsg", "未知异常");
 			return json;
 		}
+	}
+	
+	/**
+	 * 描述：根据传入参数，生成授权请求URL
+	 * @param redirect_uri 授权后重定向的回调链接地址
+	 * @param scope 应用授权作用域，snsapi_base （不弹出授权页面，直接跳转，只能获取用户openid），snsapi_userinfo （弹出授权页面，可通过openid拿到昵称、性别、所在地。并且，即使在未关注的情况下，只要用户授权，也能获取其信息）
+	 * @param state 重定向后会带上state参数，开发者可以填写a-zA-Z0-9的参数值，最多128字节
+	 * @return 微信授权地址
+	 * @throws UnsupportedEncodingException 
+	 */
+	public static String getAuthorizationUrl(String redirect_uri,String scope,String state) throws UnsupportedEncodingException{
+		redirect_uri = URLEncoder.encode(redirect_uri, "UTF-8");
+		String appid = Config.init().get(Config.WEIXIN_APPID);
+		String url = AUTHORIZATION_URL.replace("APPID", appid).replace("REDIRECT_URI", redirect_uri).replace("SCOPE", scope).replace("STATE", state);
+		logger.info("Weixin AuthorizationUrl is {}" ,url);
+		return url;
 	}
 }

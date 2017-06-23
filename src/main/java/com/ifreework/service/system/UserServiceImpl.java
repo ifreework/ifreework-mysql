@@ -26,6 +26,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.ifreework.common.constant.Constant;
 import com.ifreework.common.email.MailSend;
 import com.ifreework.common.email.entity.MailBean;
@@ -39,9 +41,11 @@ import com.ifreework.entity.system.User;
 import com.ifreework.mapper.system.ResourceMapper;
 import com.ifreework.mapper.system.UserMapper;
 import com.ifreework.util.FileUtil;
+import com.ifreework.util.HttpRequestUtil;
 import com.ifreework.util.ImageUtil;
 import com.ifreework.util.SecurityUtil;
 import com.ifreework.util.StringUtil;
+
 
 /**
  * 描述：
@@ -56,6 +60,7 @@ import com.ifreework.util.StringUtil;
 public class UserServiceImpl implements UserService, ShiroAuthInterface {
 
 	private static Logger log = Logger.getLogger(UserServiceImpl.class);
+
 	@Autowired
 	private UserMapper userMapper;
 	@Autowired
@@ -90,7 +95,7 @@ public class UserServiceImpl implements UserService, ShiroAuthInterface {
 		pd.put("valid", user == null || user.getUserId().equals(pd.getString("userId")));
 		return pd;
 	}
-	
+
 	/**
 	 * 
 	 * 描述：通过用户名密码验证用户登录是否成功
@@ -217,7 +222,7 @@ public class UserServiceImpl implements UserService, ShiroAuthInterface {
 		oldPassword = SecurityUtil.encrypt(oldPassword);
 
 		pd = new PageData();
-		
+
 		if (oldPassword.equals(user.getPassword())) {
 			User u = new User();
 			u.setPassword(SecurityUtil.encrypt(password));
@@ -308,7 +313,7 @@ public class UserServiceImpl implements UserService, ShiroAuthInterface {
 	public Set<String> queryAuthorityByUserName(String userName) {
 		User user = UserManager.getUser();
 		List<String> roleList = new ArrayList<String>();
-		queryRoleTreeByUserId(user.getUserId(),null,roleList);
+		queryRoleTreeByUserId(user.getUserId(), null, roleList);
 		return userMapper.queryAuthorityByUserName(roleList);
 	}
 
@@ -376,31 +381,31 @@ public class UserServiceImpl implements UserService, ShiroAuthInterface {
 	public List queryMenuByUserId() {
 		User user = UserManager.getUser();
 		List<String> roleList = new ArrayList<String>();
-		queryRoleTreeByUserId(user.getUserId(),null,roleList);
-		
-		Map<String,Object> map = new HashMap<String,Object>();
+		queryRoleTreeByUserId(user.getUserId(), null, roleList);
+
+		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("resourceId", "0");
-		queryMenuByUserId(map,roleList);
+		queryMenuByUserId(map, roleList);
 		return (List) map.get("children");
 	}
-	
+
 	/**
 	 * 描述：递归获取用户所拥有的菜单
 	 * @param map 
 	 * @return
 	 */
-	private void queryMenuByUserId(Map<String,Object>  map,List<String> roleList){
-		Map<String,Object> param = new HashMap<String,Object>();
+	private void queryMenuByUserId(Map<String, Object> map, List<String> roleList) {
+		Map<String, Object> param = new HashMap<String, Object>();
 		param.put("parentId", map.get("resourceId"));
 		param.put("roleList", roleList);
-		
-		List<Map<String,Object>> list = userMapper.queryMenuByUserId(param);
+
+		List<Map<String, Object>> list = userMapper.queryMenuByUserId(param);
 		map.put("children", list);
 		for (Map<String, Object> m : list) {
-			queryMenuByUserId(m,roleList);
+			queryMenuByUserId(m, roleList);
 		}
 	}
-	
+
 	/**
 	 * 
 	 * 描述： 递归查询当前用户所拥有的角色及下级角色
@@ -409,16 +414,81 @@ public class UserServiceImpl implements UserService, ShiroAuthInterface {
 	 * @param roleIdList 
 	 * @return
 	 */
-	private void queryRoleTreeByUserId(String userId,String parentId,List<String> roleIdList){
+	private void queryRoleTreeByUserId(String userId, String parentId, List<String> roleIdList) {
 		PageData pd = new PageData();
 		pd.put("userId", userId);
 		pd.put("parentId", parentId);
 		List<String> roleList = userMapper.queryRoleTreeByUserId(pd);
 		for (String roleId : roleList) {
-			if(!roleIdList.contains(roleId)){
+			if (!roleIdList.contains(roleId)) {
 				roleIdList.add(roleId);
-				queryRoleTreeByUserId(null,roleId,roleIdList);
+				queryRoleTreeByUserId(null, roleId, roleIdList);
 			}
 		}
 	}
+
+	/**
+	 * 获取网页授权凭证
+	 * 
+	 * @param appId
+	 *            公众账号的唯一标识
+	 * @param appSecret
+	 *            公众账号的密钥
+	 * @param code
+	 * @return WeixinAouth2Token
+	 */
+	private JSONObject getOauth2AccessToken(String appId,
+			String appSecret, String code) {
+		// 拼接请求地址
+		String requestUrl = "https://api.weixin.qq.com/sns/oauth2/access_token?appid=APPID&secret=SECRET&code=CODE&grant_type=authorization_code";
+		requestUrl = requestUrl.replace("APPID", appId);
+		requestUrl = requestUrl.replace("SECRET", appSecret);
+		requestUrl = requestUrl.replace("CODE", code);
+		// 获取网页授权凭证
+		String resultStr = HttpRequestUtil.httpsRequest(requestUrl, "GET", null);
+		JSONObject json = JSON.parseObject(resultStr);
+		return json;
+	}
+
+	
+	/**
+	 * 
+	 * 描述：通过用户微信授权code获取用户微信信息
+	 * @param code 用户授权code
+	 * @return 
+	 * @return
+	 */
+	public User getUserByCode(String code){
+		String appid = Config.init().get(Config.WEIXIN_APPID);
+		String appSecret = Config.init().get(Config.WEIXIN_APPSECRET);
+
+		JSONObject json = getOauth2AccessToken(appid, appSecret, code);
+		
+		String userId = json.getString("openid");
+		User user = getUserById(userId);
+		if(user == null ){ //如果当前用户id在数据库中不存在，则在微信获取用户ID，并进行注册
+			String requestUrl = "https://api.weixin.qq.com/sns/userinfo?access_token=ACCESS_TOKEN&openid=OPENID&lang=zh_CN ";
+			
+			String access_token = json.getString("access_token");
+			requestUrl = requestUrl.replace("ACCESS_TOKEN", access_token);
+			requestUrl = requestUrl.replace("OPENID", userId);
+			String resultStr = HttpRequestUtil.httpsRequest(requestUrl, "GET", null);
+			json = JSON.parseObject(resultStr);
+			
+			user = new User();
+			user.setUserId(json.getString("openid"));
+			user.setPersonName(json.getString("nickname"));
+			user.setSex(json.getString("sex"));
+			user.setProvinceId(json.getString("province"));
+			user.setMunicipalityId(json.getString("city"));
+			user.setCountyId(json.getString("country"));
+			
+			user.setImgPath(json.getString("headimgurl"));
+			user.setPrivilege(json.getString("privilege"));
+			user.setUnionid(json.getString("unionid"));
+			add(user);
+		}
+		return user;
+	}
+	
 }
