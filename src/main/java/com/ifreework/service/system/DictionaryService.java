@@ -28,6 +28,8 @@ import com.ifreework.entity.system.Dictionary;
  */
 public interface DictionaryService {
 	public List<Object> queryDictionaryList(PageData pd);
+	public List<Dictionary> queryByCodeList(PageData pd);
+	
 	public Dictionary getDictionaryById(String dictionaryId);
 	public PageData add(Dictionary dictionary);
 	public PageData update(Dictionary dictionary);

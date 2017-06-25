@@ -60,6 +60,14 @@ public class DictionaryController extends BaseControllerSupport {
 		return list;
 	}
 	
+	@RequestMapping("/queryByCodeList")
+	@ResponseBody
+	public List<Dictionary> queryByCodeList(){
+		PageData pd = this.getPageData();
+		List<Dictionary> list = dictionaryService.queryByCodeList(pd);
+		return list;
+	}
+	
 	@RequestMapping("/add")
 	public ModelAndView add(){
 		ModelAndView mv = this.getModelAndView();

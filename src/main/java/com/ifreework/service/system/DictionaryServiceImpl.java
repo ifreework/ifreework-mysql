@@ -52,6 +52,12 @@ public class DictionaryServiceImpl implements DictionaryService {
 		
 		return list;
 	}
+	
+	public List<Dictionary> queryByCodeList(PageData pd){
+		return dictionaryMapper.queryByCodeList(pd);
+	}
+	
+	
 
 	public Dictionary getDictionaryById(String dictionaryId){
 		return dictionaryMapper.getDictionaryById(dictionaryId);

@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="com.ifreework.mapper.weixin.CompanyMapper">
+	<sql id="companyColumns">
+		COMPANY_ID,
+		COMPANY_NAME,
+		CONTACT_USER,
+		PHONE,
+		ADDRESS,
+		LOGO,
+		CREATER,
+		CREATE_TIME
+	</sql>
+
+	<resultMap
+		type="com.ifreework.entity.weixin.Company"
+		id="company">
+		<id column="COMPANY_ID" property="companyId" />
+		<result column="COMPANY_NAME" property="companyName" />
+		<result column="CONTACT_USER" property="contactUser" />
+		<result column="PHONE" property="phone" />
+		<result column="ADDRESS" property="address" />
+		<result column="LOGO" property="logo" />
+		<result column="CREATER" property="creater" />
+		<result column="CREATE_TIME" property="createTime" />
+	</resultMap>
+
+	<select id="queryPageList" parameterType="pd"
+		resultMap="company">
+		select
+		<include refid="companyColumns" />
+		from WEIXIN_COMPANY
+		where 1 = 1
+		<if test="companyName != null and companyName != ''">
+			and COMPANY_NAME like '%' || #{companyName} || '%'
+		</if>
+		order by COMPANY_NAME
+	</select>
+
+	<select id="getCompanyById" parameterType="String"
+		resultMap="company">
+		select
+		<include refid="companyColumns" />
+		from WEIXIN_COMPANY
+		where  COMPANY_ID = #{companyId}
+	</select>
+	
+	<select id="getCompanyByUserId" parameterType="String"
+		resultMap="company">
+		select
+		<include refid="companyColumns" />
+		from WEIXIN_COMPANY
+		where  CREATER = #{userId}
+	</select>
+	
+	<insert id="add"
+		parameterType="com.ifreework.entity.weixin.Company">
+		insert into WEIXIN_COMPANY (
+		<include refid="companyColumns" />
+		)
+		values
+		(
+		#{ companyId,jdbcType=VARCHAR },
+		#{ companyName,jdbcType=VARCHAR },
+		#{ contactUser,jdbcType=VARCHAR },
+		#{ phone,jdbcType=VARCHAR },
+		#{ address,jdbcType=VARCHAR },
+		#{ logo,jdbcType=VARCHAR },
+		#{ creater,jdbcType=VARCHAR },
+		#{ createTime,jdbcType=TIMESTAMP }
+		)
+	</insert>
+
+	<update id="update"
+		parameterType="com.ifreework.entity.weixin.Company">
+		update WEIXIN_COMPANY
+		<trim prefix="SET" suffixOverrides=",">
+			<if test="companyName != null ">
+				COMPANY_NAME = #{companyName},
+			</if>
+			<if test="contactUser != null ">
+				CONTACT_USER = #{contactUser},
+			</if>
+			<if test="phone != null ">
+				PHONE = #{phone},
+			</if>
+			<if test="address != null ">
+				ADDRESS = #{address},
+			</if>
+			<if test="logo != null ">
+				LOGO = #{logo},
+			</if>
+			<if test="creater != null ">
+				CREATER = #{creater},
+			</if>
+			<if test="createTime != null ">
+				CREATE_TIME = #{createTime}
+			</if>
+		</trim>
+		where
+		<if test="companyId != null ">
+			COMPANY_ID = #{companyId}
+		</if>
+	</update>
+	
+	<delete id="delete" parameterType="string">
+		delete from WEIXIN_COMPANY WHERE 
+			ARTICLE_ID = #{companyId}
+	</delete>
+</mapper>

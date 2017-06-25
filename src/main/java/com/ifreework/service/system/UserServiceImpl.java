@@ -32,7 +32,7 @@ import com.ifreework.common.constant.Constant;
 import com.ifreework.common.email.MailSend;
 import com.ifreework.common.email.entity.MailBean;
 import com.ifreework.common.entity.PageData;
-import com.ifreework.common.manager.SysTemConfigManager;
+import com.ifreework.common.manager.SystemConfigManager;
 import com.ifreework.common.manager.UserManager;
 import com.ifreework.common.shiro.realm.ShiroAuthInterface;
 import com.ifreework.entity.system.Config;
@@ -185,7 +185,7 @@ public class UserServiceImpl implements UserService, ShiroAuthInterface {
 			pd.setResult(Constant.FAILED);
 			return pd;
 		}
-		String resetPwd = SysTemConfigManager.get(Config.RESET_PWD);
+		String resetPwd = SystemConfigManager.get(Config.RESET_PWD);
 		resetPwd = StringUtil.isEmpty(resetPwd) ? SecurityUtil.encrypt("1") : SecurityUtil.encrypt(resetPwd);
 		User user = new User();
 		user.setUserId(userId);

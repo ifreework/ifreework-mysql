@@ -200,7 +200,7 @@ system.resource = function(){
 	}
 	
 	function addRoot(){
-		system.main.open("${contextPath}/system/resource/add",{},"添加根节点");
+		system.main.open("${contextPath}/system/resource/add","添加根节点");
 	}
 	
 	return {

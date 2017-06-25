@@ -7,6 +7,7 @@ import java.util.Enumeration;
 import java.util.List;
 import java.util.Random;
 import java.util.StringTokenizer;
+import java.util.UUID;
 import java.util.Vector;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -623,13 +624,9 @@ public class StringUtil {
 		}
 		return dest;
 	}
-
 	
-	public static boolean isNull(String str){
-		return str == null || "".equals(str);
+	public static String uuid() {
+		String uuid = UUID.randomUUID().toString();
+		return uuid.replace("-", "");
 	}
-	public static void main(String[] args) {
-
-	}
-
 }

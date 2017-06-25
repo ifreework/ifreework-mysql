@@ -26,7 +26,7 @@ import com.ifreework.util.StringUtil;
  * @修改时间：2016年9月2日 下午2:52:42    
  * @version 1.0
  */
-@Service("countyService")
+@Service("weixinService")
 public class WeixinServiceImpl implements WeixinService {
 	
 	

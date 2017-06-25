@@ -3,6 +3,9 @@
 <%@ include file="/WEB-INF/jsp/include/head.jsp"%>
 <link rel="stylesheet" href="${ cssPath }/dropzone/dropzone.css"></link>
 <script src="${ jsPath }/bootstrap/dropzone/dropzone.js"></script>
+
+<script src="${ jsPath }/bootstrap/dropzone/dropzone.js"></script>
+
 <script type="text/javascript">
 
 $.namespace("system.attachment");
@@ -56,8 +59,8 @@ $().ready(function(){
 				<div id="dropzone" class="dropzone ">
 				</div>
 		</div>
-		<div class="text-center container-footer">
+	</div>
+	<div class="text-center container-footer">
 			<a class="btn btn-info" href="javascript:void(0);" id="btn-save"><i class="fa fa-save"></i>保存</a>
 		</div>
-	</div>
 </div>

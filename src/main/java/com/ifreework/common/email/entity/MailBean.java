@@ -4,7 +4,7 @@ import java.util.Date;
 
 import javax.mail.BodyPart;
 
-import com.ifreework.common.manager.SysTemConfigManager;
+import com.ifreework.common.manager.SystemConfigManager;
 import com.ifreework.entity.system.Config;
 
 
@@ -183,7 +183,7 @@ public class MailBean {
 			String subject, String content) {
 		this.to = to;
 		this.subject = subject;
-		this.from = SysTemConfigManager.get(Config.SYSTEM_NAME);
+		this.from = SystemConfigManager.get(Config.SYSTEM_NAME);
 		this.content = content;
 		this.cc = "";
 		this.bcc = "";

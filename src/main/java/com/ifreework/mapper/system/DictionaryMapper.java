@@ -7,6 +7,7 @@ import com.ifreework.entity.system.Dictionary;
 
 public interface DictionaryMapper  {
 	public List<Dictionary> queryDictionaryList(PageData pd);
+	public List<Dictionary> queryByCodeList(PageData pd);
 	
 	public Dictionary getMaxDictionaryOrder(String parentId);
 	public Dictionary getDictionaryByIdAndIsLeaf(String dictionaryId);
@@ -17,4 +18,5 @@ public interface DictionaryMapper  {
 	public void add(Dictionary dictionary);
 	public void update(Dictionary dictionary);
 	public void delete(String dictionaryId);
+	
 }

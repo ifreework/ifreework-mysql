@@ -6,7 +6,7 @@
 	<resultMap type="com.ifreework.entity.system.DictionaryType" id="dictionaryType">
 		<id column="DICTIONARY_TYPE_ID" property="dictionaryTypeId"/>
 		<result column="DICTIONARY_TYPE_NAME" property="dictionaryTypeName"/>
-		<result column="DESCRIBE" property="describe"/>
+		<result column="REMARK" property="remark"/>
 	</resultMap>
 
 	<select id="queryDictionaryTypeList" parameterType="pd"
@@ -14,7 +14,7 @@
 		select
 			DICTIONARY_TYPE_ID,
 			DICTIONARY_TYPE_NAME,
-			DESCRIBE
+			REMARK
 		from SYS_DICTIONARY_TYPE
 		<where>
 			<trim prefixOverrides="and">
@@ -32,7 +32,7 @@
 		select
 			DICTIONARY_TYPE_ID,
 			DICTIONARY_TYPE_NAME,
-			DESCRIBE
+			REMARK
 		from SYS_DICTIONARY_TYPE
 		where DICTIONARY_TYPE_ID = #{dictionaryTypeId}
 	</select>
@@ -41,13 +41,13 @@
 		insert into SYS_DICTIONARY_TYPE (
 			DICTIONARY_TYPE_ID,
 			DICTIONARY_TYPE_NAME,
-			DESCRIBE
+			REMARK
 		) 
 		values 
 		(
 			#{ dictionaryTypeId,jdbcType=VARCHAR },
 			#{ dictionaryTypeName,jdbcType=VARCHAR },
-			#{ describe,jdbcType=VARCHAR }
+			#{ remark,jdbcType=VARCHAR }
 		)
 	</insert>
 
@@ -57,8 +57,8 @@
 	        <if test="dictionaryTypeName != null ">  
 	           DICTIONARY_TYPE_NAME = #{dictionaryTypeName},
 	        </if>  
-	        <if test="describe != null ">  
-	           DESCRIBE = #{describe}
+	        <if test="remark != null ">  
+	           REMARK = #{remark}
 	        </if>  
 		</trim>
 			where 

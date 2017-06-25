@@ -27,7 +27,7 @@ system.dictionaryType.edit = function(){
 	     	}
 		}).data('bootstrapValidator');
 		 
-		 systemDictionaryTypeEdit.find('#describe').autosize({ append: "\n" });
+		 systemDictionaryTypeEdit.find('#remark').autosize({ append: "\n" });
 	}
 	
 	function save(){
@@ -99,7 +99,7 @@ $().ready(function(){
                        		<div class="form-group has-feedback row">
                             	<label class="col-xs-2 control-label">描述</label>
                             	<div class="col-xs-10">
-                                       <textarea class="form-control" id="describe" name="describe">${dictionaryType.describe }</textarea>
+                                       <textarea class="form-control" id="remark" name="remark">${dictionaryType.remark }</textarea>
                             	</div>
                             </div>
                         </form>

@@ -53,12 +53,11 @@
 	<!-- 查询节点下最大的排序 -->
 	<select id="getMaxDepartmentOrder" parameterType="string"
 		resultMap="department">
-		SELECT TMP_PAGE.*, ROWNUM ROW_ID FROM (
 		select 
 		<include refid="departmentColumns" />
 	 	from sys_department where 
 		PARENT_ID = #{parentId}
-	 	order by DEPARTMENT_ORDER DESC ) TMP_PAGE WHERE ROWNUM = 1 
+	 	order by DEPARTMENT_ORDER DESC limit 0,1
 	</select>
 	
 	<!-- 查询上级节点是否为子节点 -->

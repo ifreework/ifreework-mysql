@@ -14,7 +14,7 @@ public class Dictionary implements Serializable{
 	private java.lang.String dictionaryName;
 	private java.lang.String dictionaryTypeId;
 	private java.lang.String parentId;
-	private java.lang.String describe;
+	private java.lang.String remark;
 	private java.lang.String status;
 	private java.lang.String isLeaf;
 	private java.lang.Integer orderNum;
@@ -27,6 +27,14 @@ public class Dictionary implements Serializable{
 		this.dictionaryId = value;
 	}
 	
+	public java.lang.String getRemark() {
+		return remark;
+	}
+
+	public void setRemark(java.lang.String remark) {
+		this.remark = remark;
+	}
+
 	public java.lang.String getDictionaryId() {
 		return this.dictionaryId;
 	}
@@ -61,12 +69,6 @@ public class Dictionary implements Serializable{
 		return this.parentId;
 	}	
 	
-	public void setDescribe(java.lang.String value) {
-		this.describe = value;
-	}
-	public java.lang.String getDescribe() {
-		return this.describe;
-	}	
 	
 	
 	

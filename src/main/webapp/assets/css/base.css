@@ -46,9 +46,7 @@ textarea, input[type="text"], input[type="password"], input[type="datetime"], in
 } 
 
 /********************************************** container **********************************************************/
-.container-footer{
-	padding-top: 7px;
-}
+
 
 /********************************************** tab **********************************************************/
 .tab-content{
@@ -540,3 +538,94 @@ textarea, input[type="text"], input[type="password"], input[type="datetime"], in
 	color: #2a6496;
 }
 
+
+/* container-content */
+.container-content {
+    background: none repeat scroll 0 0 #FeFeFe;
+    border-top: 1px solid #CDCDCD;
+    border-left: 1px solid #CDCDCD;
+    border-right: 1px solid #CDCDCD;
+    clear: both;
+    margin-top: 16px;
+    margin-bottom: 16px;
+    position: relative;
+}
+
+.container-content.container-plain {
+	background: transparent;
+	border: none;
+	margin-top: 0;
+	margin-bottom: 0;
+}
+
+.container-title{
+	background-color: #f9f9f9;
+    border-bottom: 1px solid #CDCDCD;
+    height: 36px;
+}
+
+.container-title span.icon {
+	border-right: 1px solid #cdcdcd;
+	padding: 9px 10px 7px 11px;
+	float: left;
+	opacity: .7;
+}
+.container-title span.text {
+    color: #666666;
+	text-shadow: 0 1px 0 #ffffff;
+    float: left;
+    font-size: 12px;
+    font-weight: bold;
+    padding: 12px;
+    line-height: 12px;
+    margin: 0;
+}
+
+.container-content .container-body {
+	padding: 12px 15px 0px 15px;
+	background: #fefefe;
+}
+
+.container-content.container-plain .container-body {
+	padding: 0;
+}
+
+.container-content .container-footer{
+	padding-top: 7px;
+	padding-bottom: 7px;
+	border-bottom: 1px solid #cdcdcd;
+}
+.container-content.container-plain .container-footer {
+	border: 0;
+	padding-bottom: 0px;
+}
+
+
+/*************************************************************/
+.message-thumb {
+    background: none repeat scroll 0 0 #FFFFFF;
+    border: 1px solid #B6BCBF;
+    float: left;
+    margin-right: 10px;
+    margin-top: 5px;
+    padding: 2px;
+    width: 106px;
+}
+.message-thumb img{
+	width: 100px;
+	height:100px;
+}
+
+.message-post .message-title a{
+	color: #000;
+	font-size: 20px;	 
+	line-height: 35px;
+}
+
+.fr{
+	float: right;
+}
+.message-lable a{
+	color: #9B9B9B!important;
+	margin-right: 15px;
+}

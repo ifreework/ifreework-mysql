@@ -1,3 +1,5 @@
+<%@ page language="java" pageEncoding="UTF-8"
+	contentType="text/html; charset=UTF-8"%>
 <%@ include file="/WEB-INF/jsp/include/head.jsp"%>
 <link rel="stylesheet" href="${ cssPath }/main/userImg.css"></link>
 <script src="${ jsPath }/bootstrap/dropzone/dropzone.js"></script>
@@ -201,7 +203,7 @@
 			$('#_img,#_canvas,#img-c').hide();
 
 		};
-	},
+	}
 }());
 </script>
 <div class="container-content" >

@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="com.ifreework.mapper.weixin.ArticleMapper">
+	<sql id="articleColumns">
+		ARTICLE_ID,
+		ARTICLE_TYPE_ID,
+		TITLE,
+		IMAGE,
+		CONTENT,
+		CREATER,
+		CREATE_TIME,
+		PAGE_VIEW
+	</sql>
+
+	<resultMap
+		type="com.ifreework.entity.weixin.Article"
+		id="article">
+		<id column="ARTICLE_ID" property="articleId" />
+		<result column="ARTICLE_TYPE_ID" property="articleTypeId" />
+		<result column="ARTICLE_TYPE_NAME" property="articleTypeName" />
+		<result column="TITLE" property="title" />
+		<result column="IMAGE" property="image" />
+		<result column="CONTENT" property="content" />
+		<result column="CREATER" property="creater" />
+		<result column="CREATE_TIME" property="createTime" />
+		<result column="PAGE_VIEW" property="pageView" />
+	</resultMap>
+
+	<select id="queryPageList" parameterType="pd"
+		resultMap="article">
+		select
+		(select DICTIONARY_NAME from SYS_DICTIONARY 
+			where DICTIONARY_TYPE_ID = 'weixin' 
+			and DICTIONARY_CODE = ARTICLE_TYPE_ID) ARTICLE_TYPE_NAME,
+		<include refid="articleColumns" />
+		from WEIXIN_ARTICLE 
+		where 1 = 1
+		<if test="articleTypeId != null and articleTypeId != ''">
+			and ARTICLE_TYPE_ID = #{articleTypeId}
+		</if>
+		<if test="title != null and title != ''">
+			and TITLE like '%' || #{title} || '%'
+		</if>
+		<if test="creater != null and creater != ''">
+			and CREATER = #{creater}
+		</if>
+		<if test="createTime != null and createTime != ''">
+			and CREATE_TIME = #{createTime}
+		</if>
+		order by CREATE_TIME desc
+	</select>
+
+	<select id="getArticleById" parameterType="String"
+		resultMap="article">
+		select
+		(select DICTIONARY_NAME from SYS_DICTIONARY 
+			where DICTIONARY_TYPE_ID = 'weixin' 
+			and DICTIONARY_CODE = ARTICLE_TYPE_ID) ARTICLE_TYPE_NAME,
+		<include refid="articleColumns" />
+		from WEIXIN_ARTICLE 
+		where  ARTICLE_ID = #{articleId}
+	</select>
+	
+	<insert id="add"
+		parameterType="com.ifreework.entity.weixin.Article">
+		insert into WEIXIN_ARTICLE (
+		<include refid="articleColumns" />
+		)
+		values
+		(
+		#{ articleId,jdbcType=VARCHAR },
+		#{ articleTypeId,jdbcType=VARCHAR },
+		#{ title,jdbcType=VARCHAR },
+		#{ image,jdbcType=VARCHAR },
+		#{ content,jdbcType=VARCHAR },
+		#{ creater,jdbcType=VARCHAR },
+		#{ createTime,jdbcType=TIMESTAMP },
+		#{ pageView,jdbcType=INTEGER }
+		)
+	</insert>
+
+	<update id="update"
+		parameterType="com.ifreework.entity.weixin.Article">
+		update WEIXIN_ARTICLE
+		<trim prefix="SET" suffixOverrides=",">
+			<if test="articleTypeId != null ">
+				ARTICLE_TYPE_ID = #{articleTypeId},
+			</if>
+			<if test="title != null ">
+				TITLE = #{title},
+			</if>
+			<if test="image != null ">
+				IMAGE = #{image},
+			</if>
+			<if test="content != null ">
+				CONTENT = #{content},
+			</if>
+			<if test="creater != null ">
+				CREATER = #{creater},
+			</if>
+			<if test="createTime != null ">
+				CREATE_TIME = #{createTime},
+			</if>
+			<if test="pageView != null ">
+				PAGE_VIEW = #{pageView}
+			</if>
+		</trim>
+		where
+		<if test="articleId != null ">
+			ARTICLE_ID = #{articleId}
+		</if>
+	</update>
+	
+	<delete id="delete" parameterType="string">
+		delete from WEIXIN_ARTICLE WHERE 
+			ARTICLE_ID = #{articleId}
+	</delete>
+</mapper>

@@ -9,7 +9,7 @@ import org.apache.log4j.Logger;
 
 import com.ifreework.common.email.entity.MailAuth;
 import com.ifreework.common.email.entity.MailConfig;
-import com.ifreework.common.manager.SysTemConfigManager;
+import com.ifreework.common.manager.SystemConfigManager;
 import com.ifreework.entity.system.Config;
 
 
@@ -44,14 +44,14 @@ public class MailStore {
 	 * @return 列出方法的返回值列表（如果需要返回值的话）
 	 */
 	public static MailStore getInstanse() {
-		String smtpHost = SysTemConfigManager.get(Config.MAIL_SMTP_HOST);
-		String smtpPort = SysTemConfigManager.get(Config.MAIL_SMTP_PORT);
-		String smtpAuth = SysTemConfigManager.get(Config.MAIL_SMTP_AUTH);
-		String storeProtocol = SysTemConfigManager.get(Config.MAIL_STORE_PROTOCOL);
-		String pop3Host = SysTemConfigManager.get(Config.MAIL_STORE_HOST);
-		String pop3Port = SysTemConfigManager.get(Config.MAIL_STORE_PORT);
-		String userName =  SysTemConfigManager.get(Config.MAIL_USER);
-		String password =  SysTemConfigManager.get(Config.MAIL_PASSWORD);
+		String smtpHost = SystemConfigManager.get(Config.MAIL_SMTP_HOST);
+		String smtpPort = SystemConfigManager.get(Config.MAIL_SMTP_PORT);
+		String smtpAuth = SystemConfigManager.get(Config.MAIL_SMTP_AUTH);
+		String storeProtocol = SystemConfigManager.get(Config.MAIL_STORE_PROTOCOL);
+		String pop3Host = SystemConfigManager.get(Config.MAIL_STORE_HOST);
+		String pop3Port = SystemConfigManager.get(Config.MAIL_STORE_PORT);
+		String userName =  SystemConfigManager.get(Config.MAIL_USER);
+		String password =  SystemConfigManager.get(Config.MAIL_PASSWORD);
 		return new MailStore(new MailConfig(smtpHost,smtpPort, smtpAuth, storeProtocol,
 				pop3Host, pop3Port, new MailAuth( userName, password)));
 	}
@@ -65,12 +65,12 @@ public class MailStore {
 	 * @return 列出方法的返回值列表（如果需要返回值的话）
 	 */
 	public static MailStore getInstanse( MailAuth mailAuth){
-		String smtpHost = SysTemConfigManager.get(Config.MAIL_SMTP_HOST);
-		String smtpPort = SysTemConfigManager.get(Config.MAIL_SMTP_PORT);
-		String smtpAuth = SysTemConfigManager.get(Config.MAIL_SMTP_AUTH);
-		String storeProtocol = SysTemConfigManager.get(Config.MAIL_STORE_PROTOCOL);
-		String pop3Host = SysTemConfigManager.get(Config.MAIL_STORE_HOST);
-		String pop3Port = SysTemConfigManager.get(Config.MAIL_STORE_PORT);
+		String smtpHost = SystemConfigManager.get(Config.MAIL_SMTP_HOST);
+		String smtpPort = SystemConfigManager.get(Config.MAIL_SMTP_PORT);
+		String smtpAuth = SystemConfigManager.get(Config.MAIL_SMTP_AUTH);
+		String storeProtocol = SystemConfigManager.get(Config.MAIL_STORE_PROTOCOL);
+		String pop3Host = SystemConfigManager.get(Config.MAIL_STORE_HOST);
+		String pop3Port = SystemConfigManager.get(Config.MAIL_STORE_PORT);
 		return new MailStore(new MailConfig(smtpHost,smtpPort, smtpAuth, storeProtocol,
 				pop3Host, pop3Port, mailAuth));
 	}

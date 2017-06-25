@@ -6,4 +6,4 @@
 <%@ page isELIgnored="false"%>
 <%@ page import="com.ifreework.common.constant.Constant" %>
 <%@ page import="com.ifreework.entity.system.Config" %>
-<%@ page import="com.ifreework.common.manager.SysTemConfigManager" %>
+<%@ page import="com.ifreework.common.manager.SystemConfigManager" %>

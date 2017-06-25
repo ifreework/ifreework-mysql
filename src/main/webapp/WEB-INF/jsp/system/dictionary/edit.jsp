@@ -111,7 +111,7 @@ $().ready(function(){
                        		<div class="form-group has-feedback row">
                             	<label class="col-xs-2 control-label">其他</label>
                             	<div class="col-xs-10">
-                                       <textarea class="form-control" id="describe" name="describe">${dictionary.describe }</textarea>
+                                       <textarea class="form-control" id="remark" name="remark">${dictionary.remark }</textarea>
                             	</div>
                             </div>
                             

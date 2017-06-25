@@ -11,7 +11,7 @@ import com.ifreework.entity.system.Config;
  * @modifyDate：2017年5月17日 
  * @version 1.0
  */
-public class SysTemConfigManager {
+public class SystemConfigManager {
 
 	/**
 	 * 

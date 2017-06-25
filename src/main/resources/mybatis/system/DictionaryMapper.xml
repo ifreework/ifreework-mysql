@@ -8,7 +8,7 @@
 			DICTIONARY_NAME,
 			DICTIONARY_TYPE_ID,
 			PARENT_ID,
-			DESCRIBE,
+			REMARK,
 			STATUS,
 			IS_LEAF,
 			ORDER_NUM
@@ -20,7 +20,7 @@
 		<result column="DICTIONARY_NAME" property="dictionaryName"/>
 		<result column="DICTIONARY_TYPE_ID" property="dictionaryTypeId"/>
 		<result column="PARENT_ID" property="parentId"/>
-		<result column="DESCRIBE" property="describe"/>
+		<result column="REMARK" property="remark"/>
 		<result column="STATUS" property="status"/>
 		<result column="IS_LEAF" property="isLeaf"/>
 		<result column="ORDER_NUM" property="orderNum"/>
@@ -41,6 +41,29 @@
 				and  PARENT_ID = #{id}
 				</if>
 				
+			</trim>
+		</where>
+		order by ORDER_NUM 
+	</select>
+	
+	
+		<!--  -->
+	<select id="queryByCodeList" parameterType="pd"
+		resultMap="dictionary">
+		select
+		<include refid="dictionaryColumns" />
+		from  SYS_DICTIONARY  
+		<where>
+			<trim prefixOverrides="and">
+				<if test=" dictionaryTypeId != null and  dictionaryTypeId != ''">
+				and  DICTIONARY_TYPE_ID = #{dictionaryTypeId}
+				</if>
+				<if test=" code != null and  code != ''">
+				and  PARENT_ID = (select DICTIONARY_ID from SYS_DICTIONARY where DICTIONARY_CODE = #{code})
+				</if>
+				<if test=" code == null and  code == ''">
+				and  PARENT_ID = '0'
+				</if>
 			</trim>
 		</where>
 		order by ORDER_NUM 
@@ -83,12 +106,11 @@
 	<!-- 查询节点下最大的排序 -->
 	<select id="getMaxDictionaryOrder" parameterType="string"
 		resultMap="dictionary">
-		SELECT TMP_PAGE.*, ROWNUM ROW_ID FROM (
 		select 
 		<include refid="dictionaryColumns" />
 	 	from sys_dictionary where 
 		PARENT_ID = #{parentId}
-	 	order by ORDER_NUM DESC ) TMP_PAGE WHERE ROWNUM = 1 
+	 	order by ORDER_NUM DESC limit 0,1
 	</select>
 	
 	<!-- 查询上级节点是否为子节点 -->
@@ -114,7 +136,7 @@
 			#{ dictionaryName,jdbcType=VARCHAR },
 			#{ dictionaryTypeId,jdbcType=VARCHAR },
 			#{ parentId,jdbcType=VARCHAR },
-			#{ describe,jdbcType=VARCHAR },
+			#{ remark,jdbcType=VARCHAR },
 			#{ status,jdbcType=VARCHAR },
 			#{ isLeaf,jdbcType=VARCHAR },
 			#{ orderNum,jdbcType=INTEGER }
@@ -136,8 +158,8 @@
 	        <if test="parentId != null ">  
 	           PARENT_ID = #{parentId},
 	        </if>  
-	        <if test="describe != null ">  
-	           DESCRIBE = #{describe},
+	        <if test="remark != null ">  
+	           REMARK = #{remark},
 	        </if>  
 	        <if test="status != null ">  
 	           STATUS = #{status},

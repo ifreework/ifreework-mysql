@@ -7,7 +7,7 @@
 <head>
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 <meta charset="utf-8" />
-<title><%=SysTemConfigManager.get(Config.SYSTEM_NAME) %></title>
+<title><%=SystemConfigManager.get(Config.SYSTEM_NAME) %></title>
 <link rel="shortcut icon" href="${ imagePath }/system/favicon.ico"
 	type="image/x-icon" />
 

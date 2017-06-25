@@ -62,12 +62,11 @@
 	<!-- 查询节点下最大的排序 -->
 	<select id="getMaxResourceOrder" parameterType="string"
 		resultMap="resource">
-		SELECT TMP_PAGE.*, ROWNUM ROW_ID FROM (
 		select
 		<include refid="resourceColumns" />
 		from sys_resource where
 		PARENT_ID = #{parentId}
-		order by RESOURCE_ORDER DESC ) TMP_PAGE WHERE ROWNUM = 1
+		order by RESOURCE_ORDER DESC limit 0,1
 	</select>
 
 	<select id="getResourceByPK" parameterType="string" resultMap="resource">

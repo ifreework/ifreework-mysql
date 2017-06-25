@@ -284,14 +284,7 @@ system.main = function(){
 			$("body").hasClass("full-screen") ? ($("body").removeClass("full-screen"), $("#fullscreen-toggler").removeClass("active"), document.exitFullscreen ? document.exitFullscreen() : document.mozCancelFullScreen ? document.mozCancelFullScreen() : document.webkitExitFullscreen && document.webkitExitFullscreen()) : ($("body").addClass("full-screen"), $("#fullscreen-toggler").addClass("active"), n.requestFullscreen ? n.requestFullscreen() : n.mozRequestFullScreen ? n.mozRequestFullScreen() : n.webkitRequestFullscreen ? n.webkitRequestFullscreen() : n.msRequestFullscreen && n.msRequestFullscreen())
 		});
 		$("#refresh-toggler").on("click",function() {//刷新
-			if (historyArray.length == 0) { 
-				window.location.reload(true);
-				return;
-			}
-			var urlObj = historyArray[historyArray.length - 1];
-			urlObj.data = urlObj.data== null ? {} : urlObj.data;
-			openPage(urlObj.url, urlObj.data);
-			return;
+			refresh();
 		});
 		
 		$("#backspace-toggler").on("click",function() {//返回
@@ -300,6 +293,19 @@ system.main = function(){
 		
 	}
 	
+	/**
+	 * 页面刷新
+	 */
+	function refresh(){
+		if (historyArray.length == 0) { 
+			window.location.reload(true);
+			return;
+		}
+		var urlObj = historyArray[historyArray.length - 1];
+		urlObj.data = urlObj.data== null ? {} : urlObj.data;
+		openPage(urlObj.url, urlObj.data);
+		return;
+	}
 	/**
 	 * 返回操作
 	 */
@@ -347,7 +353,9 @@ system.main = function(){
 		history : function() { 
 			history();
 		},
-		
+		refresh : function(){
+			refresh();
+		},
 		/**
 		 * 在pagebody中加载页面内容
 		 * @param url 页面路径

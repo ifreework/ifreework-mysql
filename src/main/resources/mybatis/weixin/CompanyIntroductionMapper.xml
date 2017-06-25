@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ifreework.mapper.weixin.CompanyIntroductionMapper">
+	<sql id="companyIntroductionColumns">
+		INTRODUCTION_ID,
+		COMPANY_ID,
+		TITLE,
+		IMAGE,
+		CONTENT,
+		PAGE_VIEW
+	</sql>
+
+	<resultMap type="com.ifreework.entity.weixin.CompanyIntroduction"
+		id="companyIntroduction">
+		<id column="INTRODUCTION_ID" property="introductionId" />
+		<result column="COMPANY_ID" property="companyId" />
+		<result column="TITLE" property="title" />
+		<result column="IMAGE" property="image" />
+		<result column="CONTENT" property="content" />
+		<result column="PAGE_VIEW" property="pageView" />
+	</resultMap>
+
+	<select id="queryPageList" parameterType="pd" resultMap="companyIntroduction">
+		select
+		<include refid="companyIntroductionColumns" />
+		from WEIXIN_COMPANY_INTRODUCTION where '1' = '1'
+		<if test="companyId != null and companyId != ''">
+			and COMPANY_ID = #{companyId}
+		</if>
+		<if test="title != null and title != ''">
+			and TITLE = #{title}
+		</if>
+	</select>
+
+	<select id="getCompanyIntroductionById" parameterType="String"
+		resultMap="companyIntroduction">
+		select
+		<include refid="companyIntroductionColumns" />
+		from WEIXIN_COMPANY_INTRODUCTION
+		where INTRODUCTION_ID =
+		#{introductionId}
+	</select>
+
+	<insert id="add" parameterType="com.ifreework.entity.weixin.CompanyIntroduction">
+		insert into WEIXIN_COMPANY_INTRODUCTION (
+		<include refid="companyIntroductionColumns" />
+		)
+		values
+		(
+		#{ introductionId,jdbcType=VARCHAR },
+		#{
+		companyId,jdbcType=VARCHAR },
+		#{ title,jdbcType=VARCHAR },
+		#{
+		image,jdbcType=VARCHAR },
+		#{ content,jdbcType=VARCHAR },
+		#{
+		pageView,jdbcType=INTEGER }
+		)
+	</insert>
+
+	<update id="update" parameterType="com.ifreework.entity.weixin.CompanyIntroduction">
+		update WEIXIN_COMPANY_INTRODUCTION
+		<trim prefix="SET" suffixOverrides=",">
+			<if test="companyId != null ">
+				COMPANY_ID = #{companyId},
+			</if>
+			<if test="title != null ">
+				TITLE = #{title},
+			</if>
+			<if test="image != null ">
+				IMAGE = #{image},
+			</if>
+			<if test="content != null ">
+				CONTENT = #{content},
+			</if>
+			<if test="pageView != null ">
+				PAGE_VIEW = #{pageView}
+			</if>
+		</trim>
+		where
+		<if test="introductionId != null ">
+			INTRODUCTION_ID = #{introductionId}
+		</if>
+	</update>
+
+	<delete id="delete" parameterType="string">
+		delete from
+		WEIXIN_COMPANY_INTRODUCTION WHERE
+		INTRODUCTION_ID = #{introductionId}
+	</delete>
+</mapper>

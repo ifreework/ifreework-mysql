@@ -29,7 +29,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.ifreework.common.controller.BaseControllerSupport;
 import com.ifreework.common.entity.PageData;
-import com.ifreework.common.manager.SysTemConfigManager;
+import com.ifreework.common.manager.SystemConfigManager;
 import com.ifreework.common.manager.UserManager;
 import com.ifreework.entity.system.Config;
 import com.ifreework.entity.system.User;
@@ -76,7 +76,7 @@ public class LoginController extends BaseControllerSupport {
 	public ModelAndView gotoIndexView() {
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = this.getPageData();
-		String sysName = SysTemConfigManager.get(Config.SYSTEM_NAME);
+		String sysName = SystemConfigManager.get(Config.SYSTEM_NAME);
 		pd.put("SYSNAME", sysName); // 读取系统名称
 		mv.addObject("pd", pd);
 		User user = UserManager.getUser();
@@ -116,7 +116,7 @@ public class LoginController extends BaseControllerSupport {
 		
 		List menuList = userService.queryMenuByUserId();
 		
-		String sysName = SysTemConfigManager.get(Config.SYSTEM_NAME);
+		String sysName = SystemConfigManager.get(Config.SYSTEM_NAME);
 		pd.put("SYSNAME", sysName); // 读取系统名称
 		
 		mv.addObject("user",user);

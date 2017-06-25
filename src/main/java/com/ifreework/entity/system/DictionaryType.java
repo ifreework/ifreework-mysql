@@ -16,7 +16,7 @@ public class DictionaryType implements Serializable{
 	//columns START
 	private java.lang.String dictionaryTypeId;
 	private java.lang.String dictionaryTypeName;
-	private java.lang.String describe;
+	private java.lang.String remark;
 	//columns END
 
 	public void setDictionaryTypeId(java.lang.String value) {
@@ -34,14 +34,16 @@ public class DictionaryType implements Serializable{
 	}
 	public java.lang.String getDictionaryTypeName() {
 		return this.dictionaryTypeName;
+	}
+
+	public java.lang.String getRemark() {
+		return remark;
+	}
+
+	public void setRemark(java.lang.String remark) {
+		this.remark = remark;
 	}	
 	
-	public void setDescribe(java.lang.String value) {
-		this.describe = value;
-	}
-	public java.lang.String getDescribe() {
-		return this.describe;
-	}	
 }
 
 
