@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="com.ifreework.mapper.weixin.ProductTypeMapper">
+	<sql id="productTypeColumns">
+			PRODUCT_TYPE_ID,
+			PARENT_ID,
+			IS_LEAF,
+			PRODUCT_TYPE_NAME,
+			REMARK,
+			COMPANY_ID,
+			STATUS
+	</sql>
+
+	<resultMap
+		type="com.ifreework.entity.weixin.ProductType"
+		id="productType">
+		<id column="PRODUCT_TYPE_ID" property="productTypeId"/>
+		<result column="PARENT_ID" property="parentId"/>
+		<result column="IS_LEAF" property="isLeaf"/>
+		<result column="PRODUCT_TYPE_NAME" property="productTypeName"/>
+		<result column="REMARK" property="remark"/>
+		<result column="COMPANY_ID" property="companyId"/>
+		<result column="STATUS" property="status"/>
+	</resultMap>
+
+	<select id="queryPageList" parameterType="pd"
+		resultMap="productType">
+		select
+		<include refid="productTypeColumns" />
+		from  WEIXIN_PRODUCT_TYPE  where '1' = '1'
+			<if test=" parentId != null and  parentId != ''">
+			and  PARENT_ID = #{parentId}
+			</if>
+			<if test=" companyId != null and  companyId != ''">
+			and  COMPANY_ID = #{companyId}
+			</if>
+			<if test=" isLeaf != null and  isLeaf != ''">
+			and  IS_LEAF = #{isLeaf}
+			</if>
+	</select>
+
+	<select id="getProductTypeById" parameterType="String"
+		resultMap="productType">
+		select
+		<include refid="productTypeColumns" />
+		from WEIXIN_PRODUCT_TYPE 
+		where  PRODUCT_TYPE_ID = #{productTypeId}
+	</select>
+	
+	<insert id="add"
+		parameterType="com.ifreework.entity.weixin.ProductType">
+		insert into WEIXIN_PRODUCT_TYPE (<include refid="productTypeColumns"/>) 
+		values 
+		(
+			#{ productTypeId,jdbcType=VARCHAR },
+			#{ parentId,jdbcType=VARCHAR },
+			#{ isLeaf,jdbcType=VARCHAR },
+			#{ productTypeName,jdbcType=VARCHAR },
+			#{ remark,jdbcType=VARCHAR },
+			#{ companyId,jdbcType=VARCHAR },
+			#{ status,jdbcType=VARCHAR }
+		)
+	</insert>
+
+	<update id="update"
+		parameterType="com.ifreework.entity.weixin.ProductType">
+		update  WEIXIN_PRODUCT_TYPE
+		<trim prefix="SET" suffixOverrides=",">  
+	        <if test="parentId != null ">  
+	           PARENT_ID = #{parentId},
+	        </if>  
+	        <if test="isLeaf != null ">  
+	           IS_LEAF = #{isLeaf},
+	        </if>  
+	        <if test="productTypeName != null ">  
+	           PRODUCT_TYPE_NAME = #{productTypeName},
+	        </if>  
+	        <if test="remark != null ">  
+	           REMARK = #{remark},
+	        </if>  
+	        <if test="companyId != null ">  
+	           COMPANY_ID = #{companyId},
+	        </if>  
+	        <if test="status != null ">  
+	           STATUS = #{status}
+	        </if>  
+		</trim>
+			where 
+	        <if test="productTypeId != null ">  
+	           PRODUCT_TYPE_ID = #{productTypeId}
+	        </if>  
+	</update>
+</mapper>

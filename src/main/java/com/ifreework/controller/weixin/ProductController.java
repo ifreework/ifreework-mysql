@@ -9,11 +9,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.ifreework.common.controller.BaseControllerSupport;
 import com.ifreework.common.entity.PageData;
-import com.ifreework.common.manager.UserManager;
-import com.ifreework.entity.weixin.Company;
-import com.ifreework.entity.weixin.CompanyIntroduction;
-import com.ifreework.service.weixin.CompanyIntroductionService;
-import com.ifreework.service.weixin.CompanyService;
+import com.ifreework.entity.weixin.Product;
+import com.ifreework.service.weixin.ProductService;
 import com.ifreework.util.StringUtil;
 
 /**
@@ -25,42 +22,39 @@ import com.ifreework.util.StringUtil;
  * @modifyDate：2017年6月22日 @version 1.0
  */
 @Controller
-@RequestMapping(value = "/weixin/companyIntroduction")
-public class CompanyIntroductionController extends BaseControllerSupport {
-	
+@RequestMapping(value = "/weixin/product")
+public class ProductController extends BaseControllerSupport {
 	@Autowired
-	private CompanyIntroductionService companyIntroductionService;
-	
+	private ProductService productService;
 
 	@RequestMapping()
 	public ModelAndView gotoView() {
 		ModelAndView mv = this.getModelAndView();
-		mv.addObject("companyId", UserManager.getUser().getDeptId());
-		mv.setViewName("/weixin/companyIntroduction/list");
+		mv.setViewName("/weixin/product/list");
 		return mv;
 	}
 
 	@RequestMapping("/add")
 	public ModelAndView add() {
 		ModelAndView mv = this.getModelAndView();
-		mv.setViewName("/weixin/companyIntroduction/edit");
+		mv.setViewName("/weixin/product/edit");
 		return mv;
 	}
 
 	@RequestMapping(value = "/edit")
 	public ModelAndView edit() {
 		ModelAndView mv = this.getModelAndView();
-		String introductionId = this.getPageData().getString("introductionId");
-		CompanyIntroduction companyIntroduction = companyIntroductionService.getCompanyIntroductionById(introductionId);
-		mv.addObject("companyIntroduction", companyIntroduction);
-		mv.setViewName("/weixin/companyIntroduction/edit");
+		String productId = this.getPageData().getString("productId");
+		Product product = productService.getProductById(productId);
+		mv.addObject("product", product);
+		mv.setViewName("/weixin/product/edit");
 		return mv;
 	}
 
 	@RequestMapping("/img")
 	public ModelAndView img() {
 		ModelAndView mv = this.getModelAndView();
-		mv.setViewName("/weixin/companyIntroduction/img");
+		mv.setViewName("/weixin/product/img");
 		return mv;
 	}
 
@@ -68,18 +62,17 @@ public class CompanyIntroductionController extends BaseControllerSupport {
 	@ResponseBody
 	public PageData query() {
 		PageData pd = this.getPageData();
-		return companyIntroductionService.queryPageList(pd);
+		return productService.queryPageList(pd);
 	}
 
 	@RequestMapping(value = "/save")
 	@ResponseBody
-	public PageData save(@ModelAttribute("companyIntroduction") CompanyIntroduction companyIntroduction) {
+	public PageData save(@ModelAttribute("product") Product product) {
 		PageData pd;
-		if (StringUtil.isEmpty(companyIntroduction.getIntroductionId())) {
-			companyIntroduction.setCompanyId(UserManager.getUser().getDeptId());
-			pd = companyIntroductionService.add(companyIntroduction);
+		if (StringUtil.isEmpty(product.getProductId())) {
+			pd = productService.add(product);
 		} else {
-			pd = companyIntroductionService.update(companyIntroduction);
+			pd = productService.update(product);
 		}
 		return pd;
 	}
@@ -88,7 +81,7 @@ public class CompanyIntroductionController extends BaseControllerSupport {
 	@ResponseBody
 	public PageData delete() {
 		PageData pd = this.getPageData();
-		pd = companyIntroductionService.delete(pd.getString("introductionId"));
+		pd = productService.delete(pd.getString("productId"));
 		return pd;
 	}
 

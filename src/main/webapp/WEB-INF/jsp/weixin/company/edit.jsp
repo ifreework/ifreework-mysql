@@ -65,7 +65,7 @@ weixin.company.edit = function(){
 					callback : function(){
 						var file = weixin.article.img.getImage();
 						console.log(file);
-						weixinCompanyEdit.find("#img-upload").html('<img alt="图片加载失败" src="' + file.data + '" style="width: 50px;">');
+						weixinCompanyEdit.find("#img-upload").html('<img alt="图片加载失败" src="' + file.data + '">');
 						weixinCompanyEdit.find("#logo").val(file.data);
 					}
 				}

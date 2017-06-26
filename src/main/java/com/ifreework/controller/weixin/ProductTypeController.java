@@ -1,5 +1,7 @@
 package com.ifreework.controller.weixin;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -10,10 +12,8 @@ import org.springframework.web.servlet.ModelAndView;
 import com.ifreework.common.controller.BaseControllerSupport;
 import com.ifreework.common.entity.PageData;
 import com.ifreework.common.manager.UserManager;
-import com.ifreework.entity.weixin.Company;
-import com.ifreework.entity.weixin.CompanyIntroduction;
-import com.ifreework.service.weixin.CompanyIntroductionService;
-import com.ifreework.service.weixin.CompanyService;
+import com.ifreework.entity.weixin.ProductType;
+import com.ifreework.service.weixin.ProductTypeService;
 import com.ifreework.util.StringUtil;
 
 /**
@@ -25,42 +25,44 @@ import com.ifreework.util.StringUtil;
  * @modifyDate：2017年6月22日 @version 1.0
  */
 @Controller
-@RequestMapping(value = "/weixin/companyIntroduction")
-public class CompanyIntroductionController extends BaseControllerSupport {
-	
+@RequestMapping(value = "/weixin/productType")
+public class ProductTypeController extends BaseControllerSupport {
 	@Autowired
-	private CompanyIntroductionService companyIntroductionService;
-	
+	private ProductTypeService productTypeService;
 
 	@RequestMapping()
 	public ModelAndView gotoView() {
 		ModelAndView mv = this.getModelAndView();
 		mv.addObject("companyId", UserManager.getUser().getDeptId());
-		mv.setViewName("/weixin/companyIntroduction/list");
+		mv.setViewName("/weixin/productType/list");
 		return mv;
 	}
 
 	@RequestMapping("/add")
 	public ModelAndView add() {
 		ModelAndView mv = this.getModelAndView();
-		mv.setViewName("/weixin/companyIntroduction/edit");
+		String productTypeId = this.getPageData().getString("productTypeId");
+		productTypeId = StringUtil.isEmpty(productTypeId) ? "productTypeId" : productTypeId;
+		ProductType productType = new ProductType();
+		productType.setParentId(productTypeId);
+		mv.setViewName("/weixin/productType/edit");
 		return mv;
 	}
 
 	@RequestMapping(value = "/edit")
 	public ModelAndView edit() {
 		ModelAndView mv = this.getModelAndView();
-		String introductionId = this.getPageData().getString("introductionId");
-		CompanyIntroduction companyIntroduction = companyIntroductionService.getCompanyIntroductionById(introductionId);
-		mv.addObject("companyIntroduction", companyIntroduction);
-		mv.setViewName("/weixin/companyIntroduction/edit");
+		String productTypeId = this.getPageData().getString("productTypeId");
+		ProductType productType = productTypeService.getProductTypeById(productTypeId);
+		mv.addObject("productType", productType);
+		mv.setViewName("/weixin/productType/edit");
 		return mv;
 	}
 
 	@RequestMapping("/img")
 	public ModelAndView img() {
 		ModelAndView mv = this.getModelAndView();
-		mv.setViewName("/weixin/companyIntroduction/img");
+		mv.setViewName("/weixin/productType/img");
 		return mv;
 	}
 
@@ -68,18 +70,25 @@ public class CompanyIntroductionController extends BaseControllerSupport {
 	@ResponseBody
 	public PageData query() {
 		PageData pd = this.getPageData();
-		return companyIntroductionService.queryPageList(pd);
+		return productTypeService.queryPageList(pd);
 	}
 
+	@RequestMapping(value = "/queryList")
+	@ResponseBody
+	public List<ProductType> queryList() {
+		PageData pd = this.getPageData();
+		return productTypeService.queryList(pd);
+	}
+	
+	
 	@RequestMapping(value = "/save")
 	@ResponseBody
-	public PageData save(@ModelAttribute("companyIntroduction") CompanyIntroduction companyIntroduction) {
+	public PageData save(@ModelAttribute("productType") ProductType productType) {
 		PageData pd;
-		if (StringUtil.isEmpty(companyIntroduction.getIntroductionId())) {
-			companyIntroduction.setCompanyId(UserManager.getUser().getDeptId());
-			pd = companyIntroductionService.add(companyIntroduction);
+		if (StringUtil.isEmpty(productType.getProductTypeId())) {
+			pd = productTypeService.add(productType);
 		} else {
-			pd = companyIntroductionService.update(companyIntroduction);
+			pd = productTypeService.update(productType);
 		}
 		return pd;
 	}
@@ -88,7 +97,7 @@ public class CompanyIntroductionController extends BaseControllerSupport {
 	@ResponseBody
 	public PageData delete() {
 		PageData pd = this.getPageData();
-		pd = companyIntroductionService.delete(pd.getString("introductionId"));
+		pd = productTypeService.delete(pd.getString("productTypeId"));
 		return pd;
 	}
 

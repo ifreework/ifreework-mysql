@@ -6,61 +6,61 @@
 
 
 <script type="text/javascript">
-$.namespace("weixin.article.edit");
-weixin.article.edit = function(){
-	var weixinArticleEdit ,
+$.namespace("weixin.product.edit");
+weixin.product.edit = function(){
+	var weixinProductEdit ,
 		dropzone,
 		bootstrapValidator ;
 	
 	function initValidator(){
-		 bootstrapValidator = weixinArticleEdit.find("#saveForm").bootstrapValidator({
+		 bootstrapValidator = weixinProductEdit.find("#saveForm").bootstrapValidator({
 	     	fields: {
-	     		title: {
+	     		productName: {
 	                validators: {
 	                    notEmpty: {
-	                        message: '请填写文章标题'
+	                        message: '请输入产品名称'
 	                    }
 	                }
 	            },
-	            articleTypeId: {
+	            productTypeId: {
 	                validators: {
 	                    notEmpty: {
-	                        message: '请选择文章分类'
+	                        message: '请选择产品分类'
 	                    }
 	                }
 	            },
-	            tel: {
+	            price: {
 	                validators: {
-	                    phone:{
+	                	numeric: {
 	                    }
 	                }
 	            }
 	     	}
 		}).data('bootstrapValidator');
 		 
-		 weixinArticleEdit.find('#remarks').autosize({ append: "\n" });
+		 weixinProductEdit.find('#remarks').autosize({ append: "\n" });
 	}
 	
 	
 	function initSelect2(){
-		weixinArticleEdit.find("#articleTypeId").select2({
-			placeholder: "选择文章分类",
+		weixinProductEdit.find("#productTypeId").select2({
+			placeholder: "选择产品分类",
+			minimumResultsForSearch: Infinity,
 	        allowClear: true,
 			ajax: {
-			    url: "${ contextPath }/system/dictionary/queryByCodeList",
+			    url: "${ contextPath }/weixin/productType/queryList",
 			    delay: 250,
 			    minimumResultsForSearch: Infinity,
 			    dataType: 'json',
 				data: function (params) {
 				    return {
-				    	dictionaryTypeId: "weixin", 
-				    	code: "article"
+				    	isLeaf: "1"
 				    };
 				},
 			    processResults: function (data, params) {
 			    	for(var i= 0 ;i < data.length;i++ ){
-			    		data[i].id=data[i].dictionaryCode
-			    		data[i].text=data[i].dictionaryName
+			    		data[i].id=data[i].productTypeId
+			    		data[i].text=data[i].productTypeName
 			    	}
 	                return {
 	                   results: data
@@ -75,12 +75,12 @@ weixin.article.edit = function(){
 	function save(){
     	bootstrapValidator.validate();
     	if(bootstrapValidator.isValid()){
-    		var content = weixinArticleEdit.find("#summernote").summernote("code");
+    		var content = weixinProductEdit.find("#summernote").summernote("code");
     		
-    		var data = weixinArticleEdit.find("#saveForm").serializeJson();
+    		var data = weixinProductEdit.find("#saveForm").serializeJson();
     		data.content = content;
     		var opt = {
-    				url : "${ contextPath }/weixin/article/save",
+    				url : "${ contextPath }/weixin/product/save",
     				data:data,
     				success:function(param){
     					if(param.result === SUCCESS){
@@ -98,7 +98,7 @@ weixin.article.edit = function(){
 	
 	function openDialog(){
 		var dialog = bootbox.dialog({
-			id:"weixinArticleEditDialog",
+			id:"weixinProductEditDialog",
 			title: "图像上传",
 			width:700,
 			loadUrl: "${contextPath}/weixin/article/img",
@@ -109,8 +109,8 @@ weixin.article.edit = function(){
 					callback : function(){
 						var file = weixin.article.img.getImage();
 						console.log(file);
-						weixinArticleEdit.find("#img-upload").html('<img alt="图片加载失败" src="' + file.data + '">');
-						weixinArticleEdit.find("#image").val(file.data);
+						weixinProductEdit.find("#img-upload").html('<img alt="图片加载失败" src="' + file.data + '">');
+						weixinProductEdit.find("#image").val(file.data);
 					}
 				}
 			}
@@ -119,21 +119,21 @@ weixin.article.edit = function(){
 	
 	return {
 		init: function(){
-			weixinArticleEdit = $("#weixin-article-edit");
+			weixinProductEdit = $("#weixin-product-edit");
 			initValidator();
 			initSelect2();
-			weixinArticleEdit.find('#summernote').summernote({ minHeight: 300 });
-			weixinArticleEdit.find("#img-upload").on("click",openDialog);
-			weixinArticleEdit.find("#btn-save").on("click",save);
+			weixinProductEdit.find('#summernote').summernote({ minHeight: 300 });
+			weixinProductEdit.find("#img-upload").on("click",openDialog);
+			weixinProductEdit.find("#btn-save").on("click",save);
 		}
 	}
 }();
 
 $().ready(function(){
-	weixin.article.edit.init();
+	weixin.product.edit.init();
 });
 </script>
-<div class="container-content no-margin" id="weixin-article-edit">
+<div class="container-content no-margin" id="weixin-product-edit">
 	<div class="container-title">
 		<span class="icon"><i class="fa fa-book"></i></span>
          <span class="text">文章发布</span>
@@ -143,17 +143,17 @@ $().ready(function(){
            <div class="col-lg-12 col-sm-12 col-xs-12">
                          <form id="saveForm" method="post" class="form-horizontal">
                             <div class="form-group has-feedback row">
-                            	<label class="col-xs-1 control-label">标题</label>
+                            	<label class="col-xs-1 control-label">产品名称</label>
                             	<div class="col-xs-11">
-	                                    <input type="text" class="form-control" name="title" placeholder="文章标题" value="${article.title }">
+	                                    <input type="text" class="form-control" name="productName" placeholder="产品名称" value="${product.productName }">
                             	</div>
                                
                             </div>
                             
-                            <div class="form-group has-feedback row">
-                            	<label class="col-xs-1 control-label">分类</label>
+                             <div class="form-group has-feedback row">
+                            	<label class="col-xs-1 control-label">产品分类</label>
                             	<div class="col-xs-11">
-	                            	<select class="form-control" name="articleTypeId" id="articleTypeId" >
+	                            	<select  name="productTypeId" id="productTypeId" style="width: 100%;">
 	                            	<c:if test="${article.articleTypeId != null && article.articleTypeId != '' }">
 	                            	<option value="${article.articleTypeId}">${article.articleTypeName}</option>
 	                            	</c:if>
@@ -163,14 +163,29 @@ $().ready(function(){
                             </div>
                             
                             <div class="form-group has-feedback row">
+                            	<label class="col-xs-1 control-label">规格型号</label>
+                            	<div class="col-xs-11">
+	                                    <input type="text" class="form-control" name="specificationModel" placeholder="规格型号" value="${product.specificationModel }">
+                            	</div>
+                            </div>
+                            
+                            <div class="form-group has-feedback row">
+                            	<label class="col-xs-1 control-label">产品价格(元)</label>
+                            	<div class="col-xs-11">
+	                                    <input type="text" class="form-control" name="price" placeholder="产品价格" value="${product.price }">
+                            	</div>
+                               
+                            </div>
+                            
+                            <div class="form-group has-feedback row">
                             	<label class="col-xs-1 control-label">配图</label>
                             	<div class="col-xs-11">
                             		<span id="img-upload" style="cursor: pointer;">
-                            		<c:if test="${article.image == null || article.image == '' }">
+                            		<c:if test="${product.image == null || product.image == '' }">
                             			图片上传
                             		</c:if>
-                            		<c:if test="${article.image != null && article.image != '' }">
-                            			<img alt="图片加载失败" src="${article.image}" style="width: 50px;">
+                            		<c:if test="${product.image != null && product.image != '' }">
+                            			<img alt="图片加载失败" src="${product.image}" style="width: 50px;">
                             		</c:if>
                             		</span>
 									<input type="hidden" name="image" id="image">
@@ -180,11 +195,10 @@ $().ready(function(){
                             <div class="form-group has-feedback row">
                             	<label class="col-xs-1 control-label"></label>
                             	<div class="col-xs-11">
-                            		<div id="summernote">${article.content }</div>
+                            		<div id="summernote">${product.content }</div>
                             	</div>
                             </div>
-                            
-                            <input type="hidden" id="articleId" name="articleId" value="${article.articleId }">
+                            <input type="hidden" id="productId" name="productId" value="${product.productId }">
                         </form>
                 </div>
             </div>

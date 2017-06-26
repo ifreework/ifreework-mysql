@@ -19,7 +19,7 @@ weixin.companyIntroduction = function(){
 			ajax:{
 				url:"${contextPath}/weixin/companyIntroduction/query",
 				data: function ( d ) {
-		      		return $.extend( {companyId:'${company.companyId}'}, d, weixincompanyIntroduction.find("#queryForm").serializeJson());
+		      		return $.extend( {companyId:'${companyId}'}, d, weixincompanyIntroduction.find("#queryForm").serializeJson());
 			    }
 			},
 			
@@ -34,9 +34,9 @@ weixin.companyIntroduction = function(){
 		                        '<div class="message-post"> ' +
 					                '<span class="message-title"><a href="javascript:void(0)" class="show-companyIntroduction">' + row.title + '</a></span>' +
 					                '<p class="message-lable">' + 
-					                	'<a href="javascript:void(0)">阅读(' + row.pageView + ')</a>' +
-					                	'<a href="javascript:void(0)" class="btn-edit" data-introductionid="' + row.introductionId + '">编辑</a>' +
-					                	'<a href="javascript:void(0)" class="btn-delete" data-introductionid="' + row.introductionId + '">删除</a>' +
+					                	'<a href="javascript:void(0)" class="hide">阅读(' + row.pageView + ')</a>' +
+					                	'<a href="javascript:void(0)" class="btn-edit hide" data-introductionid="' + row.introductionId + '">编辑</a>' +
+					                	'<a href="javascript:void(0)" class="btn-delete hide" data-introductionid="' + row.introductionId + '">删除</a>' +
 					                '</p>' +
 			                  	'</div>';
 	        		return html;
@@ -129,13 +129,15 @@ $().ready(function(){
 </script>
 <div class="container-content container-plain" id="weixin-companyIntroduction">
 	<div class="container-body">
-		<div id="edit-title" style="display: ${company == null ? 'block' :'none' }">
+		<div id="edit-title" style="display: ${companyId == null ? 'block' :'none' }">
 			<div class="text-center margin-20">您尚未创建自己的工作室，先创建工作室后再进行操作。</div>
 		</div>
-		<div class="table-toolbar" style="display: ${company == null ? 'none' :'block' }">
+		<div class="table-toolbar" style="display: ${companyId == null ? 'none' :'block' }">
 			<a id="add" class="btn btn-sky" href="javascript:void(0);"><i class="fa fa-plus"></i> 添加公司介绍</a>
 		</div>
-		<table class="table table-bordered table-hover" id="companyIntroductionTab" style=" ${company == null ? 'display:none' :'' }">
+		<c:if test="${companyId != null && companyId != '' }">
+		<table class="table table-bordered table-hover table-message" id="companyIntroductionTab">
 		</table>
+		</c:if>
 	</div>
 </div>

@@ -63,7 +63,7 @@ weixin.companyIntroduction.edit = function(){
 					callback : function(){
 						var file = weixin.article.img.getImage();
 						console.log(file);
-						weixinCompanyIntroductionEdit.find("#img-upload").html('<img alt="图片加载失败" src="' + file.data + '" style="width: 50px;">');
+						weixinCompanyIntroductionEdit.find("#img-upload").html('<img alt="图片加载失败" src="' + file.data + '">');
 						weixinCompanyIntroductionEdit.find("#image").val(file.data);
 					}
 				}

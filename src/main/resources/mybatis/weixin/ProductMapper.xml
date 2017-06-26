@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ifreework.mapper.weixin.ProductMapper">
+	<sql id="productColumns">
+		PRODUCT_ID,
+		PRODUCT_TYPE_ID,
+		PRODUCT_NAME,
+		SPECIFICATION_MODEL,
+		IMAGE,
+		CONTENT,
+		PAGE_VIEW,
+		PRICE,
+		TEXT1,
+		TEXT2,
+		TEXT3,
+		TEXT4,
+		TEXT5,
+		TEXT6,
+		TEXT7,
+		TEXT8,
+		TEXT9,
+		TEXT10
+	</sql>
+
+	<resultMap type="com.ifreework.entity.weixin.Product" id="product">
+		<id column="PRODUCT_ID" property="productId" />
+		<result column="PRODUCT_TYPE_ID" property="productTypeId" />
+		<result column="PRODUCT_TYPE_NAME" property="productTypeName" />
+		<result column="PRODUCT_NAME" property="productName" />
+		<result column="SPECIFICATION_MODEL" property="specificationModel" />
+		<result column="IMAGE" property="image" />
+		<result column="CONTENT" property="content" />
+		<result column="PAGE_VIEW" property="pageView" />
+		<result column="PRICE" property="price" />
+		<result column="TEXT1" property="text1" />
+		<result column="TEXT2" property="text2" />
+		<result column="TEXT3" property="text3" />
+		<result column="TEXT4" property="text4" />
+		<result column="TEXT5" property="text5" />
+		<result column="TEXT6" property="text6" />
+		<result column="TEXT7" property="text7" />
+		<result column="TEXT8" property="text8" />
+		<result column="TEXT9" property="text9" />
+		<result column="TEXT10" property="text10" />
+	</resultMap>
+
+	<select id="queryPageList" parameterType="pd" resultMap="product">
+		select
+		(select PRODUCT_TYPE_NAME from WEIXIN_PRODUCT_TYPE T WHERE T.PRODUCT_TYPE_ID = WEIXIN_PRODUCT.PRODUCT_TYPE_ID) PRODUCT_TYPE_NAME,
+		<include refid="productColumns" />
+		from WEIXIN_PRODUCT
+		where 1 = 1
+		<if test=" productTypeId != null and  productTypeId != ''">
+			and PRODUCT_TYPE_ID = #{productTypeId}
+		</if>
+		<if test=" productName != null and  productName != ''">
+			and PRODUCT_NAME like '%' || #{productName} || '%'
+		</if>
+	</select>
+
+	<select id="getProductById" parameterType="String" resultMap="product">
+		select
+		(select PRODUCT_TYPE_NAME from WEIXIN_PRODUCT_TYPE T WHERE T.PRODUCT_TYPE_ID = WEIXIN_PRODUCT.PRODUCT_TYPE_ID) PRODUCT_TYPE_NAME,
+		<include refid="productColumns" />
+		from WEIXIN_PRODUCT
+		where PRODUCT_ID = #{productId}
+	</select>
+
+	<insert id="add" parameterType="com.ifreework.entity.weixin.Product">
+		insert into WEIXIN_PRODUCT (<include refid="productColumns"/>) 
+		values 
+		(
+			#{ productId,jdbcType=VARCHAR },
+			#{ productTypeId,jdbcType=VARCHAR },
+			#{ productName,jdbcType=VARCHAR },
+			#{ specificationModel,jdbcType=VARCHAR },
+			#{ image,jdbcType=VARCHAR },
+			#{ content,jdbcType=VARCHAR },
+			#{ pageView,jdbcType=INTEGER },
+			#{ price,jdbcType=FLOAT },
+			#{ text1,jdbcType=VARCHAR },
+			#{ text2,jdbcType=VARCHAR },
+			#{ text3,jdbcType=VARCHAR },
+			#{ text4,jdbcType=VARCHAR },
+			#{ text5,jdbcType=VARCHAR },
+			#{ text6,jdbcType=VARCHAR },
+			#{ text7,jdbcType=VARCHAR },
+			#{ text8,jdbcType=VARCHAR },
+			#{ text9,jdbcType=VARCHAR },
+			#{ text10,jdbcType=VARCHAR }
+		)
+	</insert>
+
+	<update id="update" parameterType="com.ifreework.entity.weixin.Product">
+		update  WEIXIN_PRODUCT
+		<trim prefix="SET" suffixOverrides=",">  
+	        <if test="productTypeId != null ">  
+	           PRODUCT_TYPE_ID = #{productTypeId},
+	        </if>  
+	        <if test="productName != null ">  
+	           PRODUCT_NAME = #{productName},
+	        </if>  
+	        <if test="specificationModel != null ">  
+	           SPECIFICATION_MODEL = #{specificationModel},
+	        </if>  
+	        <if test="image != null ">  
+	           IMAGE = #{image},
+	        </if>  
+	        <if test="content != null ">  
+	           CONTENT = #{content},
+	        </if>  
+	        <if test="pageView != null ">  
+	           PAGE_VIEW = #{pageView},
+	        </if>  
+	        <if test="price != null ">  
+	           PRICE = #{price},
+	        </if>  
+	        <if test="text1 != null ">  
+	           TEXT1 = #{text1},
+	        </if>  
+	        <if test="text2 != null ">  
+	           TEXT2 = #{text2},
+	        </if>  
+	        <if test="text3 != null ">  
+	           TEXT3 = #{text3},
+	        </if>  
+	        <if test="text4 != null ">  
+	           TEXT4 = #{text4},
+	        </if>  
+	        <if test="text5 != null ">  
+	           TEXT5 = #{text5},
+	        </if>  
+	        <if test="text6 != null ">  
+	           TEXT6 = #{text6},
+	        </if>  
+	        <if test="text7 != null ">  
+	           TEXT7 = #{text7},
+	        </if>  
+	        <if test="text8 != null ">  
+	           TEXT8 = #{text8},
+	        </if>  
+	        <if test="text9 != null ">  
+	           TEXT9 = #{text9},
+	        </if>  
+	        <if test="text10 != null ">  
+	           TEXT10 = #{text10}
+	        </if>  
+		</trim>
+			where 
+	        <if test="productId != null ">  
+	           PRODUCT_ID = #{productId}
+	        </if>  
+	</update>
+
+	<delete id="delete" parameterType="string">
+		delete from WEIXIN_PRODUCT
+		WHERE
+		PRODUCT_ID = #{productId}
+	</delete>
+</mapper>

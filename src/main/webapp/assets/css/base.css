@@ -558,6 +558,11 @@ textarea, input[type="text"], input[type="password"], input[type="datetime"], in
 	margin-bottom: 0;
 }
 
+.modal-dialog  .container-content.container-plain{
+	margin-top: 16px;
+    margin-bottom: 16px;
+}
+
 .container-title{
 	background-color: #f9f9f9;
     border-bottom: 1px solid #CDCDCD;
@@ -586,9 +591,6 @@ textarea, input[type="text"], input[type="password"], input[type="datetime"], in
 	background: #fefefe;
 }
 
-.container-content.container-plain .container-body {
-	padding: 0;
-}
 
 .container-content .container-footer{
 	padding-top: 7px;
@@ -597,7 +599,6 @@ textarea, input[type="text"], input[type="password"], input[type="datetime"], in
 }
 .container-content.container-plain .container-footer {
 	border: 0;
-	padding-bottom: 0px;
 }
 
 
@@ -628,4 +629,8 @@ textarea, input[type="text"], input[type="password"], input[type="datetime"], in
 .message-lable a{
 	color: #9B9B9B!important;
 	margin-right: 15px;
+}
+
+.table-message td:HOVER  a.hide {
+	display: inline-block!important;
 }
