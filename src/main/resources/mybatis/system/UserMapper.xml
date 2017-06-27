@@ -27,6 +27,8 @@
 		<result column="PRIVILEGE" property="privilege" />
 		<result column="UNIONID" property="unionid" />
 		<result column="PROMOTER" property="promoter" />
+		<result column="WEIXIN" property="weixin" />
+		<result column="WEIXIN_IMG" property="weixinImg" />
 		
 		<association property="province" javaType="com.ifreework.entity.db.Province">
 			<result column="PROVINCE_ID" property="provinceId"/>
@@ -42,6 +44,12 @@
 			<result column="COUNTY_ID" property="countyId"/>
 			<result column="COUNTY_NAME" property="countyName"/>
 		</association>
+		
+		<association property="company" javaType="com.ifreework.entity.weixin.Company">
+		<result column="COMPANY_ID" property="companyId"/>
+			<result column="COMPANY_NAME" property="companyName"/>
+		</association>
+		
 	</resultMap>
 
 
@@ -86,7 +94,9 @@
 		REMARKS,
 		PRIVILEGE,
 		UNIONID,
-		PROMOTER
+		PROMOTER,
+		WEIXIN,
+		WEIXIN_IMG
 	</sql>
 
 	<sql id="userAllColumns">
@@ -114,9 +124,12 @@
 			U.PRIVILEGE,
 			U.UNIONID,
 			U.PROMOTER,
+			U.WEIXIN,
+			U.WEIXIN_IMG,
 			P.PROVINCE_NAME,
 			M.MUNICIPALITY_NAME,
-			C.COUNTY_NAME
+			C.COUNTY_NAME,
+			W.COMPANY_NAME
 	</sql>
 
 	<!-- 判断用户名和密码 -->
@@ -128,6 +141,7 @@
 		LEFT JOIN DB_PROVINCE P ON U.PROVINCE_ID = P.PROVINCE_ID
 		LEFT JOIN DB_MUNICIPALITY M ON U.MUNICIPALITY_ID = M.MUNICIPALITY_ID
 		LEFT JOIN DB_COUNTY C ON U.COUNTY_ID = C.COUNTY_ID
+		LEFT JOIN WEIXIN_COMPANY W ON U.DEPT_ID = W.COMPANY_ID
 		where USER_ID = #{ userId }
 	</select>
 	
@@ -141,6 +155,7 @@
 		LEFT JOIN DB_PROVINCE P ON U.PROVINCE_ID = P.PROVINCE_ID
 		LEFT JOIN DB_MUNICIPALITY M ON U.MUNICIPALITY_ID = M.MUNICIPALITY_ID
 		LEFT JOIN DB_COUNTY C ON U.COUNTY_ID = C.COUNTY_ID
+		LEFT JOIN WEIXIN_COMPANY W ON U.DEPT_ID = W.COMPANY_ID
 		where  USERNAME = #{username}
 	</select>
 	
@@ -155,6 +170,7 @@
 		LEFT JOIN DB_PROVINCE P ON U.PROVINCE_ID = P.PROVINCE_ID
 		LEFT JOIN DB_MUNICIPALITY M ON U.MUNICIPALITY_ID = M.MUNICIPALITY_ID
 		LEFT JOIN DB_COUNTY C ON U.COUNTY_ID = C.COUNTY_ID
+		LEFT JOIN WEIXIN_COMPANY W ON U.DEPT_ID = W.COMPANY_ID
 		where 1=1
 		<if test="username != null and username != '' ">
 			and (USERNAME like '%${username}%' || PERSON_NAME like '%${username}%')
@@ -291,7 +307,13 @@
 				UNIONID = #{unionid},
 			</if>
 			<if test="promoter != null ">
-				PROMOTER = #{promoter}
+				PROMOTER = #{promoter},
+			</if>
+			<if test="weixin != null ">
+				WEIXIN = #{weixin},
+			</if>
+			<if test="weixinImg != null ">
+				WEIXIN_IMG = #{weixinImg}
 			</if>
 		</trim>
 		where
@@ -334,7 +356,9 @@
 		#{ remarks,jdbcType=VARCHAR },
 		#{ privilege,jdbcType=VARCHAR },
 		#{ unionid,jdbcType=VARCHAR },
-		#{ promoter,jdbcType=VARCHAR }
+		#{ promoter,jdbcType=VARCHAR },
+		#{ weixin,jdbcType=VARCHAR },
+		#{ weixinImg,jdbcType=VARCHAR }
 		)
 	</insert>
 </mapper>

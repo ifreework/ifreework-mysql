@@ -12,6 +12,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.ifreework.common.controller.BaseControllerSupport;
 import com.ifreework.common.entity.PageData;
 import com.ifreework.common.manager.ServletRequestManager;
+import com.ifreework.common.manager.UserManager;
 import com.ifreework.common.manager.WeixinManager;
 import com.ifreework.entity.system.Config;
 import com.ifreework.entity.system.User;
@@ -109,5 +110,52 @@ public class MobilePageController extends BaseControllerSupport {
 		return mv;
 	}
 	
+	
+	/**
+	 * 
+	 * 描述：跳转到微主页页面
+	 */
+	@RequestMapping(value = "/homePage")
+	public ModelAndView homePage() {
+		ModelAndView mv = new ModelAndView();
+		PageData pd = this.getPageData();
+		String userId = pd.getString("mark");
+		User user = UserManager.getUser(userId);
+		mv.addObject("user", user);
+		mv.setViewName("/mobile/homePage/homePage");
+		return mv;
+	}
+	
+	
+	/**
+	 * 
+	 * 描述：跳转到个人中心页面
+	 */
+	@RequestMapping(value = "/personal")
+	public ModelAndView personal() {
+		ModelAndView mv = new ModelAndView();
+		PageData pd = this.getPageData();
+		String userId = pd.getString("mark");
+		User user = UserManager.getUser(userId);
+		mv.addObject("user", user);
+		mv.setViewName("/mobile/personal/personal");
+		return mv;
+	}
+	
+	/**
+	 * 
+	 * 描述：跳转到文章页面
+	 */
+	@RequestMapping(value = "/articleList")
+	public ModelAndView articleList() {
+		ModelAndView mv = new ModelAndView();
+		PageData pd = this.getPageData();
+		String userId = pd.getString("mark");
+		User user = UserManager.getUser(userId);
+		mv.addObject("user", user);
+		mv.setViewName("/mobile/article/articleList");
+		return mv;
+	}
+
 
 }

@@ -113,7 +113,7 @@ $().ready(function(){
                             			<img alt="图片加载失败" src="${companyIntroduction.image}" style="width: 50px;">
                             		</c:if>
                             		</span>
-									<input type="hidden" name="image" id="image">
+									<input type="hidden" name="image" id="image" value="${companyIntroduction.image}">
                             	</div>
                             </div>
                             

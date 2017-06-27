@@ -10,10 +10,8 @@ import org.springframework.web.servlet.ModelAndView;
 import com.ifreework.common.controller.BaseControllerSupport;
 import com.ifreework.common.entity.PageData;
 import com.ifreework.common.manager.UserManager;
-import com.ifreework.entity.weixin.Company;
 import com.ifreework.entity.weixin.CompanyIntroduction;
 import com.ifreework.service.weixin.CompanyIntroductionService;
-import com.ifreework.service.weixin.CompanyService;
 import com.ifreework.util.StringUtil;
 
 /**

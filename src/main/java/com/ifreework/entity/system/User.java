@@ -6,6 +6,7 @@ import java.util.Date;
 import com.ifreework.entity.db.County;
 import com.ifreework.entity.db.Municipality;
 import com.ifreework.entity.db.Province;
+import com.ifreework.entity.weixin.Company;
 
 public class User implements Serializable{
 	
@@ -36,13 +37,16 @@ public class User implements Serializable{
 	private String privilege;
 	private String unionid;
 	private String promoter;
-	
+	private String weixin;
+	private String weixinImg;
 	
 	
 	
 	private Province province;
 	private Municipality municipality;
 	private County county;
+	
+	private Company company;
 	//columns END
 	public String getUserId() {
 		return userId;
@@ -206,6 +210,26 @@ public class User implements Serializable{
 	public void setPromoter(String promoter) {
 		this.promoter = promoter;
 	}
+	public String getWeixin() {
+		return weixin;
+	}
+	public void setWeixin(String weixin) {
+		this.weixin = weixin;
+	}
+	public String getWeixinImg() {
+		return weixinImg;
+	}
+	public void setWeixinImg(String weixinImg) {
+		this.weixinImg = weixinImg;
+	}
+	public Company getCompany() {
+		return company;
+	}
+	public void setCompany(Company company) {
+		this.company = company;
+	}
+	
+	
 
 }
 

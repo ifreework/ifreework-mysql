@@ -113,6 +113,7 @@
 			<mvc:exclude-mapping path="/system/attachment/download"/>  
 			<mvc:exclude-mapping path="/error/**"/>  
 			<mvc:exclude-mapping path="/websocket/**"/>  
+			<mvc:exclude-mapping path="/mobile/**"/>  
 			<bean class="com.ifreework.common.shiro.interceptor.LoginHandlerInterceptor">
 				<property name="loginPath" value="/"></property>
 				<property name="successPath" value="/main"></property>
@@ -128,6 +129,7 @@
 			<mvc:exclude-mapping path="/main"/>  
 			<mvc:exclude-mapping path="/websocket/**"/>  
 			<mvc:exclude-mapping path="/error/**"/>  
+			<mvc:exclude-mapping path="/mobile/**"/>  
 			<bean class="com.ifreework.common.shiro.interceptor.AuthHandlerInterceptor">
 				<property name="unAuthorizedUrl" value="/error/600"></property>
 				<property name="shiroAuth" ref="userService" />
@@ -139,7 +141,6 @@
 			<mvc:exclude-mapping path="/login"/>  
 			<mvc:exclude-mapping path="/logout"/>  
 			<mvc:exclude-mapping path="/system/attachment/download"/>  
-			<mvc:exclude-mapping path="/error/**"/>  
 			<mvc:exclude-mapping path="/main"/>  
 			<mvc:exclude-mapping path="/websocket/**"/>  
 			<mvc:exclude-mapping path="/system/loginLog/**"/>  
