@@ -2352,6 +2352,12 @@ body{
 	padding: 0 1rem;
 }
 
+#register .comnav{
+	padding: 0;
+}
+#register .main{
+	margin-top: 1rem;
+}
 
 
 

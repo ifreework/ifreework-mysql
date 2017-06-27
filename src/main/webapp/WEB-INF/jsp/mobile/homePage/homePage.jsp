@@ -14,7 +14,7 @@
 	content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
 	name="viewport" />
 <meta content="telephone=no" name="format-detection" />
-<title>${user.personName }的${user.companyName }工作室</title>
+<title>${user.personName }的${user.company.companyName }工作室</title>
 <link href="${cssPath}/mobile/main.css" rel="stylesheet" type="text/css">
 <link href="${cssPath}/mobile/style.css" rel="stylesheet"
 	type="text/css">

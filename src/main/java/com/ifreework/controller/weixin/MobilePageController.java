@@ -156,6 +156,19 @@ public class MobilePageController extends BaseControllerSupport {
 		mv.setViewName("/mobile/article/articleList");
 		return mv;
 	}
-
+	
+	/**
+	 * 描述：跳转到文章页面
+	 */
+	@RequestMapping(value = "/register")
+	public ModelAndView register() {
+		ModelAndView mv = new ModelAndView();
+		PageData pd = this.getPageData();
+		String userId = pd.getString("mark");
+		User user = UserManager.getUser(userId);
+		mv.addObject("user", user);
+		mv.setViewName("/mobile/personal/register");
+		return mv;
+	}
 
 }
