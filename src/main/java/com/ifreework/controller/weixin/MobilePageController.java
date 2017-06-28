@@ -213,4 +213,33 @@ public class MobilePageController extends BaseControllerSupport {
 		mv.setViewName("/mobile/homePage/card");
 		return mv;
 	}
+	
+	
+	/**
+	 * 描述：跳转到产品列表页面
+	 */
+	@RequestMapping(value = "/product")
+	public ModelAndView product() {
+		ModelAndView mv = new ModelAndView();
+		PageData pd = this.getPageData();
+		String userId = pd.getString("mark");
+		User user = UserManager.getUser(userId);
+		mv.addObject("user", user);
+		mv.setViewName("/mobile/product/product");
+		return mv;
+	}
+	
+	/**
+	 * 描述：跳转到添加产品页面
+	 */
+	@RequestMapping(value = "/productEdit")
+	public ModelAndView productEdit() {
+		ModelAndView mv = new ModelAndView();
+		PageData pd = this.getPageData();
+		String userId = pd.getString("mark");
+		User user = UserManager.getUser(userId);
+		mv.addObject("user", user);
+		mv.setViewName("/mobile/product/productEdit");
+		return mv;
+	}
 }

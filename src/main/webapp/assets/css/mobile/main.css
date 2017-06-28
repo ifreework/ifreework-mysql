@@ -2459,3 +2459,9 @@ body{
 	font-size: 2.5rem;
 	color: #fff;
 }
+
+.showmore{
+	float: right;
+	margin-right: 1rem;
+	color: cornflowerblue;
+}
