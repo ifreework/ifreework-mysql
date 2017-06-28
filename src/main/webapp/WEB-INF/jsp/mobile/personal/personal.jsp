@@ -53,7 +53,13 @@
 						href="javascript:void(0);" class=""></a>
 				</div>
 			</div>
-
+			
+			<div class="title_name">
+				<a href="my_home9.html">${user.personName }的个人中心<i
+					class=" icon-angle-down"></i>
+				</a>
+			</div>
+			
 			<div class="mess_iocn animated rotateIn">
 				<a href="message.html"> <i
 					class="fa fa-angle-left puff_left circle"></i>

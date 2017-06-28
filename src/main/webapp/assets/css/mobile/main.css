@@ -2359,8 +2359,103 @@ body{
 	margin-top: 1rem;
 }
 
+.banner .user_card_info{
+    width: 100%;
+    position: absolute;
+    bottom: 0rem;
+    padding: 1rem;
+}
+
+.banner .user_card_info .user_img{
+	width: 30%;
+	display: inline-block;
+	vertical-align: top;
+}
+
+.banner .user_card_info .user_img img{
+	border-radius: 50%;
+}
+
+.banner .user_card_info .user_info{
+	display:inline-block;
+	padding: 1rem;
+	color: #fff;
+	font-size: 1.5rem;
+}
+.banner .user_card_info .user_info span{
+	display: block;
+	margin-top: 0.8rem;
+}
+.banner .user_card_info .user_info .username{
+	margin-top:0;
+	color:cornsilk;
+	font-size: 2.5rem;
+}
+.signature{
+	background: #fdfdfd;
+	border: 1px solid #f5f5f5;
+	border-radius: 0.5rem;
+	min-height: 5rem;
+	font-size: 1.5rem;
+	margin-top: 1rem;
+}
+.signature .signature-title{
+    margin: auto;
+    display: block;
+    width: 8rem;
+    text-align: center;
+    margin-top: -0.75rem;
+    background: #fdfdfd;
+    color:#CCB3B3;
+}
+.signature .signature-text{
+	padding: 1rem;
+	text-align: center;
+}
+
+.card_center div{
+	float: left;
+	width: 45%;
+	margin-left: 5%;
+	text-align: center;
+}
+    
+.card_center div .icon{
+	font-size: 4rem;
+    display: block;
+    color: lightseagreen;
+    width: 4rem;
+    margin: auto;
+    border: 3px solid lightseagreen;
+    padding: 1rem;
+    border-radius: 50%;
+}
+
+#card .nav ul li{
+	width: 15%;
+}
+
+#card .nav ul li img {
+	width: 65%;
+}
+
+#card .navside{
+    bottom: 0.5rem;
+    background: #7B7AA7;
+    border: .1rem #ededed solid;
+    border-radius: 1rem;
+    left:3%;
+    width: 94%;
+}
 
 
+#card .navside ul li{
+	margin-top:0.6rem;
+	width: 23%;
+	
+}
 
-
-
+#card .navside ul li i{
+	font-size: 2.5rem;
+	color: #fff;
+}

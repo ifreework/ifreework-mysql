@@ -158,7 +158,7 @@ public class MobilePageController extends BaseControllerSupport {
 	}
 	
 	/**
-	 * 描述：跳转到文章页面
+	 * 描述：跳转到注册页面
 	 */
 	@RequestMapping(value = "/register")
 	public ModelAndView register() {
@@ -170,5 +170,47 @@ public class MobilePageController extends BaseControllerSupport {
 		mv.setViewName("/mobile/personal/register");
 		return mv;
 	}
+	
+	/**
+	 * 描述：跳转到公司介绍页面
+	 */
+	@RequestMapping(value = "/company")
+	public ModelAndView company() {
+		ModelAndView mv = new ModelAndView();
+		PageData pd = this.getPageData();
+		String userId = pd.getString("mark");
+		User user = UserManager.getUser(userId);
+		mv.addObject("user", user);
+		mv.setViewName("/mobile/company/company");
+		return mv;
+	}
 
+	
+	/**
+	 * 描述：跳转到公司介绍详情页面
+	 */
+	@RequestMapping(value = "/companyInfo")
+	public ModelAndView companyInfo() {
+		ModelAndView mv = new ModelAndView();
+		PageData pd = this.getPageData();
+		String userId = pd.getString("mark");
+		User user = UserManager.getUser(userId);
+		mv.addObject("user", user);
+		mv.setViewName("/mobile/company/companyInfo");
+		return mv;
+	}
+	
+	/**
+	 * 描述：跳转到个人名片页面
+	 */
+	@RequestMapping(value = "/card")
+	public ModelAndView card() {
+		ModelAndView mv = new ModelAndView();
+		PageData pd = this.getPageData();
+		String userId = pd.getString("mark");
+		User user = UserManager.getUser(userId);
+		mv.addObject("user", user);
+		mv.setViewName("/mobile/homePage/card");
+		return mv;
+	}
 }
