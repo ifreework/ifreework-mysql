@@ -12,7 +12,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta
 	content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
-	name="viewport" />
+	name="viewport" />  
 <meta content="telephone=no" name="format-detection" />
 <title>${user.personName }的个人中心</title>
 <link href="${cssPath}/mobile/main.css" rel="stylesheet" type="text/css">
@@ -96,7 +96,40 @@
 				</ul>
 			</div>
 		</div>
-
+		
+		<div class="center">
+			<div class="pictitle">
+				<span class="picbg"></span> <span>时尚女包</span>
+				<span class="showmore">查看更多&gt;</span>
+			</div>
+			<div class="activity">
+				<ul>
+					<li class="animated fadeInDown"><a href="#"> <img
+							src="${imagePath }/mobile/banner.jpg">
+							<div class="activity_txt">
+								<p>时尚多用女包包</p>
+								<p>
+									<span></span><span class="color_y">￥1880</span>
+								</p>
+							</div>
+					</a></li>
+					<li class="animated fadeInUp"><a href="#"> <img
+							src="${imagePath }/mobile/pic4.jpg">
+							<div class="activity_txt">
+								<p>多功能易拉罐组装产品</p>
+								<p>
+									<span></span><span class="color_y">￥998</span>
+								</p>
+							</div>
+					</a></li>
+				</ul>
+			</div>
+		</div>
+		<div class="footer load_more">
+			<div>
+				<a href="#">查看更多</a>
+			</div>
+		</div>
 	</div>
 	<script type="text/javascript" src="${jsPath}/mobile/slide_wap.js"></script>
 	<script type="text/javascript" src="${jsPath}/mobile/common.js"></script>

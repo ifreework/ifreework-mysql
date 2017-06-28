@@ -62,7 +62,31 @@
 			<a href="#" hidefocus="true">资讯</a>
 			<a href="#" hidefocus="true">励志</a>
 		</div>
-
+		
+		<div class="banner">
+			<div class="swipe">
+				<ul id="slider">
+					<li><a href="#"><img src="${imagePath }/mobile/banner.jpg"
+							alt="" /></a></li>
+					<li><a href="#"><img src="${imagePath }/mobile/banner.jpg"
+							alt="" /></a></li>
+					<li><a href="#"><img src="${imagePath }/mobile/banner.jpg"
+							alt="" /></a></li>
+					<li><a href="#"><img src="${imagePath }/mobile/banner.jpg"
+							alt="" /></a></li>
+					<li><a href="#"><img src="${imagePath }/mobile/banner.jpg"
+							alt="" /></a></li>
+				</ul>
+				<div id="pagenavi">
+					<a href="javascript:void(0);" class="active"></a> <a
+						href="javascript:void(0);" class=""></a> <a
+						href="javascript:void(0);" class=""></a> <a
+						href="javascript:void(0);" class=""></a> <a
+						href="javascript:void(0);" class=""></a>
+				</div>
+			</div>
+		</div>
+		
 		<div class="swiper-container">
 			<div class="swiper-wrapper">
 				<div class="swiper-slide">
@@ -257,7 +281,8 @@
 	</div>
 
 
-
+<script type="text/javascript" src="${jsPath}/mobile/slide_wap.js"></script>
+	<script type="text/javascript" src="${jsPath}/mobile/common.js"></script>
 	<script type="text/javascript"
 		src="${jsPath }/mobile/idangerous.swiper.min.js"></script>
 	<script type="text/javascript">

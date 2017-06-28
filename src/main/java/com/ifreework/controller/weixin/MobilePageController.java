@@ -158,6 +158,21 @@ public class MobilePageController extends BaseControllerSupport {
 	}
 	
 	/**
+	 * 
+	 * 描述：跳转到文章详情
+	 */
+	@RequestMapping(value = "/articleInfo")
+	public ModelAndView articleInfo() {
+		ModelAndView mv = new ModelAndView();
+		PageData pd = this.getPageData();
+		String userId = pd.getString("mark");
+		User user = UserManager.getUser(userId);
+		mv.addObject("user", user);
+		mv.setViewName("/mobile/article/articleInfo");
+		return mv;
+	}
+	
+	/**
 	 * 描述：跳转到注册页面
 	 */
 	@RequestMapping(value = "/register")
@@ -230,6 +245,20 @@ public class MobilePageController extends BaseControllerSupport {
 	}
 	
 	/**
+	 * 描述：跳转到产品列表页面
+	 */
+	@RequestMapping(value = "/productList")
+	public ModelAndView productList() {
+		ModelAndView mv = new ModelAndView();
+		PageData pd = this.getPageData();
+		String userId = pd.getString("mark");
+		User user = UserManager.getUser(userId);
+		mv.addObject("user", user);
+		mv.setViewName("/mobile/product/productList");
+		return mv;
+	}
+	
+	/**
 	 * 描述：跳转到添加产品页面
 	 */
 	@RequestMapping(value = "/productEdit")
@@ -240,6 +269,20 @@ public class MobilePageController extends BaseControllerSupport {
 		User user = UserManager.getUser(userId);
 		mv.addObject("user", user);
 		mv.setViewName("/mobile/product/productEdit");
+		return mv;
+	}
+	
+	/**
+	 * 描述：跳转到添加产品页面
+	 */
+	@RequestMapping(value = "/productType")
+	public ModelAndView productType() {
+		ModelAndView mv = new ModelAndView();
+		PageData pd = this.getPageData();
+		String userId = pd.getString("mark");
+		User user = UserManager.getUser(userId);
+		mv.addObject("user", user);
+		mv.setViewName("/mobile/product/productType");
 		return mv;
 	}
 }

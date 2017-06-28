@@ -75,15 +75,22 @@
 			<div class="content-slide">
 				<div class="interest_list">
 					<ul>
-						<li class="animated bounceInLeft"><a
+						<li class="animated bounceInRight"><a
 							href="Information_xq.html"> <img
 								src="${imagePath }/mobile/banner.jpg">
 								<div class="list_r">
 									<p>
-										<span>社会组织</span>
+										<span>【关于三生】公司介绍</span>
 									</p>
-									<p class="fin_p">该组织发布的信息标题，显示最新一条...</p>
-									<i class=" icon-angle-right"></i>
+									<p class="fin_p">
+										<span class="info">
+											<span class="info_user">张三</span>
+											<span>05-05 05:05</span>
+										</span>
+										<span class="page_view right">
+											阅读(25300)
+										</span>
+									</p>
 								</div>
 						</a></li>
 						<li class="animated bounceInRight"><a
@@ -91,21 +98,17 @@
 								src="${imagePath }/mobile/banner.jpg">
 								<div class="list_r">
 									<p>
-										<span>社会组织</span>
+										<span>【关于三生】公司介绍</span>
 									</p>
-									<p class="fin_p">该组织发布的信息标题，显示最新一条...</p>
-									<i class=" icon-angle-right"></i>
-								</div>
-						</a></li>
-						<li class="animated bounceInLeft"><a
-							href="Information_xq.html"> <img
-								src="${imagePath }/mobile/banner.jpg">
-								<div class="list_r">
-									<p>
-										<span>社会组织</span>
+									<p class="fin_p">
+										<span class="info">
+											<span class="info_user">张三</span>
+											<span>05-05 05:05</span>
+										</span>
+										<span class="page_view right">
+											阅读(25300)
+										</span>
 									</p>
-									<p class="fin_p">该组织发布的信息标题，显示最新一条...</p>
-									<i class=" icon-angle-right"></i>
 								</div>
 						</a></li>
 						<li class="animated bounceInRight"><a
@@ -113,10 +116,71 @@
 								src="${imagePath }/mobile/banner.jpg">
 								<div class="list_r">
 									<p>
-										<span>社会组织</span>
+										<span>【关于三生】公司介绍</span>
 									</p>
-									<p class="fin_p">该组织发布的信息标题，显示最新一条...</p>
-									<i class=" icon-angle-right"></i>
+									<p class="fin_p">
+										<span class="info">
+											<span class="info_user">张三</span>
+											<span>05-05 05:05</span>
+										</span>
+										<span class="page_view right">
+											阅读(25300)
+										</span>
+									</p>
+								</div>
+						</a></li>
+						<li class="animated bounceInRight"><a
+							href="Information_xq.html"> <img
+								src="${imagePath }/mobile/banner.jpg">
+								<div class="list_r">
+									<p>
+										<span>【关于三生】公司介绍</span>
+									</p>
+									<p class="fin_p">
+										<span class="info">
+											<span class="info_user">张三</span>
+											<span>05-05 05:05</span>
+										</span>
+										<span class="page_view right">
+											阅读(25300)
+										</span>
+									</p>
+								</div>
+						</a></li>
+						<li class="animated bounceInRight"><a
+							href="Information_xq.html"> <img
+								src="${imagePath }/mobile/banner.jpg">
+								<div class="list_r">
+									<p>
+										<span>【关于三生】公司介绍</span>
+									</p>
+									<p class="fin_p">
+										<span class="info">
+											<span class="info_user">张三</span>
+											<span>05-05 05:05</span>
+										</span>
+										<span class="page_view right">
+											阅读(25300)
+										</span>
+									</p>
+								</div>
+						</a></li>
+						<li class="animated bounceInRight"><a
+							href="Information_xq.html"> <img
+								src="${imagePath }/mobile/banner.jpg">
+								<div class="list_r">
+									<p>
+										<span>【关于三生】公司介绍</span>
+									</p>
+									<p class="fin_p">
+										<span class="info">
+											<span class="info_user">张三</span>
+											<span>05-05 05:05</span>
+										</span>
+										<span class="page_view right">
+											阅读(25300)
+										</span>
+									</p>
 								</div>
 						</a></li>
 					</ul>

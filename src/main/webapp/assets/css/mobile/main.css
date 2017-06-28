@@ -2465,3 +2465,123 @@ body{
 	margin-right: 1rem;
 	color: cornflowerblue;
 }
+
+.footer{
+	text-align: center;
+	padding: 1rem;
+}
+
+.footer .load_more{
+	font-size: 1.3rem;
+}
+.footer.load_more a{
+	color: #0b8bab;
+}
+
+.tabs.vertical{
+	width: 25%;
+	float: left;
+	min-height: 30rem;
+	background: #f5f5f5;
+	padding-bottom: 20rem;
+	border-bottom:0;
+}
+
+.tabs.vertical a{
+	display: block;
+	overflow:hidden;
+	width: 100%!important;
+}
+.my_tab.vertical a.active{
+	background: #fff;
+	border-bottom: 0;
+}
+.tabs_content{
+	width: 68%;
+	float: left;
+}
+
+.interest_list .list_r p .info span,.interest_list .list_r p .page_view{
+	font-size:1.2rem;
+	color: #666;
+}
+.interest_list .list_r p span.info_user{
+	color: #52549 ;
+}
+
+.interest_list a img{
+	width:5rem;
+	height: 4rem;
+	border-radius:0;
+}
+
+.finance ul li a p span.info_user,.finance ul li a p span.edit_mine{
+	margin-right: 1rem;
+	color: #52549!important;
+}
+
+.main.detail{
+	padding-bottom: 0;
+}
+
+.main.small_card{
+	position: inherit;
+}
+.main .small_card_img img{
+	width: 100%;	
+	height: 10rem;
+}
+.main .small_card_info{
+    width: 100%;
+    position: absolute;
+    top: 0rem;
+    padding-left: 1rem;
+    padding-top: 2rem;
+}
+
+.main .small_card_info .user_img{
+	width: 15%;
+	display: inline-block;
+	vertical-align: top;
+}
+
+.main .small_card_info .user_img img{
+	border-radius: 50%;
+	width: 100%;
+}
+
+.main .small_card_info .user_info{
+	display:inline-block;
+	padding-left: 0.5rem;
+	color: #fff;
+	font-size: 1.3rem;
+}
+.main .small_card_info .user_info span{
+	display: block;
+	margin-top: 0.8rem;
+}
+.main .small_card_info .user_info .username{
+	margin-top:0;
+	color:cornsilk;
+	font-size: 1.5rem;
+}
+.main .small_card_option{
+	margin-top:-4rem;
+	padding-top: 0.5rem;
+	text-align: center;
+	border-top: 0.2rem solid #ddd;
+}
+.main .small_card_option a{
+	display: inline-block;
+    background: #4EA1D2;
+    border-radius: 1rem;
+    padding: 0.6rem;
+    margin-right: 0.5rem;
+    color: #fff;
+}
+.left{
+	float: left!important;
+}
+.right{
+	float: right!important;
+}
