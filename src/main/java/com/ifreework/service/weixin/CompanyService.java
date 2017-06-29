@@ -1,6 +1,8 @@
 package com.ifreework.service.weixin;
 
 
+import java.util.List;
+
 import com.ifreework.common.entity.PageData;
 import com.ifreework.entity.weixin.Company;
 
@@ -11,5 +13,6 @@ public interface CompanyService {
 	public PageData add(Company company);
 	public PageData update(Company company);
 	public PageData delete(String companyId);
+	public List<Company> queryList(PageData pd);
 
 }

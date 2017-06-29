@@ -45,8 +45,8 @@
 			</list>
 		</property>
 	</bean>
-	
-	<mvc:annotation-driven  >
+
+	<mvc:annotation-driven>
 		<mvc:message-converters>
 			<bean
 				class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
@@ -72,11 +72,11 @@
 				</property>
 			</bean>
 		</mvc:message-converters>
-		
+
 	</mvc:annotation-driven>
 
 
-    
+
 	<!-- 上传拦截，如最大上传值及最小上传值 -->
 	<bean id="multipartResolver"
 		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
@@ -101,56 +101,66 @@
 	<!-- 访问拦截 -->
 	<mvc:interceptors>
 		<mvc:interceptor>
-			<mvc:mapping path="/**"  />
-			<mvc:exclude-mapping path="/assets/**"/>  
+			<mvc:mapping path="/**" />
+			<mvc:exclude-mapping path="/assets/**" />
 			<bean class="com.ifreework.common.shiro.interceptor.ContextPathInterceptor" />
 		</mvc:interceptor>
 		<mvc:interceptor>
 			<mvc:mapping path="/**" />
-			<mvc:exclude-mapping path="/assets/**"/>  
-			<mvc:exclude-mapping path="/login"/>  
-			<mvc:exclude-mapping path="/logout"/>  
-			<mvc:exclude-mapping path="/system/attachment/download"/>  
-			<mvc:exclude-mapping path="/error/**"/>  
-			<mvc:exclude-mapping path="/websocket/**"/>  
-			<mvc:exclude-mapping path="/mobile/**"/>  
-			<bean class="com.ifreework.common.shiro.interceptor.LoginHandlerInterceptor">
+			<mvc:exclude-mapping path="/assets/**" />
+			<mvc:exclude-mapping path="/login" />
+			<mvc:exclude-mapping path="/logout" />
+			<mvc:exclude-mapping path="/system/attachment/download" />
+			<mvc:exclude-mapping path="/error/**" />
+			<mvc:exclude-mapping path="/websocket/**" />
+			<mvc:exclude-mapping path="/mobile/**" />
+			<bean
+				class="com.ifreework.common.shiro.interceptor.LoginHandlerInterceptor">
 				<property name="loginPath" value="/"></property>
 				<property name="successPath" value="/main"></property>
 			</bean>
 		</mvc:interceptor>
 		<mvc:interceptor>
 			<mvc:mapping path="/**" />
-			<mvc:exclude-mapping path="/assets/**"/>  
-			<mvc:exclude-mapping path="/login"/>  
-			<mvc:exclude-mapping path="/logout"/>  
-			<mvc:exclude-mapping path="/system/attachment/download"/>  
-			<mvc:exclude-mapping path="/error/**"/>  
-			<mvc:exclude-mapping path="/main"/>  
-			<mvc:exclude-mapping path="/websocket/**"/>  
-			<mvc:exclude-mapping path="/error/**"/>  
-			<mvc:exclude-mapping path="/mobile/**"/>  
+			<mvc:exclude-mapping path="/assets/**" />
+			<mvc:exclude-mapping path="/login" />
+			<mvc:exclude-mapping path="/logout" />
+			<mvc:exclude-mapping path="/system/attachment/download" />
+			<mvc:exclude-mapping path="/error/**" />
+			<mvc:exclude-mapping path="/main" />
+			<mvc:exclude-mapping path="/websocket/**" />
+			<mvc:exclude-mapping path="/error/**" />
+			<mvc:exclude-mapping path="/mobile/**" />
 			<bean class="com.ifreework.common.shiro.interceptor.AuthHandlerInterceptor">
 				<property name="unAuthorizedUrl" value="/error/600"></property>
 				<property name="shiroAuth" ref="userService" />
-			</bean>                 
+			</bean>
 		</mvc:interceptor>
 		<mvc:interceptor>
 			<mvc:mapping path="/**" />
-			<mvc:exclude-mapping path="/assets/**"/>  
-			<mvc:exclude-mapping path="/login"/>  
-			<mvc:exclude-mapping path="/logout"/>  
-			<mvc:exclude-mapping path="/system/attachment/download"/>  
-			<mvc:exclude-mapping path="/main"/>  
-			<mvc:exclude-mapping path="/websocket/**"/>  
-			<mvc:exclude-mapping path="/system/loginLog/**"/>  
-			<mvc:exclude-mapping path="/system/requestLog/**"/>  
-			<mvc:exclude-mapping path="/error/**"/>  
-			<bean class="com.ifreework.common.shiro.interceptor.RequestLogHandlerInterceptor">
+			<mvc:exclude-mapping path="/assets/**" />
+			<mvc:exclude-mapping path="/login" />
+			<mvc:exclude-mapping path="/logout" />
+			<mvc:exclude-mapping path="/system/attachment/download" />
+			<mvc:exclude-mapping path="/main" />
+			<mvc:exclude-mapping path="/websocket/**" />
+			<mvc:exclude-mapping path="/system/loginLog/**" />
+			<mvc:exclude-mapping path="/system/requestLog/**" />
+			<mvc:exclude-mapping path="/error/**" />
+			<bean
+				class="com.ifreework.common.shiro.interceptor.RequestLogHandlerInterceptor">
 				<property name="requestLogManager" ref="requestLogService" />
-			</bean>                 
+			</bean>
 		</mvc:interceptor>
-		
+		<!-- 
+		<mvc:interceptor>
+			<mvc:mapping path="/mobile/register" />
+			<bean
+				class="com.ifreework.common.shiro.interceptor.WeixinOpenIdHandlerInterceptor">
+				<property name="oauth2RedirectUrl" value="/mobile/redirect?f=[FORWARD]" />
+			</bean>
+		</mvc:interceptor>
+		 -->
 	</mvc:interceptors>
 
 </beans>

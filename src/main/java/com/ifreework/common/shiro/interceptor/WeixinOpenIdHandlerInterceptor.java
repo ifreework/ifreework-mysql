@@ -41,35 +41,73 @@ public class WeixinOpenIdHandlerInterceptor extends HandlerInterceptorAdapter {
 		Cookie[] cookies = request.getCookies();
 		String openId = null;
 
-		
 		// 判断cookie中是否存在openid 若存在则直接跳过，不存在则获取一次
 		openId = getOpenIdFromCookie(cookies);
 
-		if (StringUtil.isEmpty(openId)) {  //如果没有用户openID信息，则通过微信授权接口获取用户信息
-			String domain = SystemConfigManager.get(Config.SYSTEM_DOMAIN_NAME); //域名
-			String servletPath = request.getServletPath();  //请求路径
-			String queryString = request.getQueryString();  //请求参数
-			String fUrl = domain + servletPath + queryString;  //原始请求路径
-			logger.info("原始请求路径：{}" ,fUrl);
+		if (StringUtil.isEmpty(openId)) { // 如果没有用户openID信息，则通过微信授权接口获取用户信息
+			String domain = SystemConfigManager.get(Config.SYSTEM_DOMAIN_NAME); // 域名
+			String servletPath = request.getServletPath(); // 请求路径
+			String queryString = request.getQueryString(); // 请求参数
+			String fUrl = domain + servletPath + "?" + queryString; // 原始请求路径
+			if (!StringUtil.isEmpty(queryString)) {
+				fUrl += "?" + queryString;
+			}
 			
-			oauth2RedirectUrl = oauth2RedirectUrl.replace("[FORWARD]", fUrl);
-			
-			logger.info("微信授权回调路径：{}" ,oauth2RedirectUrl);
-			
-			oauth2RedirectUrl = UriUtils.encode(oauth2RedirectUrl, "UTF-8");
-			
-			String authorization = WeixinManager.getAuthorizationUrl(oauth2RedirectUrl, "snsapi_userinfo", "");
-			
-			logger.info("微信授权路径：{}" ,authorization);
-			
+			logger.info("原始请求路径：{}", fUrl);
+
+			String redirectUrl = domain + oauth2RedirectUrl.replace("[FORWARD]", fUrl);
+
+			logger.info("微信授权回调路径：{}", redirectUrl);
+
+			redirectUrl = UriUtils.encode(redirectUrl, "UTF-8");
+
+			String authorization = WeixinManager.getAuthorizationUrl(redirectUrl, "snsapi_userinfo", "");
+
+			logger.info("微信授权路径：{}", authorization);
+
 			response.sendRedirect(authorization);
-			
+
 			return false;
 		} else {
 			return true;
 		}
 	}
 
+	/**
+	 * 测试用例
+	 */
+	
+//	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
+//			throws Exception {
+//		Cookie[] cookies = request.getCookies();
+//		String openId = null;
+//
+//		
+//		// 判断cookie中是否存在openid 若存在则直接跳过，不存在则获取一次
+//		openId = getOpenIdFromCookie(cookies);
+//
+//		if (StringUtil.isEmpty(openId)) {  //如果没有用户openID信息，则通过微信授权接口获取用户信息
+//			String domain = SystemConfigManager.get(Config.SYSTEM_DOMAIN_NAME); //域名
+//			String servletPath = request.getServletPath();  //请求路径
+//			String queryString = request.getQueryString();  //请求参数
+//			String fUrl = domain + servletPath ;  //原始请求路径
+//			if(!StringUtil.isEmpty(queryString)){
+//				fUrl += "?" + queryString;
+//			}
+//			logger.info("原始请求路径：{}" ,fUrl);
+//			
+//			fUrl = UriUtils.encode(fUrl, "UTF-8");
+//			
+//			String redirectUrl = domain + oauth2RedirectUrl.replace("[FORWARD]", fUrl) + "&code=1";
+//			
+//			logger.info("微信授权回调路径：{}" ,redirectUrl);
+//			
+//			response.sendRedirect(redirectUrl);
+//			return false;
+//		} else {
+//			return true;
+//		}
+//	}
 	/**
 	 * 
 	 * 描述：从cookies中获取openId的值

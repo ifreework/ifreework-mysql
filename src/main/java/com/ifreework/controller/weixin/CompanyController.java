@@ -22,26 +22,25 @@ import com.ifreework.util.StringUtil;
  * @modifyDate：2017年6月22日 @version 1.0
  */
 @Controller
-@RequestMapping(value = "/weixin/company")
 public class CompanyController extends BaseControllerSupport {
 	@Autowired
 	private CompanyService companyService;
 
-	@RequestMapping()
+	@RequestMapping("/weixin/company")
 	public ModelAndView gotoView() {
 		ModelAndView mv = this.getModelAndView();
 		mv.setViewName("/weixin/company/list");
 		return mv;
 	}
 
-	@RequestMapping("/add")
+	@RequestMapping("/weixin/company/add")
 	public ModelAndView add() {
 		ModelAndView mv = this.getModelAndView();
 		mv.setViewName("/weixin/company/edit");
 		return mv;
 	}
 
-	@RequestMapping(value = "/edit")
+	@RequestMapping(value = "/weixin/company/edit")
 	public ModelAndView edit() {
 		ModelAndView mv = this.getModelAndView();
 		Company company = companyService.getCompanyByUserId();
@@ -51,14 +50,14 @@ public class CompanyController extends BaseControllerSupport {
 	}
 
 
-	@RequestMapping(value = "/query")
+	@RequestMapping(value = "/weixin/company/query")
 	@ResponseBody
 	public PageData query() {
 		PageData pd = this.getPageData();
 		return companyService.queryPageList(pd);
 	}
 
-	@RequestMapping(value = "/save")
+	@RequestMapping(value = "/weixin/company/save")
 	@ResponseBody
 	public PageData save(@ModelAttribute("company") Company company) {
 		PageData pd;
@@ -70,7 +69,7 @@ public class CompanyController extends BaseControllerSupport {
 		return pd;
 	}
 
-	@RequestMapping(value = "/delete")
+	@RequestMapping(value = "/weixin/company/delete")
 	@ResponseBody
 	public PageData delete() {
 		PageData pd = this.getPageData();

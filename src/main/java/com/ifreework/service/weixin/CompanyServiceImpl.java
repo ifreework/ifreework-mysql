@@ -33,6 +33,12 @@ public class CompanyServiceImpl  implements CompanyService {
 		pd.setPagination(list);
 		return pd;
 	}
+	
+	@Override
+	public List<Company> queryList(PageData pd) {
+		List<Company> list = companyMapper.queryPageList(pd);
+		return list;
+	}
 
 	@Override
 	public Company getCompanyById(String companyId) {

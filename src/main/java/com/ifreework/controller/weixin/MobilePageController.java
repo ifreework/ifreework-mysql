@@ -44,21 +44,23 @@ public class MobilePageController extends BaseControllerSupport {
 	 * @throws IOException 
 	 */
 	@RequestMapping(value = "/redirect")
-	public void redirect() throws IOException {
-		HttpSession session = ServletRequestManager.getHttpSession();
-		HttpServletResponse response = ServletRequestManager.getHttpServletResponse();
+	public ModelAndView redirect() throws IOException {
+		ModelAndView mv = new ModelAndView();
 		PageData pd = this.getPageData();
 		String code = pd.getString("code");
 		String f = pd.getString("f");
-		User user = userService.getUserByCode(code);
+//		User user = userService.getUserByCode(code);
 		
+		User user = userService.getUserById(code);  //测试用例
 		if (user != null) {  
-			String uri  = "/WEB-INF/jsp/mobile/forward/forward.jsp?f=" + f;
-			session.setAttribute("openId", user.getUserId());
-			response.sendRedirect(uri);
+			mv.addObject("openId", user.getUserId());
+			mv.addObject("f", f);
 		} else {  //如果当前用户为空，则说明业务出错，跳转到错误页面
-			response.sendRedirect("/mobile/error");
+			mv.addObject("f", "/mobile/error");
 		}
+		
+		mv.setViewName("/mobile/forward/forward");
+		return mv;
 	}
 	
 	
@@ -155,19 +157,6 @@ public class MobilePageController extends BaseControllerSupport {
 		return mv;
 	}
 	
-	/**
-	 * 描述：跳转到注册页面
-	 */
-	@RequestMapping(value = "/register")
-	public ModelAndView register() {
-		ModelAndView mv = new ModelAndView();
-		PageData pd = this.getPageData();
-		String userId = pd.getString("mark");
-		User user = UserManager.getUser(userId);
-		mv.addObject("user", user);
-		mv.setViewName("/mobile/personal/register");
-		return mv;
-	}
 	
 	/**
 	 * 描述：跳转到公司介绍页面
