@@ -91,7 +91,7 @@ public class RequestLogServiceImpl implements RequestLogService, RequestLogManag
 		
 		requestLog.setRequestIp(ip);
 		requestLog.setBrowser(agent.getBrowser().getName());
-		requestLog.setBrowserVersion(agent.getBrowserVersion().getVersion());
+		requestLog.setBrowserVersion(agent.getBrowserVersion() == null ? "" : agent.getBrowserVersion().getVersion());
 		
 		requestLog.setOs(agent.getOperatingSystem().getGroup().getName());
 		requestLog.setOsInfo(agent.getOperatingSystem().getName());

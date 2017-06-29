@@ -14,7 +14,7 @@
 	content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
 	name="viewport" />
 <meta content="telephone=no" name="format-detection" />
-<title>快速建站-</title>
+<title>文章发布</title>
 <link href="${cssPath}/mobile/main.css" rel="stylesheet" type="text/css">
 <link href="${cssPath}/mobile/style.css" rel="stylesheet"
 	type="text/css">
@@ -30,43 +30,30 @@
 <script type="text/javascript" src="${jsPath }/mobile/wo.js"></script>
 </head>
 <body>
-	<div class="warpe" id="register">
-
+	<div class="warpe">
 		<div class="head">
-			<a href="Information_search.html" class="return"><i
-				class="fa fa-angle-left"></i> </a> 开通工作室
+			<a href="#" class="return"><i class="fa fa-chevron-left"></i></a>
+			发布商品 <a href="Interest_search.html"
+				class="search animated fadeInRight" style="font-size: 1.4rem;">发布</a>
 		</div>
-
-		<div class="comnav">
-			<div class="bannerside">
-				<a href="#"><img src="${imagePath}/mobile/pic2.jpg"></a>
-			</div>
+		<div class="edit_t">
+			<input type="text" placeholder="输入公司介绍标题">
+			<textarea rows="8" placeholder="输入公司介绍详情吧"></textarea>
 		</div>
-
 		<div class="main">
-			<div class="part part2 margin_top" style="margin-bottom: 0rem;">
-				<ul>
-					<li class="animated fadeInRight"><input type="text"
-						placeholder="选择所属公司或者品牌" readonly="readonly"> <label
-						class="puff_left">公司：</label>
-						<div class="yzmdiv">
-							<i class="fa fa-angle-right"></i>
-						</div></li>
-					<li class="animated fadeInRight"><input type="text"
-						placeholder="请输入姓名"> <label class="puff_left">姓名：</label>
-					</li>
-					<li class="animated fadeInRight"><input type="text"
-						placeholder="请输入微信号"> <label class="puff_left">微信号：</label>
-					</li>
-					<li class="animated fadeInLeft"><input type="text"
-						placeholder="请输入手机号码"> <label class="puff_left">手机号码：</label>
-					</li>
-					<li class=" animated fadeInRight"><input type="text"
-						placeholder="">
-						<div class="yzmdiv">
-							<a href="#">获取验证码</a>
-						</div> <label class="puff_left">验证码：</label></li>
-				</ul>
+			<div class="edit">
+				<div class="edit_b">
+					<ul>
+						<li class="margin_left"><a href="#"> <img
+								src="${imagePath }/mobile/banner.jpg">
+						</a></li>
+						<li><a href="#"> <img
+								src="${imagePath }/mobile/banner.jpg">
+						</a></li>
+						<li><a href="#" class="add_img">+ <input type="file">
+						</a></li>
+					</ul>
+				</div>
 			</div>
 		</div>
 	</div>

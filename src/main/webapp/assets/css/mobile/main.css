@@ -2533,16 +2533,19 @@ body{
 }
 .main .small_card_info{
     width: 100%;
-    position: absolute;
-    top: 0rem;
-    padding-left: 1rem;
-    padding-top: 2rem;
+    /* position: absolute; */
+    /* padding-left: 1rem; */
+    /* padding-top: 2rem; */
+    height: 10rem;
+    margin-top: -10rem;
 }
 
 .main .small_card_info .user_img{
 	width: 15%;
-	display: inline-block;
-	vertical-align: top;
+    display: inline-block;
+    vertical-align: top;
+    margin-top: 1rem;
+    margin-left: 1rem;
 }
 
 .main .small_card_info .user_img img{
@@ -2552,9 +2555,11 @@ body{
 
 .main .small_card_info .user_info{
 	display:inline-block;
-	padding-left: 0.5rem;
+	margin-top: 1.3rem;
+    margin-left: 0.8rem;
 	color: #fff;
 	font-size: 1.3rem;
+	vertical-align: top;
 }
 .main .small_card_info .user_info span{
 	display: block;
@@ -2565,20 +2570,67 @@ body{
 	color:cornsilk;
 	font-size: 1.5rem;
 }
-.main .small_card_option{
-	margin-top:-4rem;
-	padding-top: 0.5rem;
-	text-align: center;
-	border-top: 0.2rem solid #ddd;
+
+.main .small_card_info .work_room{
+    background: #409A40;
+    font-size: 1.3rem;
+    color: #fff;
+    padding: 1rem;
+    border-bottom-right-radius:1rem;
+	border-bottom-left-radius:1rem;
+    position: absolute;
+    top: 1rem;
+    right: 2rem;
 }
-.main .small_card_option a{
+.main .small_card_info .work_room i{
+	font-size: 1.5rem;
+}
+
+.main .small_card_info .card_option{
+	text-align: center;
+    margin-top: 0.5rem;
+    border-top: 6px solid #666;
+}
+
+.main .small_card_info .card_option a{
 	display: inline-block;
-    background: #4EA1D2;
+    background: #409A40;
     border-radius: 1rem;
     padding: 0.6rem;
     margin-right: 0.5rem;
     color: #fff;
 }
+
+.main .small_card_info .card_option a i{
+	padding-right: 0.5rem;
+    border-right: 0.1rem solid;
+    margin-right: 0.5rem;
+}
+
+.main .recommend{
+	border: 0.1rem solid #666;
+	border-radius: 1rem;
+}
+
+.main .recommend .title{
+	border-bottom: 0.1rem solid #666;
+	height: 3rem;
+	line-height: 3rem;
+	color: #1C32DC;
+	background: transparent;
+}
+.main .recommend .content{
+	padding: 0.5rem 1rem 0.5rem 2.5rem;
+}
+.main .recommend .content ul li{
+	list-style-type: square!important;
+}
+.main .recommend .content ul li a{
+	    color: #666;
+    line-height: 2rem;
+    font-size: 1.3rem;
+}
+
 .left{
 	float: left!important;
 }

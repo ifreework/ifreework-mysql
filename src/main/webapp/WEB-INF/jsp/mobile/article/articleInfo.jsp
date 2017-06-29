@@ -66,11 +66,61 @@
 					<span class="username">${user.personName }</span>
 					<span><label><i class="fa fa-envelope"></i></label> ${user.email }</span>
 				</div>
+				<div class="work_room">
+					<span><i class="fa fa-home"></i></span>
+					<span>工作室</span>
+				</div>
+				<div class="card_option">
+					<a href="#"><i class="fa fa-phone"></i>一键拨号</a>
+					<a href="#"><i class="fa fa-comments-o"></i>添加好友</a>
+					<a href="#">我的工作室</a>
+				</div>
 			</div>
-			<div class="small_card_option">
-				<a href="#"><i class="fa fa-phone"></i>一键拨号</a>
-				<a href="#"><i class="fa fa-phone"></i>一键拨号</a>
-				<a href="#"><i class="fa fa-phone"></i>一键拨号</a>
+		</div>
+		<div class="main">
+			<div class="recommend">
+				<div class="title">
+					相关阅读：
+				</div>
+				<div class="content">
+					<ul>
+						<li>
+							<a href="#">北大博士精心推荐24字公开课程</a>
+						</li>
+						<li>
+							<a href="#">北大博士精心推荐24字公开课程</a>
+						</li>
+						<li>
+							<a href="#">北大博士精心推荐24字公开课程</a>
+						</li>
+						<li>
+							<a href="#">北大博士精心推荐24字公开课程</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		
+		<div class="main">
+	        <div class="pictitle">
+	            <span class="picbg"></span>
+	            <span>热销产品推荐</span>
+	            <a href="#" class="puff_right">更多 ></a>
+	        </div>
+	        <div class="bannerside">
+	            <a href="#"><img src="${imagePath }/mobile/pic1.jpg"></a>
+	        </div>
+	        <div class="bannerside">
+	            <a href="#"><img src="${imagePath }/mobile/pic2.jpg"></a>
+	        </div>
+	        <div class="bannerside">
+	            <a href="#"><img src="${imagePath }/mobile/pic3.jpg"></a>
+	        </div>
+    	</div>
+		
+		<div class="footer">
+			<div class="id_bth">
+				<a href="#">免责声明</a> <a href="#">关于我们</a> <a href="#">申请工作室</a>
 			</div>
 		</div>
 </div>

@@ -254,6 +254,8 @@ public class UserServiceImpl implements UserService, ShiroAuthInterface {
 	 */
 	public PageData add(User user) {
 		PageData pd = new PageData();
+		String userId = StringUtil.uuid();
+		user.setUserId(userId);
 		userMapper.add(user);
 		pd.setResult(Constant.SUCCESS);
 		return pd;
@@ -465,7 +467,9 @@ public class UserServiceImpl implements UserService, ShiroAuthInterface {
 		JSONObject json = getOauth2AccessToken(appid, appSecret, code);
 		
 		String userId = json.getString("openid");
+		
 		User user = getUserById(userId);
+		
 		if(user == null ){ //如果当前用户id在数据库中不存在，则在微信获取用户ID，并进行注册
 			String requestUrl = "https://api.weixin.qq.com/sns/userinfo?access_token=ACCESS_TOKEN&openid=OPENID&lang=zh_CN ";
 			
@@ -486,7 +490,7 @@ public class UserServiceImpl implements UserService, ShiroAuthInterface {
 			user.setImgPath(json.getString("headimgurl"));
 			user.setPrivilege(json.getString("privilege"));
 			user.setUnionid(json.getString("unionid"));
-			add(user);
+			userMapper.add(user);
 		}
 		return user;
 	}

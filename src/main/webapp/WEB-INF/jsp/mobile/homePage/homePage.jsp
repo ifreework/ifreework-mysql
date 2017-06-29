@@ -25,6 +25,7 @@
 <link href="${cssPath}/animate.min.css" rel="stylesheet" type="text/css">
 <script type="text/javascript" src="${ jsPath }/jquery/jquery.min.js"></script>
 <script type="text/javascript" src="${jsPath }/mobile/wo.js"></script>
+
 </head>
 <body>
 	<div class="warpe">
@@ -163,5 +164,9 @@
 	</div>
 	<script type="text/javascript" src="${jsPath}/mobile/slide_wap.js"></script>
 	<script type="text/javascript" src="${jsPath}/mobile/common.js"></script>
+	<script type="text/javascript">
+		var loginUserId = "${user.userId}";
+		var pageUserId = 
+	</script>
 </body>
 </html>

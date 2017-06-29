@@ -1,13 +1,16 @@
 package com.ifreework.controller.weixin;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.util.UriUtils;
 
 import com.ifreework.common.controller.BaseControllerSupport;
 import com.ifreework.common.entity.PageData;
@@ -17,6 +20,7 @@ import com.ifreework.common.manager.WeixinManager;
 import com.ifreework.entity.system.Config;
 import com.ifreework.entity.system.User;
 import com.ifreework.service.system.UserService;
+import com.ifreework.util.StringUtil;
 
 /**
  * 描述：微信接口调用总接口    
@@ -32,62 +36,41 @@ public class MobilePageController extends BaseControllerSupport {
 
 	@Autowired
 	private UserService userService;
-
-	/**
-	 * 接口验证,总入口,用于微信公众号绑定时的验签
-	 */
-	@RequestMapping(value = "/index")
-	public ModelAndView index() {
-		ModelAndView mv = new ModelAndView();
-		PageData pd = this.getPageData();
-		String code = pd.getString("code");
-		User user = userService.getUserByCode(code);
-		if (user != null) {
-			mv.addObject("user", user);
-		} else {
-			mv.setViewName("/mobile/error/error");
-		}
-		return mv;
-	}
-
-	
 	
 	/**
-	 * 描述：跳转到微信授权页面
-	 * @throws IOException 
-	 */
-	@RequestMapping(value = "/authorization")
-	public void authorization() throws IOException {
-		HttpServletResponse response = ServletRequestManager.getHttpServletResponse();
-		PageData pd = this.getPageData();
-		String article = pd.getString("article");
-		String domainName = Config.init().get(Config.SYSTEM_DOMAIN_NAME);
-		String redirectUri = domainName + "/mobile/redirect";
-		String authorization = WeixinManager.getAuthorizationUrl(redirectUri, "snsapi_userinfo", article);
-		response.sendRedirect(authorization);
-	}
-	
-	
-	/**
-	 * 描述：跳转到微信授权页面
+	 * 描述：微信授权回调页面
+	 * 通过回调参数code，调用微信接口，获取用户的相关数据
+	 * 用户获取成功后，跳转到中间页面，保存openId
 	 * @throws IOException 
 	 */
 	@RequestMapping(value = "/redirect")
 	public void redirect() throws IOException {
+		HttpSession session = ServletRequestManager.getHttpSession();
 		HttpServletResponse response = ServletRequestManager.getHttpServletResponse();
 		PageData pd = this.getPageData();
 		String code = pd.getString("code");
-		String article = pd.getString("state");
+		String f = pd.getString("f");
 		User user = userService.getUserByCode(code);
-		if (user != null) {
-			String domainName = Config.init().get(Config.SYSTEM_DOMAIN_NAME);
-			String url = domainName + "/mobile/page?article=" + article + "&mark=" + user.getUserId();
-			response.sendRedirect(url);
-		} else {
-			response.sendRedirect("/mobile/error/error.jsp");
+		
+		if (user != null) {  
+			String uri  = "/WEB-INF/jsp/mobile/forward/forward.jsp?f=" + f;
+			session.setAttribute("openId", user.getUserId());
+			response.sendRedirect(uri);
+		} else {  //如果当前用户为空，则说明业务出错，跳转到错误页面
+			response.sendRedirect("/mobile/error");
 		}
 	}
 	
+	
+	/**
+	 * 描述：跳转到文章页面
+	 */
+	@RequestMapping(value = "/forward")
+	public ModelAndView forward() {
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("/mobile/forward/forward");
+		return mv;
+	}
 	
 	/**
 	 * 
@@ -284,5 +267,11 @@ public class MobilePageController extends BaseControllerSupport {
 		mv.addObject("user", user);
 		mv.setViewName("/mobile/product/productType");
 		return mv;
+	}
+	
+	
+	public static void main(String[] args) throws UnsupportedEncodingException {
+		String s = UriUtils.decode("https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxe4d5e6ad2c81acf2&redirect_uri=http%3A%2F%2Fwww.zxcjhb.cn%2Fwxcode%2Fgetcode.php%3Fscope%3Dsnsapi_base%26auk%3Dforward%26forward%3Dhttp%3A%2F%2Fwz.cjhb168.com%2Farticle%2Fmobile%2Fdo%2Fdetail%2Fid%2F62696.html%3Fu%3D87543c737cef1f15%26__is_from_weixin_lion__%3Dyes&response_type=code&scope=snsapi_base&state=1498702387&connect_redirect=1#wechat_redirect", "UTF-8");
+		System.out.println(s);
 	}
 }
