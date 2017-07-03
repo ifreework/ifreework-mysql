@@ -1,12 +1,7 @@
 <%@ page language="java" pageEncoding="UTF-8"
 	contentType="text/html; charset=UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
-<%@ page isELIgnored="false"%>
-
-<!DOCTYPE html>
-<html lang="en">
+<%@ include file="/WEB-INF/jsp/mobile/include/head.jsp"%>
+<html lang="zh">
 <head>
 <meta charset="UTF-8">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -14,27 +9,34 @@
 	content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
 	name="viewport" />
 <meta content="telephone=no" name="format-detection" />
-<title>${user.personName }的优荐</title>
-<link href="${cssPath}/mobile/main.css" rel="stylesheet" type="text/css">
-<link href="${cssPath}/mobile/style.css" rel="stylesheet"
-	type="text/css">
-<link href="${cssPath}/mobile/shake.css" rel="stylesheet"
-	type="text/css">
-<link href="${cssPath}/font-awesome.min.css" rel="stylesheet"
-	type="text/css">
-<link href="${cssPath}/animate.min.css" rel="stylesheet" type="text/css">
-<link href="${cssPath}/mobile/idangerous.swiper.css" rel="stylesheet"
-	type="text/css">
+<title>我的优荐</title>
 
-<script type="text/javascript" src="${ jsPath }/jquery/jquery.min.js"></script>
-<script type="text/javascript" src="${jsPath }/mobile/wo.js"></script>
 <script>
+	var loading = false; //属否数据正在加载
 	$(document).ready(function() {
 		//控制tab选项滚动
 		var elm2 = $('.xx_tab');
 		var startPos = $(elm2).offset().top;
 		$.event.add(window, "scroll", function() {
-			var p = $(window).scrollTop();
+			var p = $(window).scrollTop(),scrollHeight = $(document).height(),windowHeight = $(this).height(),positionValue = (p + windowHeight) - scrollHeight;
+
+			/**
+			if(p < 0 && !loading){ //下拉刷新
+				var start = $(".swiper-slide-active .page");
+				start.val(1);
+				reload();
+			}
+			**/
+			
+			if(positionValue > 0 && !loading){ //上拉加载
+				var noMore = $(".swiper-slide-active ul .no-more");
+				if(noMore.length == 0){
+					var start = $(".swiper-slide-active .page");
+					start.val(parseInt(start.val()) + 1);
+					reload();
+				}
+			}
+			
 			$(elm2).css('position', ((p) > startPos) ? 'fixed' : 'static');
 			$(elm2).css('width', ((p) > startPos) ? '100%' : '');
 			$(elm2).css('top', ((p) > startPos) ? '0rem' : '');
@@ -48,19 +50,16 @@
 <body>
 	<div class="warpe">
 		<div class="head">
-			${user.personName }的优荐
+			<a href="javascript:history.go(-1)" class="return"><i class="fa fa-chevron-left"></i> 返回</a>
+			我的优荐
 			<a href="Information_search.html" class="search"><i class="fa fa-search"></i> </a>
 		</div>
 
 		<div class="tabs my_tab sqh_tab xx_tab">
-			<a href="#" hidefocus="true" class="active">头条</a> 
-			<a href="#" hidefocus="true">事业</a> 
-			<a href="#" hidefocus="true">产品</a> 
-			<a href="#" hidefocus="true">亲子</a> 
-			<a href="#" hidefocus="true">养生</a>
-			<a href="#" hidefocus="true">妆扮</a>
-			<a href="#" hidefocus="true">资讯</a>
-			<a href="#" hidefocus="true">励志</a>
+			<a href="javascript:void(0)" hidefocus="true" class="active" data-id="">头条</a> 
+			<c:forEach items="${ dList }" var="d" varStatus="dStatus">
+			<a href="javascript:void(0)" hidefocus="true" data-id="${d.dictionaryCode }">${d.dictionaryName }</a> 
+			</c:forEach>
 		</div>
 		
 		<div class="banner">
@@ -89,189 +88,37 @@
 		
 		<div class="swiper-container">
 			<div class="swiper-wrapper">
-				<div class="swiper-slide">
-					<div class="content-slide">
-						<div class="main">
-							<div class="finance">
-								<ul>
-									<li class="animated fadeInRight"><a
-										href="Information_xq2.html">
-											<p>【必看】这些钱可以省了！总理力督，国务院开出减税降费清单</p>
-											<p>
-												<span class="puff_left">来自凤凰社区街道办</span><span
-													class="puff_right">08-05 23:58</span>
-											</p>
-									</a></li>
-									<li class="animated fadeInLeft"><a
-										href="Information_xq2.html">
-											<p>"空中巴士"巴铁试验车北戴河测试 可载300人</p>
-											<p>
-												<span class="puff_left">来自凤凰社区街道办</span><span
-													class="puff_right">08-03 18:55</span>
-											</p>
-									</a></li>
-									<li class="animated fadeInRight"><a
-										href="Information_xq2.html">
-											<p>【必看】这些钱可以省了！总理力督，国务院开出减税降费清单</p>
-											<p>
-												<span class="puff_left">来自凤凰社区街道办</span><span
-													class="puff_right">08-05 23:58</span>
-											</p>
-									</a></li>
-									<li class="animated fadeInLeft"><a
-										href="Information_xq2.html">
-											<p>"空中巴士"巴铁试验车北戴河测试 可载300人</p>
-											<p>
-												<span class="puff_left">来自凤凰社区街道办</span><span
-													class="puff_right">08-03 18:55</span>
-											</p>
-									</a></li>
-									<li class="animated fadeInRight"><a
-										href="Information_xq2.html">
-											<p>【必看】这些钱可以省了！总理力督，国务院开出减税降费清单</p>
-											<p>
-												<span class="puff_left">来自凤凰社区街道办</span><span
-													class="puff_right">08-05 23:58</span>
-											</p>
-									</a></li>
-									<li class="animated fadeInLeft"><a
-										href="Information_xq2.html">
-											<p>"空中巴士"巴铁试验车北戴河测试 可载300人</p>
-											<p>
-												<span class="puff_left">来自凤凰社区街道办</span><span
-													class="puff_right">08-03 18:55</span>
-											</p>
-									</a></li>
-								</ul>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="swiper-slide">
-					<div class="content-slide">
-						<div class="main">暂无内容</div>
-					</div>
-				</div>
-				<div class="swiper-slide">
-					<div class="content-slide">
-						<div class="main">
-							<div class="finance">
-								<ul>
-									<li class="animated fadeInRight"><a href="#">
-											<p>【必看】这些钱可以省了！总理力督，国务院开出减税降费清单</p>
-											<p>
-												<span class="puff_left">来自凤凰社区街道办</span><span
-													class="puff_right">08-05 23:58</span>
-											</p>
-											<p>
-												<label> <i class="icon-bookmark-empty"></i> 标签1
-												</label><label> <i class="icon-bookmark-empty"></i> 标签2
-												</label>
-											</p>
-									</a></li>
-									<li class="animated fadeInLeft"><a href="#">
-											<p>"空中巴士"巴铁试验车北戴河测试 可载300人</p>
-											<p>
-												<span class="puff_left">来自凤凰社区街道办</span><span
-													class="puff_right">08-03 18:55</span>
-											</p>
-											<p>
-												<label> <i class="icon-bookmark-empty"></i> 标签1
-												</label><label> <i class="icon-bookmark-empty"></i> 标签2
-												</label>
-											</p>
-									</a></li>
-								</ul>
-							</div>
-						</div>
-					</div>
-				</div>
+			<c:forEach items="${ dList }" var="d" varStatus="dStatus">
 				<div class="swiper-slide">
 					<div class="content-slide">
 						<div class="interest_list">
 							<ul>
-								<li class="animated bounceInLeft"><a
-									href="Information_xq.html"> <img
-										src="${imagePath }/mobile/banner.jpg">
-										<div class="list_r">
-											<p>
-												<span>社会组织</span>
-											</p>
-											<p class="fin_p">该组织发布的信息标题，显示最新一条...</p>
-											<i class=" icon-angle-right"></i>
-										</div>
-								</a></li>
-								<li class="animated bounceInRight"><a
-									href="Information_xq.html"> <img
-										src="${imagePath }/mobile/banner.jpg">
-										<div class="list_r">
-											<p>
-												<span>社会组织</span>
-											</p>
-											<p class="fin_p">该组织发布的信息标题，显示最新一条...</p>
-											<i class=" icon-angle-right"></i>
-										</div>
-								</a></li>
-								<li class="animated bounceInLeft"><a
-									href="Information_xq.html"> <img
-										src="${imagePath }/mobile/banner.jpg">
-										<div class="list_r">
-											<p>
-												<span>社会组织</span>
-											</p>
-											<p class="fin_p">该组织发布的信息标题，显示最新一条...</p>
-											<i class=" icon-angle-right"></i>
-										</div>
-								</a></li>
-								<li class="animated bounceInRight"><a
-									href="Information_xq.html"> <img
-										src="${imagePath }/mobile/banner.jpg">
-										<div class="list_r">
-											<p>
-												<span>社会组织</span>
-											</p>
-											<p class="fin_p">该组织发布的信息标题，显示最新一条...</p>
-											<i class=" icon-angle-right"></i>
-										</div>
-								</a></li>
 							</ul>
+							<input type="hidden" class="page" value="1">
 						</div>
 					</div>
 				</div>
-				<div class="swiper-slide">
-					<div class="content-slide">
-						<div class="main">暂无内容</div>
-					</div>
-				</div>
-				<div class="swiper-slide">
-					<div class="content-slide">
-						<div class="main">暂无内容</div>
-					</div>
-				</div>
+				</c:forEach>
 			</div>
 		</div>
 
 		<div class="footer">
-			<div class="id_bth">
-				<a href="#">免责声明</a> <a href="#">关于我们</a> <a href="#">用户中心</a>
-			</div>
+			<a href="#">免责声明</a> <a href="#">关于我们</a> <a href="#">用户中心</a>
 		</div>
 
 		<div class="navside">
 			<ul>
-				<li class="margin_left animated bounceInLeft"><a href="#"
-					class="navside_hover">
+				<li class="margin_left animated bounceInLeft"><a href="${contextPath }/homePage?m=${user.userId}" class="navside_hover">
 						<p>
 							<i class="fa fa-home"></i>
 						</p> <span>首页</span>
 				</a></li>
-				<li class="animated bounceInRight"><a href="#">
+				<li class="animated bounceInRight"><a href="${contextPath}/mobile/personal?m=${user.userId }">
 						<p>
 							<i class="fa fa-user"></i>
 						</p> <span>个人中心</span>
 				</a></li>
-				<li class="animated bounceInLeft"><a
-					href="Information_index.html">
+				<li class="animated bounceInLeft"><a href="${contextPath}/mobile/articleList?m=${user.userId }">
 						<p>
 							<i class="fa fa-th-large"></i>
 						</p> <span>微分享</span>
@@ -286,6 +133,12 @@
 	<script type="text/javascript"
 		src="${jsPath }/mobile/idangerous.swiper.min.js"></script>
 	<script type="text/javascript">
+		var openId = $.cookie("openId");
+		var userId = "${user.userId}";
+		if(openId != userId){
+			$(".navside").hide();
+		}
+		
 		var tabsSwiper = new Swiper('.swiper-container', {
 			speed : 500,
 			onSlideChangeStart : function() {
@@ -298,10 +151,71 @@
 			$(".tabs .active").removeClass('active')
 			$(this).addClass('active')
 			tabsSwiper.slideTo($(this).index())
+			
+			var li = $(".swiper-slide-active ul li");
+			if(li.length == 0){
+				reload();
+			}
 		})
 		$(".tabs a").click(function(e) {
 			e.preventDefault()
 		})
+		
+		var length = 10; //每页显示条数
+		function reload(){
+			loading = true;
+			var typeId = $(".active").data("id");
+			var start = $(".swiper-slide-active .page").val();
+			if(start == 1){
+				$(".swiper-slide-active ul").empty();
+			}
+			M.ajax({
+				url:'${ contextPath }/mobile/articleList/query',
+				data:{start:(start - 1)*length,length:length,articleTypeId:typeId},
+				async:false,
+				success:function(data){
+					createElement(data);
+					loading = false;
+				}
+			});
+		}
+		
+		function createElement(data){
+			var html = '<li class="animated bounceInRight">\
+							<a href="${contextPath }/mobile/articleInfo?m=${user.userId}&p=[ARTICLEID]">\
+								<img src="[IMAGE]">\
+								<div class="list_r">\
+									<p>\
+										<span>[TITLE]</span>\
+									</p>\
+									<p class="fin_p">\
+										<span class="info">\
+											<span class="info_user">${user.personName }</span>\
+											<span>[CREATETIME]</span>\
+										</span>\
+										<span class="page_view right">\
+											阅读([PAGEVIEW])\
+										</span>\
+									</p>\
+								</div>\
+						</a></li>';
+						
+			for(var i = 0; i < data.data.length; i++){
+				var article = data.data[i];
+				var li = html.replace("[ARTICLEID]",article.articleId)
+							 .replace("[IMAGE]",article.image)
+							 .replace("[TITLE]",article.title)
+							 .replace("[CREATETIME]",article.createTime)
+							 .replace("[PAGEVIEW]",article.pageView);
+				$(".swiper-slide-active ul").append(li);
+			}
+			if(data.data.length < length){
+				var li = '<li class="no-more"><div style="text-align: center;">没有更多数据了</div></li>';
+				$(".swiper-slide-active ul").append(li);
+			}
+		}
+		reload();
+		
 	</script>
 </body>
 </html>

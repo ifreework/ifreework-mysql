@@ -114,6 +114,7 @@
 			<mvc:exclude-mapping path="/error/**" />
 			<mvc:exclude-mapping path="/websocket/**" />
 			<mvc:exclude-mapping path="/mobile/**" />
+			<mvc:exclude-mapping path="/weixin/**" />
 			<bean
 				class="com.ifreework.common.shiro.interceptor.LoginHandlerInterceptor">
 				<property name="loginPath" value="/"></property>
@@ -131,6 +132,7 @@
 			<mvc:exclude-mapping path="/websocket/**" />
 			<mvc:exclude-mapping path="/error/**" />
 			<mvc:exclude-mapping path="/mobile/**" />
+			<mvc:exclude-mapping path="/weixin/**" />
 			<bean class="com.ifreework.common.shiro.interceptor.AuthHandlerInterceptor">
 				<property name="unAuthorizedUrl" value="/error/600"></property>
 				<property name="shiroAuth" ref="userService" />
@@ -152,15 +154,32 @@
 				<property name="requestLogManager" ref="requestLogService" />
 			</bean>
 		</mvc:interceptor>
-		<!-- 
+		<!-- -->
+		<mvc:interceptor>
+			<mvc:mapping path="/mobile/personal" />
+			<bean
+				class="com.ifreework.common.shiro.interceptor.WeixinPersonaldHandlerInterceptor">
+				<property name="oauth2RedirectUrl" value="/mobile/redirect?f=[FORWARD]" />
+			</bean>
+		</mvc:interceptor>
+		
 		<mvc:interceptor>
 			<mvc:mapping path="/mobile/register" />
+			<mvc:mapping path="/mobile/changeToMine" />
 			<bean
 				class="com.ifreework.common.shiro.interceptor.WeixinOpenIdHandlerInterceptor">
 				<property name="oauth2RedirectUrl" value="/mobile/redirect?f=[FORWARD]" />
 			</bean>
 		</mvc:interceptor>
-		 -->
+		 
+		<mvc:interceptor>
+			<mvc:mapping path="/mobile/changeToMine" />
+			<bean
+				class="com.ifreework.common.shiro.interceptor.WeixinRegisterHandlerInterceptor">
+				<property name="registerUrl" value="/mobile/register?f=[FORWARD]" />
+			</bean>
+		</mvc:interceptor>
+		
 	</mvc:interceptors>
 
 </beans>

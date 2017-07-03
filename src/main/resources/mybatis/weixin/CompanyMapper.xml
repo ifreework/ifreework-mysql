@@ -34,7 +34,7 @@
 		from WEIXIN_COMPANY
 		where 1 = 1
 		<if test="companyName != null and companyName != ''">
-			and COMPANY_NAME like '%' || #{companyName} || '%'
+			and COMPANY_NAME like '%${companyName}%'
 		</if>
 		order by COMPANY_NAME
 	</select>

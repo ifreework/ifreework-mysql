@@ -23,7 +23,6 @@ public class ProductTypeServiceImpl  implements ProductTypeService {
 	
 	@Override
 	public PageData queryPageList(PageData pd) {
-		pd.put("companyId", UserManager.getUser().getDeptId());
 		List<ProductType> list = productTypeMapper.queryPageList(pd);
 		pd.setPagination(list);
 		return pd;
@@ -31,7 +30,6 @@ public class ProductTypeServiceImpl  implements ProductTypeService {
 	
 	@Override
 	public List<ProductType> queryList(PageData pd) {
-		pd.put("companyId", UserManager.getUser().getDeptId());
 		List<ProductType> list = productTypeMapper.queryPageList(pd);
 		return list;
 	}

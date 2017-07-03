@@ -11,6 +11,7 @@ package com.ifreework.service.system;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -473,6 +474,7 @@ public class UserServiceImpl implements UserService, ShiroAuthInterface {
 		if(user == null ){ //如果当前用户id在数据库中不存在，则在微信获取用户ID，并进行注册
 			String requestUrl = "https://api.weixin.qq.com/sns/userinfo?access_token=ACCESS_TOKEN&openid=OPENID&lang=zh_CN ";
 			
+			
 			String access_token = json.getString("access_token");
 			requestUrl = requestUrl.replace("ACCESS_TOKEN", access_token);
 			requestUrl = requestUrl.replace("OPENID", userId);
@@ -483,10 +485,11 @@ public class UserServiceImpl implements UserService, ShiroAuthInterface {
 			user.setUserId(json.getString("openid"));
 			user.setPersonName(json.getString("nickname"));
 			user.setSex(json.getString("sex"));
-			user.setProvinceId(json.getString("province"));
-			user.setMunicipalityId(json.getString("city"));
-			user.setCountyId(json.getString("country"));
 			
+//			user.setProvinceId(json.getString("province"));
+//			user.setMunicipalityId(json.getString("city"));
+//			user.setCountyId(json.getString("country"));
+//			
 			user.setImgPath(json.getString("headimgurl"));
 			user.setPrivilege(json.getString("privilege"));
 			user.setUnionid(json.getString("unionid"));

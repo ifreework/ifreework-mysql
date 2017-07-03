@@ -76,6 +76,9 @@ a{
 .weui-icon-warn:before{
   content:"\EA0B";
 }
+.weui-icon-warn-no-circle:before{
+  content:"\EA0B";
+}
 .weui-icon-info-circle:before{
   content:"\EA0C";
 }
@@ -122,6 +125,11 @@ a{
   font-size:23px;
   color:#09BB07;
 }
+.weui-icon-warn-no-circle{
+  font-size:23px;
+  color:#09BB07;
+}
+
 .weui-icon-waiting-circle{
   font-size:23px;
   color:#10AEFF;

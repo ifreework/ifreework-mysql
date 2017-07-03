@@ -41,7 +41,7 @@
 		<where>
 			<trim  suffixOverrides="and">
 				<if test=" username != null and  username != ''">
-					and USERNAME like '%' || #{username} || '%'
+					and USERNAME like '%${username%'
 				</if>
 			</trim>
 		</where>

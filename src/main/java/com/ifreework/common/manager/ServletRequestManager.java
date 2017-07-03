@@ -10,6 +10,7 @@ import java.util.Locale;
 import java.util.TimeZone;
 
 import javax.servlet.ServletOutputStream;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -18,7 +19,6 @@ import org.apache.log4j.Logger;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
-import com.alibaba.fastjson.JSON;
 import com.ifreework.util.StringUtil;
 
 
@@ -180,7 +180,7 @@ public class ServletRequestManager {
 			HttpServletResponse res = getHttpServletResponse();
 			res.setContentType("text/html;charset=utf-8");
 			prw = res.getOutputStream();
-			prw.print(JSON.toJSONString(html));
+			prw.print(html);
 		} catch (Exception e) {
 			
 			e.printStackTrace();
@@ -226,6 +226,25 @@ public class ServletRequestManager {
 		} catch (Exception exception) {
 		}
 		return url;
+	}
+	
+	/**
+	 * 
+	 * 描述：从cookies中获取cookieName的值
+	 * @param cookieName
+	 * @return cookieName的值，如果不存在，返回null
+	 */
+	public static String getCookieValue(String cookieName) {
+		Cookie[] cookies = getHttpServletRequest().getCookies();
+		String cookieValue = null;
+		if (cookies != null) {
+			for (Cookie cookie : cookies) {
+				if (cookie.getName().equals(cookieName)) {
+					cookieValue = cookie.getValue();
+				}
+			}
+		}
+		return cookieValue;
 	}
 
 	static {

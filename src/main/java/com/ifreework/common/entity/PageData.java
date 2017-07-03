@@ -49,7 +49,7 @@ public class PageData extends HashMap implements Map {
 	 * 描述：返回分页每页显示条数
 	 * @return 
 	 */
-	public Integer getLength() {
+	private Integer getLength() {
 		String length = (String) this.get("length");
 		if (StringUtil.isEmpty(length)) {
 			return null;
@@ -58,37 +58,21 @@ public class PageData extends HashMap implements Map {
 	}
 
 	/**
-	 * 描述：设置分页查询每页显示条数
-	 * @param length 
-	 * @return
-	 */
-	public void setLength(Integer length) {
-		this.put("length", length);
-	}
-
-	/**
 	 * 
 	 * 描述：获取分页查询页码
 	 * @return 
 	 * @return
 	 */
-	public Integer getStart() {
+	private Integer getStart() {
+		Integer length = (Integer) map.get("length");
 		String start = (String) this.get("start");
 		if (StringUtil.isEmpty(start)) {
 			return null;
 		}
-		return Integer.parseInt(start) == 0 ? 1 : Integer.parseInt(start);
+		Integer i = Integer.parseInt(start)/length;
+		return i + 1;
 	}
 
-	/**
-	 * 
-	 * 描述：设置分页查询页码，从1开始
-	 * @param start 
-	 * @return
-	 */
-	public void setStart(Integer start) {
-		this.put("start", start <= 0 ? 1 : start);
-	}
 
 	/**
 	 * 
@@ -196,6 +180,7 @@ public class PageData extends HashMap implements Map {
 		map = setParameters(request);
 		if(map.get("length") != null){
 			map.put("length", getLength());
+			map.put("start", getStart());
 		}
 		setColumns(map);
 		setOrder(map);

@@ -86,7 +86,7 @@ public class WeixinManager {
 		// 调用接口创建菜单
 		String resultStr = HttpRequestUtil.httpsRequest(url, "POST", paramStr);
 
-		if (StringUtil.isEmpty(resultStr)) {
+		if (!StringUtil.isEmpty(resultStr)) {
 			JSONObject json = JSON.parseObject(resultStr);
 			return json;
 		} else {

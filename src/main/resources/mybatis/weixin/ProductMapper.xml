@@ -45,6 +45,15 @@
 		<result column="TEXT10" property="text10" />
 	</resultMap>
 
+	<resultMap
+		type="java.util.HashMap"
+		id="productMap">
+		<id column="PRODUCT_TYPE_ID" property="productTypeId"/>
+		<result column="PRODUCT_TYPE_NAME" property="productTypeName"/>
+		<collection property="productList"  javaType="ArrayList"  
+			column="{productTypeId = PRODUCT_TYPE_ID}" select="queryProductByTypeList" />
+	</resultMap>
+
 	<select id="queryPageList" parameterType="pd" resultMap="product">
 		select
 		(select PRODUCT_TYPE_NAME from WEIXIN_PRODUCT_TYPE T WHERE T.PRODUCT_TYPE_ID = WEIXIN_PRODUCT.PRODUCT_TYPE_ID) PRODUCT_TYPE_NAME,
@@ -55,10 +64,72 @@
 			and PRODUCT_TYPE_ID = #{productTypeId}
 		</if>
 		<if test=" productName != null and  productName != ''">
-			and PRODUCT_NAME like '%' || #{productName} || '%'
+			and PRODUCT_NAME like '%${productName}%'
 		</if>
 	</select>
+	
+	<!-- 微信端首页查询 -->
+	<select id="queryProductMobileList" resultMap="productMap" parameterType="string">
+		select
+		PRODUCT_TYPE_ID,PRODUCT_TYPE_NAME
+		from  WEIXIN_PRODUCT_TYPE  where STATUS = '1' and IS_LEAF = '0'
+		and COMPANY_ID = #{companyId}
+	</select>
 
+
+	<!-- 查询根据类型查询产品 -->
+	<select id="queryProductList" parameterType="pd" resultMap="product">
+		select
+			T.PRODUCT_TYPE_NAME,
+			P.PRODUCT_ID,
+			P.PRODUCT_TYPE_ID,
+			P.PRODUCT_NAME,
+			P.SPECIFICATION_MODEL,
+			P.IMAGE,
+			P.CONTENT,
+			P.PAGE_VIEW,
+			P.PRICE,
+			P.TEXT1,
+			P.TEXT2,
+			P.TEXT3,
+			P.TEXT4,
+			P.TEXT5,
+			P.TEXT6,
+			P.TEXT7,
+			P.TEXT8,
+			P.TEXT9,
+			P.TEXT10
+		from WEIXIN_PRODUCT  P
+		INNER JOIN WEIXIN_PRODUCT_TYPE T ON P.PRODUCT_TYPE_ID = T.PRODUCT_TYPE_ID
+		where 1 = 1 
+		<if test=" t != null and  t != ''">
+		and (P.PRODUCT_TYPE_ID = #{t}
+			or P.PRODUCT_TYPE_ID in (select
+				PRODUCT_TYPE_ID
+				from  WEIXIN_PRODUCT_TYPE  where STATUS = '1'
+				and PARENT_ID = #{t}))
+		</if>
+		<if test=" q != null and  q != ''">
+			and P.PRODUCT_NAME LIKE '%${q}%'
+			and T.COMPANY_ID = #{companyId}
+		</if>
+	</select>
+	
+	
+	<!-- 查询根据类型查询产品 -->
+	<select id="queryProductByTypeList" parameterType="pd" resultMap="product">
+		select
+		(select PRODUCT_TYPE_NAME from WEIXIN_PRODUCT_TYPE T WHERE T.PRODUCT_TYPE_ID = WEIXIN_PRODUCT.PRODUCT_TYPE_ID) PRODUCT_TYPE_NAME,
+		<include refid="productColumns" />
+		from WEIXIN_PRODUCT
+		where PRODUCT_TYPE_ID = #{{productTypeId}
+			or PRODUCT_TYPE_ID in (select
+				PRODUCT_TYPE_ID
+				from  WEIXIN_PRODUCT_TYPE  where STATUS = '1'
+				and PARENT_ID = #{productTypeId})
+		limit 0,4
+	</select>
+	
 	<select id="getProductById" parameterType="String" resultMap="product">
 		select
 		(select PRODUCT_TYPE_NAME from WEIXIN_PRODUCT_TYPE T WHERE T.PRODUCT_TYPE_ID = WEIXIN_PRODUCT.PRODUCT_TYPE_ID) PRODUCT_TYPE_NAME,

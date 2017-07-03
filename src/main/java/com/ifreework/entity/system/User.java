@@ -39,7 +39,8 @@ public class User implements Serializable{
 	private String promoter;
 	private String weixin;
 	private String weixinImg;
-	
+	private Date vipEndTime;
+	private String companyId;
 	
 	
 	private Province province;
@@ -228,9 +229,20 @@ public class User implements Serializable{
 	public void setCompany(Company company) {
 		this.company = company;
 	}
+	public String getCompanyId() {
+		return companyId;
+	}
+	public void setCompanyId(String companyId) {
+		this.companyId = companyId;
+	}
+	public Date getVipEndTime() {
+		return vipEndTime;
+	}
+	public void setVipEndTime(Date vipEndTime) {
+		this.vipEndTime = vipEndTime;
+	}
 	
 	
-
 }
 
 

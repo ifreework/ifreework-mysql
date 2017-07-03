@@ -2,7 +2,8 @@
 	contentType="text/html; charset=UTF-8"%>
 <%@ include file="/WEB-INF/jsp/mobile/include/head.jsp"%>
 
-<html lang="zh">
+<!DOCTYPE html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -10,27 +11,27 @@
 	content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
 	name="viewport" />
 <meta content="telephone=no" name="format-detection" />
-<title>${introduction.title }</title>
+<title>${product.productName }</title>
 </head>
 <body>
 <div class="warpe">
     <div class="head head2">
-        <a href="javascript:history.go(-1)" class="return" style="color: #5f5e5e;top:1rem;"><i class="fa fa-chevron-left"></i></a>
-        <a href="${contextPath}/mobile/homePage?m=${user.userId}" id="sc_bth" class="search" style="color: #5f5e5e;top:1rem;"><i class="fa fa-home"></i> </a>
+        <a href="javascript:history.go(-1)" class="return" style="color: #5f5e5e;"><i class="fa fa-chevron-left"></i></a>
+        <a href="${contextPath}/mobile/homePage?m=${user.userId}" id="sc_bth" class="search" style="color: #5f5e5e;"><i class="fa fa-home"></i> </a>
     </div>
     <div class="main">
         <div class="finance">
             <ul>
                 <li class="animated fadeIn clear_border">
                     <a>
-                        <p class="fin_title">关于【${user.company.companyName}】${introduction.title }</p>
+                        <p class="fin_title">${product.productName }</p>
                         <p>
-                        	<span class="puff_left">${user.personName }</span>
-                        	<span class="puff_left time"><fmt:formatDate value="${introduction.createTime}" pattern="MM-dd hh:mm"/></span>
-                        	<span class="puff_right changeToMine" id="changeToMine">修改成我的</span> 
+                        	<span class="puff_left">规格：${product.specificationModel }</span>
+                        	<span class="puff_left time">价格：<span style="color: red;">￥${product.price }</span></span>
+                        	<span class="puff_right">阅读（${product.pageView }）</span> 
                         </p>
                         <div class="fin_txt">
-                        	${introduction.content }
+                        	${product.content }
                         </div>
                     </a>
                 </li>
@@ -70,22 +71,4 @@
 </div>
 
 </body>
-<script type="text/javascript">
-	var openId = $.cookie("openId");
-	var userId = "${user.userId}";
-	if(openId == userId){
-		$("#changeToMine").hide();
-	}
-	
-	$("#changeToMine").on("click",function(){
-		var p = M.getRequestParamByName("p");
-		var forward = window.location.href;
-		forward = forward.substring(0,forward.indexOf("?"));
-		
-		forward += "?p=" + p;
-		var f = encodeURI(forward);
-		
-		window.location.href = "${contextPath}/mobile/changeToMine?f=" + f;
-	});
-</script>
 </html>

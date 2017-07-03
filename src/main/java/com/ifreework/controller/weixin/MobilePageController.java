@@ -3,8 +3,6 @@ package com.ifreework.controller.weixin;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -16,11 +14,8 @@ import com.ifreework.common.controller.BaseControllerSupport;
 import com.ifreework.common.entity.PageData;
 import com.ifreework.common.manager.ServletRequestManager;
 import com.ifreework.common.manager.UserManager;
-import com.ifreework.common.manager.WeixinManager;
-import com.ifreework.entity.system.Config;
 import com.ifreework.entity.system.User;
 import com.ifreework.service.system.UserService;
-import com.ifreework.util.StringUtil;
 
 /**
  * 描述：微信接口调用总接口    
@@ -49,9 +44,10 @@ public class MobilePageController extends BaseControllerSupport {
 		PageData pd = this.getPageData();
 		String code = pd.getString("code");
 		String f = pd.getString("f");
-//		User user = userService.getUserByCode(code);
 		
-		User user = userService.getUserById(code);  //测试用例
+		User user = userService.getUserByCode(code);
+		
+//		User user = userService.getUserById(code);  //测试用例
 		if (user != null) {  
 			mv.addObject("openId", user.getUserId());
 			mv.addObject("f", f);
@@ -64,15 +60,25 @@ public class MobilePageController extends BaseControllerSupport {
 	}
 	
 	
+	
 	/**
 	 * 描述：跳转到文章页面
+	 * @throws UnsupportedEncodingException 
 	 */
-	@RequestMapping(value = "/forward")
-	public ModelAndView forward() {
+	@RequestMapping(value = "/changeToMine")
+	public ModelAndView changeToMine() throws UnsupportedEncodingException {
 		ModelAndView mv = new ModelAndView();
+		String forward = this.getPageData().getString("f");
+		forward = UriUtils.decode(forward, "UTF-8");
+		String openId = ServletRequestManager.getCookieValue("openId");
+		forward += "&m=" + openId;
+		mv.addObject("openId", openId);
+		mv.addObject("f", forward);
+		
 		mv.setViewName("/mobile/forward/forward");
 		return mv;
 	}
+	
 	
 	/**
 	 * 
@@ -96,139 +102,7 @@ public class MobilePageController extends BaseControllerSupport {
 	}
 	
 	
-	/**
-	 * 
-	 * 描述：跳转到微主页页面
-	 */
-	@RequestMapping(value = "/homePage")
-	public ModelAndView homePage() {
-		ModelAndView mv = new ModelAndView();
-		PageData pd = this.getPageData();
-		String userId = pd.getString("mark");
-		User user = UserManager.getUser(userId);
-		mv.addObject("user", user);
-		mv.setViewName("/mobile/homePage/homePage");
-		return mv;
-	}
-	
-	
-	/**
-	 * 
-	 * 描述：跳转到个人中心页面
-	 */
-	@RequestMapping(value = "/personal")
-	public ModelAndView personal() {
-		ModelAndView mv = new ModelAndView();
-		PageData pd = this.getPageData();
-		String userId = pd.getString("mark");
-		User user = UserManager.getUser(userId);
-		mv.addObject("user", user);
-		mv.setViewName("/mobile/personal/personal");
-		return mv;
-	}
-	
-	/**
-	 * 
-	 * 描述：跳转到文章页面
-	 */
-	@RequestMapping(value = "/articleList")
-	public ModelAndView articleList() {
-		ModelAndView mv = new ModelAndView();
-		PageData pd = this.getPageData();
-		String userId = pd.getString("mark");
-		User user = UserManager.getUser(userId);
-		mv.addObject("user", user);
-		mv.setViewName("/mobile/article/articleList");
-		return mv;
-	}
-	
-	/**
-	 * 
-	 * 描述：跳转到文章详情
-	 */
-	@RequestMapping(value = "/articleInfo")
-	public ModelAndView articleInfo() {
-		ModelAndView mv = new ModelAndView();
-		PageData pd = this.getPageData();
-		String userId = pd.getString("mark");
-		User user = UserManager.getUser(userId);
-		mv.addObject("user", user);
-		mv.setViewName("/mobile/article/articleInfo");
-		return mv;
-	}
-	
-	
-	/**
-	 * 描述：跳转到公司介绍页面
-	 */
-	@RequestMapping(value = "/company")
-	public ModelAndView company() {
-		ModelAndView mv = new ModelAndView();
-		PageData pd = this.getPageData();
-		String userId = pd.getString("mark");
-		User user = UserManager.getUser(userId);
-		mv.addObject("user", user);
-		mv.setViewName("/mobile/company/company");
-		return mv;
-	}
 
-	
-	/**
-	 * 描述：跳转到公司介绍详情页面
-	 */
-	@RequestMapping(value = "/companyInfo")
-	public ModelAndView companyInfo() {
-		ModelAndView mv = new ModelAndView();
-		PageData pd = this.getPageData();
-		String userId = pd.getString("mark");
-		User user = UserManager.getUser(userId);
-		mv.addObject("user", user);
-		mv.setViewName("/mobile/company/companyInfo");
-		return mv;
-	}
-	
-	/**
-	 * 描述：跳转到个人名片页面
-	 */
-	@RequestMapping(value = "/card")
-	public ModelAndView card() {
-		ModelAndView mv = new ModelAndView();
-		PageData pd = this.getPageData();
-		String userId = pd.getString("mark");
-		User user = UserManager.getUser(userId);
-		mv.addObject("user", user);
-		mv.setViewName("/mobile/homePage/card");
-		return mv;
-	}
-	
-	
-	/**
-	 * 描述：跳转到产品列表页面
-	 */
-	@RequestMapping(value = "/product")
-	public ModelAndView product() {
-		ModelAndView mv = new ModelAndView();
-		PageData pd = this.getPageData();
-		String userId = pd.getString("mark");
-		User user = UserManager.getUser(userId);
-		mv.addObject("user", user);
-		mv.setViewName("/mobile/product/product");
-		return mv;
-	}
-	
-	/**
-	 * 描述：跳转到产品列表页面
-	 */
-	@RequestMapping(value = "/productList")
-	public ModelAndView productList() {
-		ModelAndView mv = new ModelAndView();
-		PageData pd = this.getPageData();
-		String userId = pd.getString("mark");
-		User user = UserManager.getUser(userId);
-		mv.addObject("user", user);
-		mv.setViewName("/mobile/product/productList");
-		return mv;
-	}
 	
 	/**
 	 * 描述：跳转到添加产品页面
@@ -244,19 +118,6 @@ public class MobilePageController extends BaseControllerSupport {
 		return mv;
 	}
 	
-	/**
-	 * 描述：跳转到添加产品页面
-	 */
-	@RequestMapping(value = "/productType")
-	public ModelAndView productType() {
-		ModelAndView mv = new ModelAndView();
-		PageData pd = this.getPageData();
-		String userId = pd.getString("mark");
-		User user = UserManager.getUser(userId);
-		mv.addObject("user", user);
-		mv.setViewName("/mobile/product/productType");
-		return mv;
-	}
 	
 	
 	public static void main(String[] args) throws UnsupportedEncodingException {

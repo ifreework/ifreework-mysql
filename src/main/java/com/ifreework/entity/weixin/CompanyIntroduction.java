@@ -1,6 +1,7 @@
 package com.ifreework.entity.weixin;
 
 import java.io.Serializable;
+import java.util.Date;
 
 public class CompanyIntroduction implements Serializable{
 	
@@ -15,6 +16,8 @@ public class CompanyIntroduction implements Serializable{
 	private java.lang.String image;
 	private java.lang.String content;
 	private java.lang.Integer pageView;
+	private java.lang.String creater;
+	private Date createTime;
 	//columns END
 
 	public void setIntroductionId(java.lang.String value) {
@@ -52,6 +55,18 @@ public class CompanyIntroduction implements Serializable{
 	}
 	public java.lang.Integer getPageView() {
 		return this.pageView;
+	}
+	public java.lang.String getCreater() {
+		return creater;
+	}
+	public void setCreater(java.lang.String creater) {
+		this.creater = creater;
+	}
+	public Date getCreateTime() {
+		return createTime;
+	}
+	public void setCreateTime(Date createTime) {
+		this.createTime = createTime;
 	}	
 }
 

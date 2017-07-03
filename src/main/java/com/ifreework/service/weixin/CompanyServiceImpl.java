@@ -58,7 +58,7 @@ public class CompanyServiceImpl  implements CompanyService {
 		companyMapper.add(company);
 		User user = new User();
 		user.setUserId(UserManager.getUser().getUserId());
-		user.setDeptId(companyId);
+		user.setCompanyId(companyId);
 		userService.update(user);
 		PageData pd = new PageData();
 		pd.setResult(Constant.SUCCESS);

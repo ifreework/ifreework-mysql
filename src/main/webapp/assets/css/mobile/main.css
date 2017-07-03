@@ -1666,6 +1666,9 @@ body{
     font-size: 1.2rem;
     text-indent: 1em;
 }
+.fin_title{
+	font-size: 1.6rem!important;
+}
 .fin_txt p span{
     font-size: 1.2rem !important;
     margin-top: 1rem;
@@ -2436,7 +2439,8 @@ body{
     border: .1rem #ededed solid;
     border-radius: 1rem;
     left:3%;
-    width: 94%;
+    width: 91%;
+    padding: 0.5rem;
 }
 
 
@@ -2501,8 +2505,8 @@ body{
 }
 
 .interest_list a img{
-	width:5rem;
-	height: 4rem;
+	width:8rem;
+	height: 6rem;
 	border-radius:0;
 }
 
@@ -2636,6 +2640,56 @@ body{
     -moz-appearance:none;
     -webkit-appearance:none;
     -ms-appearance:none;
+}
+
+.weui-toptips{
+	display: block;
+    padding: 0;
+    font-size: 1.5rem;
+    font-weight: 600;
+    max-height: 2.5rem;
+    overflow: hidden;
+}
+
+.weui-toptips small{
+	display:block;
+    text-align: center;
+    margin: 0.5rem;
+    padding:0.3rem;
+    -ms-text-overflow: ellipsis;
+    -o-text-overflow: ellipsis;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+.yzmdiv i{
+	margin-bottom: 1rem;
+} 
+
+.footer a {
+    border-right: 1px solid;
+    padding-right: 1rem;
+    padding-left: 1rem;
+    color: #9E8989;
+}
+.footer a:LAST-CHILD{
+	 border-right: 0px solid;
+}
+
+.changeToMine{
+	color: #8080ff!important;	
+}
+.finance ul li a p span.time{
+	margin-left: 1rem;
+}
+
+.list_r p span .title{
+	height: auto;
+	line-height: auto;
+	padding: 0rem;
+    background-color: #fff;
+    font-size: 1.3rem;
+    display: block;
 }
 .left{
 	float: left!important;

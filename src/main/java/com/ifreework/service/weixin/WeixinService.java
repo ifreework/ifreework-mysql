@@ -22,4 +22,11 @@ public interface WeixinService {
 	 * @throws Exception
 	 */
 	public void sendMsg(HttpServletRequest request, HttpServletResponse response) throws Exception;
+	
+	/**
+	 * 
+	 * 描述： 微信菜单创建
+	 * @return
+	 */
+	public void createMenu();
 }

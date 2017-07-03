@@ -29,6 +29,8 @@
 		<result column="PROMOTER" property="promoter" />
 		<result column="WEIXIN" property="weixin" />
 		<result column="WEIXIN_IMG" property="weixinImg" />
+		<result column="VIP_END_TIME" property="vipEndTime" />
+		<result column="COMPANY_ID" property="companyId" />
 		
 		<association property="province" javaType="com.ifreework.entity.db.Province">
 			<result column="PROVINCE_ID" property="provinceId"/>
@@ -96,7 +98,9 @@
 		UNIONID,
 		PROMOTER,
 		WEIXIN,
-		WEIXIN_IMG
+		WEIXIN_IMG,
+		VIP_END_TIME,
+		COMPANY_ID
 	</sql>
 
 	<sql id="userAllColumns">
@@ -129,7 +133,9 @@
 			P.PROVINCE_NAME,
 			M.MUNICIPALITY_NAME,
 			C.COUNTY_NAME,
-			W.COMPANY_NAME
+			W.COMPANY_NAME,
+			U.VIP_END_TIME,
+			U.COMPANY_ID
 	</sql>
 
 	<!-- 判断用户名和密码 -->
@@ -141,7 +147,7 @@
 		LEFT JOIN DB_PROVINCE P ON U.PROVINCE_ID = P.PROVINCE_ID
 		LEFT JOIN DB_MUNICIPALITY M ON U.MUNICIPALITY_ID = M.MUNICIPALITY_ID
 		LEFT JOIN DB_COUNTY C ON U.COUNTY_ID = C.COUNTY_ID
-		LEFT JOIN WEIXIN_COMPANY W ON U.DEPT_ID = W.COMPANY_ID
+		LEFT JOIN WEIXIN_COMPANY W ON U.COMPANY_ID = W.COMPANY_ID
 		where USER_ID = #{ userId }
 	</select>
 	
@@ -155,7 +161,7 @@
 		LEFT JOIN DB_PROVINCE P ON U.PROVINCE_ID = P.PROVINCE_ID
 		LEFT JOIN DB_MUNICIPALITY M ON U.MUNICIPALITY_ID = M.MUNICIPALITY_ID
 		LEFT JOIN DB_COUNTY C ON U.COUNTY_ID = C.COUNTY_ID
-		LEFT JOIN WEIXIN_COMPANY W ON U.DEPT_ID = W.COMPANY_ID
+		LEFT JOIN WEIXIN_COMPANY W ON U.COMPANY_ID = W.COMPANY_ID
 		where  USERNAME = #{username}
 	</select>
 	
@@ -170,7 +176,7 @@
 		LEFT JOIN DB_PROVINCE P ON U.PROVINCE_ID = P.PROVINCE_ID
 		LEFT JOIN DB_MUNICIPALITY M ON U.MUNICIPALITY_ID = M.MUNICIPALITY_ID
 		LEFT JOIN DB_COUNTY C ON U.COUNTY_ID = C.COUNTY_ID
-		LEFT JOIN WEIXIN_COMPANY W ON U.DEPT_ID = W.COMPANY_ID
+		LEFT JOIN WEIXIN_COMPANY W ON U.COMPANY_ID = W.COMPANY_ID
 		where 1=1
 		<if test="username != null and username != '' ">
 			and (USERNAME like '%${username}%' || PERSON_NAME like '%${username}%')
@@ -313,7 +319,13 @@
 				WEIXIN = #{weixin},
 			</if>
 			<if test="weixinImg != null ">
-				WEIXIN_IMG = #{weixinImg}
+				WEIXIN_IMG = #{weixinImg},
+			</if>
+			<if test="vipEndTime != null ">
+				VIP_END_TIME = #{vipEndTime},
+			</if>
+			<if test="companyId != null ">
+				COMPANY_ID = #{companyId}
 			</if>
 		</trim>
 		where
@@ -324,9 +336,6 @@
 
 
 	<insert id="add" parameterType="com.ifreework.entity.system.User">
-		<selectKey keyProperty="userId" resultType="String" order="BEFORE">
-			select  UUID()
-		</selectKey>
 
 		insert into SYS_USER (
 		<include refid="userColumns" />
@@ -358,7 +367,9 @@
 		#{ unionid,jdbcType=VARCHAR },
 		#{ promoter,jdbcType=VARCHAR },
 		#{ weixin,jdbcType=VARCHAR },
-		#{ weixinImg,jdbcType=VARCHAR }
+		#{ weixinImg,jdbcType=VARCHAR },
+		#{ vipEndTime,jdbcType=DATE },
+		#{ companyId,jdbcType=VARCHAR }
 		)
 	</insert>
 </mapper>

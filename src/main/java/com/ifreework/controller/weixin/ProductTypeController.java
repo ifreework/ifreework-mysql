@@ -25,12 +25,11 @@ import com.ifreework.util.StringUtil;
  * @modifyDate：2017年6月22日 @version 1.0
  */
 @Controller
-@RequestMapping(value = "/weixin/productType")
 public class ProductTypeController extends BaseControllerSupport {
 	@Autowired
 	private ProductTypeService productTypeService;
 
-	@RequestMapping()
+	@RequestMapping("/weixin/productType")
 	public ModelAndView gotoView() {
 		ModelAndView mv = this.getModelAndView();
 		mv.addObject("companyId", UserManager.getUser().getDeptId());
@@ -38,18 +37,51 @@ public class ProductTypeController extends BaseControllerSupport {
 		return mv;
 	}
 
-	@RequestMapping("/add")
+	/**
+	 * 描述：跳转到添加产品页面
+	 */
+	@RequestMapping(value = "/mobile/productType")
+	public ModelAndView productType() {
+		ModelAndView mv = new ModelAndView();
+		PageData pd = this.getPageData();
+		String userId = pd.getString("m");
+		String companyId = pd.getString("c");
+		pd.put("companyId", companyId);
+		pd.put("parentId", "0");
+		List<ProductType> productTypeList = productTypeService.queryList(pd);
+		
+		mv.addObject("userId", userId);
+		mv.addObject("productTypeList", productTypeList);
+		
+		mv.setViewName("/mobile/product/productType");
+		return mv;
+	}
+	
+	/**
+	 * 描述：跳转到添加产品页面
+	 */
+	@RequestMapping(value = "/mobile/productType/query")
+	@ResponseBody
+	public List<ProductType> mobileQuery() {
+		PageData pd = this.getPageData();
+		List<ProductType> productTypeList = productTypeService.queryList(pd);
+		return productTypeList;
+	}
+	
+	@RequestMapping("/weixin/productType/add")
 	public ModelAndView add() {
 		ModelAndView mv = this.getModelAndView();
 		String productTypeId = this.getPageData().getString("productTypeId");
-		productTypeId = StringUtil.isEmpty(productTypeId) ? "productTypeId" : productTypeId;
+		
+		productTypeId = StringUtil.isEmpty(productTypeId) ? "0" : productTypeId;
 		ProductType productType = new ProductType();
 		productType.setParentId(productTypeId);
+		mv.addObject("productType", productType);
 		mv.setViewName("/weixin/productType/edit");
 		return mv;
 	}
 
-	@RequestMapping(value = "/edit")
+	@RequestMapping(value = "/weixin/productType/edit")
 	public ModelAndView edit() {
 		ModelAndView mv = this.getModelAndView();
 		String productTypeId = this.getPageData().getString("productTypeId");
@@ -59,21 +91,21 @@ public class ProductTypeController extends BaseControllerSupport {
 		return mv;
 	}
 
-	@RequestMapping("/img")
+	@RequestMapping("/weixin/productType/img")
 	public ModelAndView img() {
 		ModelAndView mv = this.getModelAndView();
 		mv.setViewName("/weixin/productType/img");
 		return mv;
 	}
 
-	@RequestMapping(value = "/query")
+	@RequestMapping(value = "/weixin/productType/query")
 	@ResponseBody
 	public PageData query() {
 		PageData pd = this.getPageData();
 		return productTypeService.queryPageList(pd);
 	}
 
-	@RequestMapping(value = "/queryList")
+	@RequestMapping(value = "/weixin/productType/queryList")
 	@ResponseBody
 	public List<ProductType> queryList() {
 		PageData pd = this.getPageData();
@@ -81,7 +113,7 @@ public class ProductTypeController extends BaseControllerSupport {
 	}
 	
 	
-	@RequestMapping(value = "/save")
+	@RequestMapping(value = "/weixin/productType/save")
 	@ResponseBody
 	public PageData save(@ModelAttribute("productType") ProductType productType) {
 		PageData pd;
@@ -93,7 +125,7 @@ public class ProductTypeController extends BaseControllerSupport {
 		return pd;
 	}
 
-	@RequestMapping(value = "/delete")
+	@RequestMapping(value = "/weixin/productType/delete")
 	@ResponseBody
 	public PageData delete() {
 		PageData pd = this.getPageData();

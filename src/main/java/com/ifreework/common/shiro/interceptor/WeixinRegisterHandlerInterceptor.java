@@ -1,7 +1,6 @@
 package com.ifreework.common.shiro.interceptor;
 
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -10,8 +9,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 import org.springframework.web.util.UriUtils;
 
+import com.ifreework.common.manager.ServletRequestManager;
 import com.ifreework.common.manager.SystemConfigManager;
-import com.ifreework.common.shiro.realm.ShiroAuthInterface;
+import com.ifreework.common.manager.UserManager;
 import com.ifreework.entity.system.Config;
 import com.ifreework.entity.system.User;
 import com.ifreework.util.StringUtil;
@@ -27,8 +27,6 @@ import com.ifreework.util.StringUtil;
 public class WeixinRegisterHandlerInterceptor extends HandlerInterceptorAdapter {
 	private static Logger logger = LoggerFactory.getLogger(WeixinRegisterHandlerInterceptor.class);
 
-	private ShiroAuthInterface shiroAuth; // 获取请求所需权限接口
-	
 	private String registerUrl;  //微信授权回调页面，用于获取微信用户信息
 	
 	/**
@@ -40,14 +38,9 @@ public class WeixinRegisterHandlerInterceptor extends HandlerInterceptorAdapter 
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
-		Cookie[] cookies = request.getCookies();
-		String openId = null;
+		String openId = ServletRequestManager.getCookieValue("openId");
 
-		
-		// 判断cookie中是否存在openid 若存在则直接跳过，不存在则获取一次
-		openId = getOpenIdFromCookie(cookies);
-
-		User user = shiroAuth.getUserById(openId);
+		User user = UserManager.getUser(openId);
 		
 		String weixin = user.getWeixin();  
 		
@@ -56,48 +49,26 @@ public class WeixinRegisterHandlerInterceptor extends HandlerInterceptorAdapter 
 			String domain = SystemConfigManager.get(Config.SYSTEM_DOMAIN_NAME); //域名
 			String servletPath = request.getServletPath();  //请求路径
 			String queryString = request.getQueryString();  //请求参数
-			String fUrl = domain + servletPath + queryString;  //原始请求路径
-			logger.info("原始请求路径：{}" ,fUrl);
+			String fUrl = domain + servletPath; // 原始请求路径
 			
+			if (!StringUtil.isEmpty(queryString)) {
+				fUrl += "?" + queryString;
+			}
+			
+			logger.info("原始请求路径：{}", fUrl);
 			
 			fUrl = UriUtils.encode(fUrl, "UTF-8");
 			
-			registerUrl = registerUrl.replace("[FORWARD]", fUrl);
+			fUrl = domain +  registerUrl.replace("[FORWARD]", fUrl);
 			
-			logger.info("微信注册页面路径：{}" ,registerUrl);
+			logger.info("微信注册页面路径：{}" ,fUrl);
 			
-			response.sendRedirect(registerUrl);
+			response.sendRedirect(fUrl);
 			
 			return false;
 		} else {
 			return true;
 		}
-	}
-
-	/**
-	 * 
-	 * 描述：从cookies中获取openId的值
-	 * @param cookies
-	 * @return openId的值，如果不存在，返回null
-	 */
-	private String getOpenIdFromCookie(Cookie[] cookies) {
-		String openId = null;
-		if (cookies != null) {
-			for (Cookie cookie : cookies) {
-				if (cookie.getName().equals("openId")) {
-					openId = cookie.getValue();
-				}
-			}
-		}
-		return openId;
-	}
-
-	public ShiroAuthInterface getShiroAuth() {
-		return shiroAuth;
-	}
-
-	public void setShiroAuth(ShiroAuthInterface shiroAuth) {
-		this.shiroAuth = shiroAuth;
 	}
 
 	public String getRegisterUrl() {

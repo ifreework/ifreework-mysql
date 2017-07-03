@@ -5,14 +5,20 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.marker.weixin.DefaultSession;
 import org.marker.weixin.MySecurity;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
+import com.ifreework.common.manager.WeixinManager;
 import com.ifreework.common.weixin.CustomHandleMessageAdapter;
 import com.ifreework.entity.system.Config;
 import com.ifreework.util.StringUtil;
@@ -28,7 +34,7 @@ import com.ifreework.util.StringUtil;
  */
 @Service("weixinService")
 public class WeixinServiceImpl implements WeixinService {
-	
+	Logger logger = LoggerFactory.getLogger(WeixinServiceImpl.class);
 	
 	/**
 	 * 
@@ -60,6 +66,39 @@ public class WeixinServiceImpl implements WeixinService {
 			return signature.equals(tmpStr);
 		}
 		return false;
+	}
+	
+	
+	/**
+	 * 
+	 * 描述： 微信菜单创建
+	 * @return
+	 */
+	public void createMenu(){
+		JSONObject menu = new JSONObject();
+		JSONArray buttons = new JSONArray();
+		
+		JSONObject button1 = new JSONObject();
+		JSONObject button2 = new JSONObject();
+		JSONObject button3 = new JSONObject();
+		button1.put("type", "view");
+		button1.put("name", "申请工作室");
+		button1.put("url", "http://wnsx231.gnway.org/ifreework-mysql/mobile/register");
+		
+		button2.put("type", "view");
+		button2.put("name", "登录工作室");
+		button2.put("url", "http://wnsx231.gnway.org/ifreework-mysql/mobile/personal");
+		
+		button3.put("type", "click");
+		button3.put("name", "联系我们");
+		button3.put("key", "V1001_GOOD");
+		buttons.add(button1);
+		buttons.add(button2);
+		buttons.add(button3);
+		menu.put("button", buttons);
+		String josn = menu.toJSONString();
+		Map<String, Object> param = WeixinManager.createMenu(josn);
+		logger.info("菜单创建结果：{}",param);
 	}
 	
 	

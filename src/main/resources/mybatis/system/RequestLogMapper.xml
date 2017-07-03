@@ -73,7 +73,7 @@
 		<where>
 			<trim  suffixOverrides="and">
 				<if test=" url != null and  url != ''">
-					and L.URL like '%' || #{url} || '%'
+					and L.URL like '%${url}%'
 				</if>
 			</trim>
 		</where>

@@ -1,12 +1,8 @@
 <%@ page language="java" pageEncoding="UTF-8"
 	contentType="text/html; charset=UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
-<%@ page isELIgnored="false"%>
+<%@ include file="/WEB-INF/jsp/mobile/include/head.jsp"%>
 
-<!DOCTYPE html>
-<html lang="en">
+<html lang="zh">
 <head>
 <meta charset="UTF-8">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -14,17 +10,7 @@
 	content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
 	name="viewport" />
 <meta content="telephone=no" name="format-detection" />
-<title>${user.personName }的${user.company.companyName }工作室</title>
-<link href="${cssPath}/mobile/main.css" rel="stylesheet" type="text/css">
-<link href="${cssPath}/mobile/style.css" rel="stylesheet"
-	type="text/css">
-<link href="${cssPath}/mobile/shake.css" rel="stylesheet"
-	type="text/css">
-<link href="${cssPath}/font-awesome.min.css" rel="stylesheet"
-	type="text/css">
-<link href="${cssPath}/animate.min.css" rel="stylesheet" type="text/css">
-<script type="text/javascript" src="${ jsPath }/jquery/jquery.min.js"></script>
-<script type="text/javascript" src="${jsPath }/mobile/wo.js"></script>
+<title>${user.personName }的微名片</title>
 </head>
 <body >
 	<div class="warpe" id="card">
@@ -34,12 +20,12 @@
 							alt="" /></a>
 			</div>
 			<div class="mess_iocn animated rotateIn">
-				<a href="message.html"> <i
+				<a href="javascript:history.go(-1)"> <i
 					class="fa fa-angle-left puff_left circle"></i>
 				</a>
 			</div>
 			<div class="mess_iocn mess_iocn2 animated rotateIn">
-				<a href="message.html"> <i class="fa fa-home puff_left"></i>
+				<a href="${contextPath}/mobile/homePage?m=${user.userId}"> <i class="fa fa-home puff_left"></i>
 				</a>
 			</div>
 			
@@ -62,7 +48,7 @@
 					个性签名
 				</span>
 				<div class="signature-text">
-					${user.remarks }
+					${user.remarks == null || user.remarks == '' ? '尚未填写个性签名' : user.remarks}
 				</div>
 			</div>
 		</div>
@@ -81,25 +67,25 @@
 	    <div class="nav">
 		    <ul>
 		        <li>
-		            <a href="Property.html">
+		            <a href="javascript:M.alert('该功能暂未开通')">
 		                <p><img src="${imagePath}/mobile/icon_wy.png" class="animated bounceIn"></p>
 		                <span>名片</span>
 		            </a>
 		        </li>
 		        <li>
-		            <a href="#">
+		            <a href="javascript:M.alert('该功能暂未开通')">
 		                <p><img src="${imagePath}/mobile/icon_er.png" class="animated rotateIn"></p>
 		                <span>名片二维码</span>
 		            </a>
 		        </li>
 		        <li>
-		            <a href="Repair.html">
+		            <a href="javascript:M.alert('该功能暂未开通')">
 		                <p><img src="${imagePath}/mobile/icon_jk.png" class="animated bounceIn"></p>
 		                <span>锁屏壁纸</span>
 		            </a>
 		        </li>
 		        <li>
-		            <a href="#">
+		            <a href="javascript:M.alert('该功能暂未开通')">
 		                <p><img src="${imagePath}/mobile/icon_sqh.png" class="animated rotateIn"></p>
 		                <span>分享</span>
 		            </a>
@@ -110,17 +96,17 @@
 	    <div class="navside footer">
 	        <ul class="sc_list">
 	            <li>
-	                <a href="#">
+	                <a href="tel:${user.phone }">
 	                    <p><i class="fa fa-phone"></i></p>
 	                </a>
 	            </li>
 	            <li>
-	                <a href="#">
+	                <a href="javascript:void(0)">
 	                    <p><i class="fa  fa-comments-o"></i></p>
 	                </a>
 	            </li>
 	            <li>
-	                <a href="#">
+	                <a href="javascript:M.alert('该功能暂未开通')">
 	                    <p><i class="fa fa-comment-o"></i></p>
 	                </a>
 	            </li>
@@ -130,4 +116,7 @@
 	</div>
 	<script type="text/javascript" src="${jsPath}/mobile/common.js"></script>
 </body>
+<script type="text/javascript">
+
+</script>
 </html>

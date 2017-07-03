@@ -1,12 +1,8 @@
 <%@ page language="java" pageEncoding="UTF-8"
 	contentType="text/html; charset=UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
-<%@ page isELIgnored="false"%>
+<%@ include file="/WEB-INF/jsp/mobile/include/head.jsp"%>
 
-<!DOCTYPE html>
-<html lang="en">
+<html lang="zh">
 <head>
 <meta charset="UTF-8">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -14,20 +10,7 @@
 	content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
 	name="viewport" />
 <meta content="telephone=no" name="format-detection" />
-<title>${user.company }的公司介绍</title>
-<link href="${cssPath}/mobile/main.css" rel="stylesheet" type="text/css">
-<link href="${cssPath}/mobile/style.css" rel="stylesheet"
-	type="text/css">
-<link href="${cssPath}/mobile/shake.css" rel="stylesheet"
-	type="text/css">
-<link href="${cssPath}/font-awesome.min.css" rel="stylesheet"
-	type="text/css">
-<link href="${cssPath}/animate.min.css" rel="stylesheet" type="text/css">
-<link href="${cssPath}/mobile/idangerous.swiper.css" rel="stylesheet"
-	type="text/css">
-
-<script type="text/javascript" src="${ jsPath }/jquery/jquery.min.js"></script>
-<script type="text/javascript" src="${jsPath }/mobile/wo.js"></script>
+<title>${user.company.companyName  }介绍</title>
 </head>
 <body>
 	<div class="warpe">
@@ -55,143 +38,55 @@
 			</div>
 
 			<div class="title_name">
-				<a href="my_home9.html">${user.company.companyName }工作室介绍<i
+				<a href="#">${user.company.companyName }介绍<i
 					class=" icon-angle-down"></i>
 				</a>
 			</div>
 			
 			<div class="mess_iocn animated rotateIn">
-				<a href="message.html"> <i
+				<a href="javascript:history.go(-1)"> <i
 					class="fa fa-angle-left puff_left circle"></i>
 				</a>
 			</div>
 			<div class="mess_iocn mess_iocn2 animated rotateIn">
-				<a href="message.html"> <i class="fa fa-home puff_left"></i>
+				<a href="${contextPath}/mobile/homePage?m=${user.userId}"> <i class="fa fa-home puff_left"></i>
 				</a>
 			</div>
 		</div>
 
-		<div class="main">
+		<div class="content">
 			<div class="content-slide">
 				<div class="interest_list">
 					<ul>
-						<li class="animated bounceInRight"><a
-							href="Information_xq.html"> <img
-								src="${imagePath }/mobile/banner.jpg">
-								<div class="list_r">
-									<p>
-										<span>【关于三生】公司介绍</span>
-									</p>
-									<p class="fin_p">
-										<span class="info">
-											<span class="info_user">张三</span>
-											<span>05-05 05:05</span>
-										</span>
-										<span class="page_view right">
-											阅读(25300)
-										</span>
-									</p>
-								</div>
-						</a></li>
-						<li class="animated bounceInRight"><a
-							href="Information_xq.html"> <img
-								src="${imagePath }/mobile/banner.jpg">
-								<div class="list_r">
-									<p>
-										<span>【关于三生】公司介绍</span>
-									</p>
-									<p class="fin_p">
-										<span class="info">
-											<span class="info_user">张三</span>
-											<span>05-05 05:05</span>
-										</span>
-										<span class="page_view right">
-											阅读(25300)
-										</span>
-									</p>
-								</div>
-						</a></li>
-						<li class="animated bounceInRight"><a
-							href="Information_xq.html"> <img
-								src="${imagePath }/mobile/banner.jpg">
-								<div class="list_r">
-									<p>
-										<span>【关于三生】公司介绍</span>
-									</p>
-									<p class="fin_p">
-										<span class="info">
-											<span class="info_user">张三</span>
-											<span>05-05 05:05</span>
-										</span>
-										<span class="page_view right">
-											阅读(25300)
-										</span>
-									</p>
-								</div>
-						</a></li>
-						<li class="animated bounceInRight"><a
-							href="Information_xq.html"> <img
-								src="${imagePath }/mobile/banner.jpg">
-								<div class="list_r">
-									<p>
-										<span>【关于三生】公司介绍</span>
-									</p>
-									<p class="fin_p">
-										<span class="info">
-											<span class="info_user">张三</span>
-											<span>05-05 05:05</span>
-										</span>
-										<span class="page_view right">
-											阅读(25300)
-										</span>
-									</p>
-								</div>
-						</a></li>
-						<li class="animated bounceInRight"><a
-							href="Information_xq.html"> <img
-								src="${imagePath }/mobile/banner.jpg">
-								<div class="list_r">
-									<p>
-										<span>【关于三生】公司介绍</span>
-									</p>
-									<p class="fin_p">
-										<span class="info">
-											<span class="info_user">张三</span>
-											<span>05-05 05:05</span>
-										</span>
-										<span class="page_view right">
-											阅读(25300)
-										</span>
-									</p>
-								</div>
-						</a></li>
-						<li class="animated bounceInRight"><a
-							href="Information_xq.html"> <img
-								src="${imagePath }/mobile/banner.jpg">
-								<div class="list_r">
-									<p>
-										<span>【关于三生】公司介绍</span>
-									</p>
-									<p class="fin_p">
-										<span class="info">
-											<span class="info_user">张三</span>
-											<span>05-05 05:05</span>
-										</span>
-										<span class="page_view right">
-											阅读(25300)
-										</span>
-									</p>
-								</div>
-						</a></li>
+						<c:forEach items="${list }" var="c">
+							<li class="animated bounceInRight"><a
+								href="${contextPath }/mobile/companyInfo?m=${user.userId}&p=${c.introductionId}"> 
+								<img src="${c.image }">
+									<div class="list_r">
+										<p>
+											<span>【关于${user.company.companyName }】${c.title }</span>
+										</p>
+										<p class="fin_p">
+											<span class="info">
+												<span class="info_user">${user.personName }</span>
+												<span><fmt:formatDate value="${c.createTime}" pattern="MM-dd hh:mm"/></span>
+											</span>
+											<span class="page_view right">
+												阅读(${c.pageView })
+											</span>
+										</p>
+									</div>
+							</a></li>
+						</c:forEach>
 					</ul>
 				</div>
 			</div>
 		</div>
 
 		<div class="footer">
-			<div class="id_bth">
-				<a href="#">免责声明</a> <a href="#">关于我们</a> <a href="#">用户中心</a>
-			</div>
+			<a href="javascript:M.alert('该功能暂未开通')">免责声明</a>
+			<a href="javascript:M.alert('该功能暂未开通')">关于我们</a>
+			<a href="javascript:M.alert('该功能暂未开通')">用户中心</a>
 		</div>
 	</div>
 

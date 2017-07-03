@@ -41,7 +41,7 @@
 			and ARTICLE_TYPE_ID = #{articleTypeId}
 		</if>
 		<if test="title != null and title != ''">
-			and TITLE like '%' || #{title} || '%'
+			and TITLE like '%${title}%'
 		</if>
 		<if test="creater != null and creater != ''">
 			and CREATER = #{creater}

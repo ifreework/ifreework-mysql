@@ -8,7 +8,9 @@
 		TITLE,
 		IMAGE,
 		CONTENT,
-		PAGE_VIEW
+		PAGE_VIEW,
+		CREATER,
+		CREATE_TIME
 	</sql>
 
 	<resultMap type="com.ifreework.entity.weixin.CompanyIntroduction"
@@ -19,6 +21,8 @@
 		<result column="IMAGE" property="image" />
 		<result column="CONTENT" property="content" />
 		<result column="PAGE_VIEW" property="pageView" />
+		<result column="CREATER" property="creater" />
+		<result column="CREATE_TIME" property="createTime" />
 	</resultMap>
 
 	<select id="queryPageList" parameterType="pd" resultMap="companyIntroduction">
@@ -56,7 +60,9 @@
 		image,jdbcType=VARCHAR },
 		#{ content,jdbcType=VARCHAR },
 		#{
-		pageView,jdbcType=INTEGER }
+		pageView,jdbcType=INTEGER },
+		#{ creater,jdbcType=VARCHAR },
+		#{ createTime,jdbcType=VARCHAR }
 		)
 	</insert>
 

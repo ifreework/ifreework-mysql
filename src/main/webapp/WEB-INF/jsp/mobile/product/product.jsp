@@ -1,12 +1,8 @@
 <%@ page language="java" pageEncoding="UTF-8"
 	contentType="text/html; charset=UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
-<%@ page isELIgnored="false"%>
+<%@ include file="/WEB-INF/jsp/mobile/include/head.jsp"%>
 
-<!DOCTYPE html>
-<html lang="en">
+<html lang="zh">
 <head>
 <meta charset="UTF-8">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -14,53 +10,44 @@
 	content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
 	name="viewport" />  
 <meta content="telephone=no" name="format-detection" />
-<title>${user.personName }的个人中心</title>
-<link href="${cssPath}/mobile/main.css" rel="stylesheet" type="text/css">
-<link href="${cssPath}/mobile/style.css" rel="stylesheet"
-	type="text/css">
-<link href="${cssPath}/mobile/shake.css" rel="stylesheet"
-	type="text/css">
-<link href="${cssPath}/font-awesome.min.css" rel="stylesheet"
-	type="text/css">
-<link href="${cssPath}/animate.min.css" rel="stylesheet" type="text/css">
-<link href="${cssPath}/mobile/idangerous.swiper.css" rel="stylesheet"
-	type="text/css">
-
-<script type="text/javascript" src="${ jsPath }/jquery/jquery.min.js"></script>
-<script type="text/javascript" src="${jsPath }/mobile/wo.js"></script>
+<title>产品介绍</title>
 </head>
 <body>
 	<div class="warpe">
 		<div class="head">
-			<a href="#" class="return"><i class="fa fa-chevron-left"></i> 返回</a>
-			产品介绍<a href="second_sign.html" class="plus"><i class="fa fa-plus"></i>
-			</a> <a href="community_sign.html" class="search"><i
+			<a href="javascript:history.go(-1)" class="return"><i class="fa fa-chevron-left"></i> 返回</a>
+			产品类型 <a href="${contextPath}/mobile/productType?m=${user.userId}&c=${user.companyId}" class="search"><i
 				class="fa fa-reorder"></i> </a>
 		</div>
-
+		
 		<div class="banner">
-			<div class="swipe">
-				<ul id="slider">
-					<li><a href="#"><img src="${imagePath }/mobile/banner.jpg"
-							alt="" /></a></li>
-					<li><a href="#"><img src="${imagePath }/mobile/banner.jpg"
-							alt="" /></a></li>
-					<li><a href="#"><img src="${imagePath }/mobile/banner.jpg"
-							alt="" /></a></li>
-					<li><a href="#"><img src="${imagePath }/mobile/banner.jpg"
-							alt="" /></a></li>
-					<li><a href="#"><img src="${imagePath }/mobile/banner.jpg"
-							alt="" /></a></li>
-				</ul>
-				<div id="pagenavi">
-					<a href="javascript:void(0);" class="active"></a> <a
-						href="javascript:void(0);" class=""></a> <a
-						href="javascript:void(0);" class=""></a> <a
-						href="javascript:void(0);" class=""></a> <a
-						href="javascript:void(0);" class=""></a>
+				<div class="swipe">
+					<ul id="slider">
+						<li>
+							<a href="#"><img src="${imagePath }/mobile/banner.jpg" alt="" /></a>
+						</li>
+						<li>
+							<a href="#"><img src="${imagePath }/mobile/banner.jpg" alt="" /></a>
+						</li>
+						<li>
+							<a href="#"><img src="${imagePath }/mobile/banner.jpg" alt="" /></a>
+						</li>
+						<li>
+							<a href="#"><img src="${imagePath }/mobile/banner.jpg" alt="" /></a>
+						</li>
+						<li>
+							<a href="#"><img src="${imagePath }/mobile/banner.jpg" alt="" /></a>
+						</li>
+					</ul>
+					<div id="pagenavi">
+						<a href="javascript:void(0);" class="active"></a>
+						<a href="javascript:void(0);" class=""></a>
+						<a href="javascript:void(0);" class=""></a>
+						<a href="javascript:void(0);" class=""></a>
+						<a href="javascript:void(0);" class=""></a>
+					</div>
 				</div>
 			</div>
-		</div>
 
 		<div class="title" style="text-align: center;">
 			<input type="text" placeholder="搜索标题"
@@ -68,70 +55,42 @@
 				style="margin-left: 1rem;"></i>
 		</div>
 
+		<c:forEach items="${productList }" var="productType">
 		<div class="center">
 			<div class="pictitle">
-				<span class="picbg"></span> <span>时尚女包</span>
-				<span class="showmore">查看更多&gt;</span>
+				<span class="picbg"></span> <span>${productType.productTypeName }</span>
+				<span class="showmore" data-id="${productType.productTypeId }">查看更多&gt;</span>
 			</div>
 			<div class="activity">
 				<ul>
-					<li class="animated fadeInDown"><a href="#"> <img
-							src="${imagePath }/mobile/banner.jpg">
+					<c:forEach items="${ productType.productList}" var="product">
+					<li class="animated fadeInDown"><a href="${contextPath }/mobile/productInfo?p=${product.productId}&m=${user.userId}"> <img
+							src="${product.image}">
 							<div class="activity_txt">
-								<p>时尚多用女包包</p>
+								<p>${product.productName}</p>
 								<p>
-									<span></span><span class="color_y">￥1880</span>
+									<span></span><span class="color_y">￥${product.price }</span>
 								</p>
 							</div>
 					</a></li>
-					<li class="animated fadeInUp"><a href="#"> <img
-							src="${imagePath }/mobile/pic4.jpg">
-							<div class="activity_txt">
-								<p>多功能易拉罐组装产品</p>
-								<p>
-									<span></span><span class="color_y">￥998</span>
-								</p>
-							</div>
-					</a></li>
+					</c:forEach>
 				</ul>
 			</div>
 		</div>
-		
-		<div class="center">
-			<div class="pictitle">
-				<span class="picbg"></span> <span>时尚女包</span>
-				<span class="showmore">查看更多&gt;</span>
-			</div>
-			<div class="activity">
-				<ul>
-					<li class="animated fadeInDown"><a href="#"> <img
-							src="${imagePath }/mobile/banner.jpg">
-							<div class="activity_txt">
-								<p>时尚多用女包包</p>
-								<p>
-									<span></span><span class="color_y">￥1880</span>
-								</p>
-							</div>
-					</a></li>
-					<li class="animated fadeInUp"><a href="#"> <img
-							src="${imagePath }/mobile/pic4.jpg">
-							<div class="activity_txt">
-								<p>多功能易拉罐组装产品</p>
-								<p>
-									<span></span><span class="color_y">￥998</span>
-								</p>
-							</div>
-					</a></li>
-				</ul>
-			</div>
-		</div>
-		<div class="footer load_more">
-			<div>
-				<a href="#">查看更多</a>
-			</div>
-		</div>
+		</c:forEach>
 	</div>
 	<script type="text/javascript" src="${jsPath}/mobile/slide_wap.js"></script>
 	<script type="text/javascript" src="${jsPath}/mobile/common.js"></script>
 </body>
+<script type="text/javascript">
+	$(".fa-search").on("click",function(){
+		var q = $(".zz_search").val();
+		window.location.href = '${contextPath}/mobile/productList?m=${user.userId}&q=' + q;
+	});
+	
+	$(".showmore").on("click",function(){
+		var id = $(this).data("id");
+		window.location.href = '${contextPath}/mobile/productList?m=${user.userId}&t=' + id;
+	});
+</script>
 </html>

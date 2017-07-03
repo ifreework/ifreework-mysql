@@ -147,7 +147,7 @@ public class HttpRequestUtil {
 			inputStream = null;
 			httpUrlConn.disconnect();
 		} catch (ConnectException ce) {
-			logger.error("Https request connection timed out.{}", requestUrl);
+			logger.error("Https request connection timed out.{}", ce);
 		} catch (Exception e) {
 			logger.error("https request error:{}", e);
 		}
