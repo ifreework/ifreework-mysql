@@ -67,8 +67,9 @@
 						class="animated rotateIn">
 					</a>
 				</div>
+				
 				<div class="id_nav_rt clear_border">
-					<a href="#">
+					<a href="javascript:void(0)" id="weixinImg">
 						<p style="color: #f2a218;">我的微信</p> <span
 						class="animated fadeInLeft">${user.weixin }</span> <img
 						src="${imagePath }/mobile/icon_jkzx.png" class="animated rotateIn">
@@ -145,12 +146,39 @@
 	</div>
 	<script type="text/javascript" src="${jsPath}/mobile/slide_wap.js"></script>
 	<script type="text/javascript" src="${jsPath}/mobile/common.js"></script>
+	<script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+	
 	<script type="text/javascript">
 		var openId = $.cookie("openId");
 		var userId = "${user.userId}";
 		if(openId != userId){
 			$(".navside").hide();
 		}
+		
+		wx.config({
+		    debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+		    appId: '${jssdk.appId}', // 必填，公众号的唯一标识
+		    timestamp: ${jssdk.timestamp}, // 必填，生成签名的时间戳
+		    nonceStr: '${jssdk.nonceStr}', // 必填，生成签名的随机串
+		    signature: '${jssdk.signature}',// 必填，签名，见附录1
+		    
+		    jsApiList: [
+		        'checkJsApi',
+		        'chooseImage',
+		        'previewImage'
+		      ]
+		});
+		wx.ready(function () {
+			  $('#weixinImg').on("click",function (event) {
+				  	var url = "${user.weixinImg}";
+				  	if(!M.isNull(url)){
+				  		 wx.previewImage({
+						    	current: url, // 当前显示图片的http链接
+						    	urls: [url] // 需要预览的图片http链接列表
+						    });
+				  	}
+			  });
+		});
 	</script>
 </body>
 </html>

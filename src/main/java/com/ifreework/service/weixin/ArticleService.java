@@ -10,5 +10,6 @@ public interface ArticleService {
 	public PageData add(Article article);
 	public PageData update(Article article);
 	public PageData delete(String articleId);
+	public void pageView(Article article);
 
 }

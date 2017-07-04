@@ -91,7 +91,7 @@ public class WeixinServiceImpl implements WeixinService {
 		
 		button3.put("type", "click");
 		button3.put("name", "联系我们");
-		button3.put("key", "V1001_GOOD");
+		button3.put("key", "CONTACT_US");
 		buttons.add(button1);
 		buttons.add(button2);
 		buttons.add(button3);
@@ -111,9 +111,10 @@ public class WeixinServiceImpl implements WeixinService {
 	public void sendMsg(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		InputStream is = request.getInputStream();
 		OutputStream os = response.getOutputStream();
-		final DefaultSession session = DefaultSession.newInstance();
-		
-		session.addOnHandleMessageListener(new CustomHandleMessageAdapter());
+		DefaultSession session = DefaultSession.newInstance();
+		CustomHandleMessageAdapter messageAdapter = new CustomHandleMessageAdapter();
+		messageAdapter.setSession(session);
+		session.addOnHandleMessageListener(messageAdapter);
 
 		// 必须调用这两个方法 如果不调用close方法，将会出现响应数据串到其它Servlet中。 
 		session.process(is, os); // 处理微信消息

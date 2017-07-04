@@ -15,17 +15,17 @@
 <body>
 <div class="warpe">
     <div class="head head2">
-        <a href="javascript:history.go(-1)" class="return" style="color: #5f5e5e;top:1rem;"><i class="fa fa-chevron-left"></i></a>
-        <a href="${contextPath}/mobile/homePage?m=${user.userId}" id="sc_bth" class="search" style="color: #5f5e5e;top:1rem;"><i class="fa fa-home"></i> </a>
+        <a href="javascript:history.go(-1)" class="return" style="color: #5f5e5e;"><i class="fa fa-chevron-left"></i></a>
+        <a href="${contextPath}/mobile/homePage?m=${user.userId}" id="sc_bth" class="search" style="color: #5f5e5e;"><i class="fa fa-home"></i> </a>
     </div>
     <div class="main">
         <div class="finance">
             <ul>
                 <li class="animated fadeIn clear_border">
                     <a>
-                        <p class="fin_title">关于【${user.company.companyName}】${article.title }</p>
+                        <p class="fin_title">${article.title }</p>
                         <p>
-                        	<span class="puff_left">${user.personName }</span>
+                        	<span class="puff_left info_user" data-id="${ user.userId }">${user.personName }</span>
                         	<span class="puff_left time"><fmt:formatDate value="${article.createTime}" pattern="MM-dd hh:mm"/></span>
                         	<span class="puff_right changeToMine" id="changeToMine">修改成我的</span> 
                         </p>
@@ -86,6 +86,10 @@
 		var f = encodeURI(forward);
 		
 		window.location.href = "${contextPath}/mobile/changeToMine?f=" + f;
+	});
+	
+	$(".info_user").on("click",function(){
+		window.location.href = "${contextPath}/mobile/homePage?m=${user.userId}";
 	});
 </script>
 </html>

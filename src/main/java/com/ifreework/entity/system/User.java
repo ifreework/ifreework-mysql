@@ -17,8 +17,8 @@ public class User implements Serializable{
 	private String username;
 	private String password;
 	private String personName;
-	private String rights;
-	private String roleId;
+	private String label;
+	private String weixinCardQrcode;
 	private String status;
 	private String skin;
 	private String email;
@@ -73,17 +73,11 @@ public class User implements Serializable{
 	public void setPersonName(String personName) {
 		this.personName = personName;
 	}
-	public String getRights() {
-		return rights;
+	public String getLabel() {
+		return label;
 	}
-	public void setRights(String rights) {
-		this.rights = rights;
-	}
-	public String getRoleId() {
-		return roleId;
-	}
-	public void setRoleId(String roleId) {
-		this.roleId = roleId;
+	public void setLabel(String label) {
+		this.label = label;
 	}
 	public String getStatus() {
 		return status;
@@ -240,6 +234,12 @@ public class User implements Serializable{
 	}
 	public void setVipEndTime(Date vipEndTime) {
 		this.vipEndTime = vipEndTime;
+	}
+	public String getWeixinCardQrcode() {
+		return weixinCardQrcode;
+	}
+	public void setWeixinCardQrcode(String weixinCardQrcode) {
+		this.weixinCardQrcode = weixinCardQrcode;
 	}
 	
 	

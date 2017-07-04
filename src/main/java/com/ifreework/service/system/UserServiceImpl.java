@@ -9,9 +9,7 @@
  */
 package com.ifreework.service.system;
 
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -41,9 +39,7 @@ import com.ifreework.entity.system.Resource;
 import com.ifreework.entity.system.User;
 import com.ifreework.mapper.system.ResourceMapper;
 import com.ifreework.mapper.system.UserMapper;
-import com.ifreework.util.FileUtil;
 import com.ifreework.util.HttpRequestUtil;
-import com.ifreework.util.ImageUtil;
 import com.ifreework.util.SecurityUtil;
 import com.ifreework.util.StringUtil;
 
@@ -146,34 +142,34 @@ public class UserServiceImpl implements UserService, ShiroAuthInterface {
 	public PageData userImgUpload(MultipartFile file, double width, double height, double sw, double sh, double sx,
 			double sy) {
 		PageData pageData = new PageData();
-		String rootPath = "";
-		String imgPath = "";
-		String localPath = "";
-		try {
-			Map<String, Integer> map = ImageUtil.getImgXY(file.getInputStream());
-			int oW = map.get("width"), oH = map.get("height");
-			sw = sw * oW / width;
-			sh = sh * oH / height;
-			sx = sx * oW / width;
-			sy = sy * oH / height;
-
-			User user = UserManager.getUser();
-			imgPath += "/" + user.getUsername();
-			rootPath = FileUtil.getRootPath() + "temp";
-
-			localPath = ImageUtil.cutImage(file.getInputStream(), rootPath + imgPath, file.getOriginalFilename(),
-					(int) sx, (int) sy, (int) sw, (int) sh);
-			ImageUtil.changeImge(localPath, localPath + ".offLine");
-			FileUtil.fileUpload(localPath + ".offLine", imgPath);
-			imgPath = FileUtil.fileUpload(localPath, imgPath);
-			user.setImgPath(imgPath);
-			update(user);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-		pageData.put("fileName", imgPath);
+//		String rootPath = "";
+//		String imgPath = "";
+//		String localPath = "";
+//		try {
+//			Map<String, Integer> map = ImageUtil.getImgXY(file.getInputStream());
+//			int oW = map.get("width"), oH = map.get("height");
+//			sw = sw * oW / width;
+//			sh = sh * oH / height;
+//			sx = sx * oW / width;
+//			sy = sy * oH / height;
+//
+//			User user = UserManager.getUser();
+//			imgPath += "/" + user.getUsername();
+//			rootPath = FileUtil.getRootPath() + "temp";
+//
+//			localPath = ImageUtil.cutImage(file.getInputStream(), rootPath + imgPath, file.getOriginalFilename(),
+//					(int) sx, (int) sy, (int) sw, (int) sh);
+////			ImageUtil.changeImge(localPath, localPath + ".offLine");
+//			FileUtil.fileUpload(localPath + ".offLine", imgPath);
+//			imgPath = FileUtil.fileUpload(localPath, imgPath);
+//			user.setImgPath(imgPath);
+//			update(user);
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//
+//		pageData.put("fileName", imgPath);
 		return pageData;
 	}
 

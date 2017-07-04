@@ -52,13 +52,13 @@
 		<div class="head">
 			<a href="javascript:history.go(-1)" class="return"><i class="fa fa-chevron-left"></i> 返回</a>
 			我的优荐
-			<a href="Information_search.html" class="search"><i class="fa fa-search"></i> </a>
+			<a href="${contextPath}/mobile/articleSearch?m=${user.userId}" class="search"><i class="fa fa-search"></i> </a>
 		</div>
 
 		<div class="tabs my_tab sqh_tab xx_tab">
 			<a href="javascript:void(0)" hidefocus="true" class="active" data-id="">头条</a> 
 			<c:forEach items="${ dList }" var="d" varStatus="dStatus">
-			<a href="javascript:void(0)" hidefocus="true" data-id="${d.dictionaryCode }">${d.dictionaryName }</a> 
+			<a href="#" hidefocus="true" data-id="${d.dictionaryCode }">${d.dictionaryName }</a> 
 			</c:forEach>
 		</div>
 		
@@ -107,24 +107,30 @@
 		</div>
 
 		<div class="navside">
-			<ul>
-				<li class="margin_left animated bounceInLeft"><a href="${contextPath }/homePage?m=${user.userId}" class="navside_hover">
-						<p>
-							<i class="fa fa-home"></i>
-						</p> <span>首页</span>
-				</a></li>
-				<li class="animated bounceInRight"><a href="${contextPath}/mobile/personal?m=${user.userId }">
-						<p>
-							<i class="fa fa-user"></i>
-						</p> <span>个人中心</span>
-				</a></li>
-				<li class="animated bounceInLeft"><a href="${contextPath}/mobile/articleList?m=${user.userId }">
-						<p>
-							<i class="fa fa-th-large"></i>
-						</p> <span>微分享</span>
-				</a></li>
-			</ul>
-		</div>
+				<ul>
+					<li class="margin_left animated bounceInLeft">
+						<a href="${contextPath}/mobile/homePage?m=${user.userId }">
+							<p>
+								<i class="fa fa-home"></i>
+							</p> <span>微主页</span>
+						</a>
+					</li>
+					<li class="animated bounceInRight">
+						<a href="${contextPath}/mobile/personal?m=${user.userId }"  class="navside_hover">
+							<p>
+								<i class="fa fa-user"></i>
+							</p> <span>个人中心</span>
+						</a>
+					</li>
+					<li class="animated bounceInLeft">
+						<a href="${contextPath}/mobile/articleList?m=${user.userId }">
+							<p>
+								<i class="fa fa-th-large"></i>
+							</p> <span>微分享</span>
+						</a>
+					</li>
+				</ul>
+			</div>
 	</div>
 
 
@@ -153,13 +159,14 @@
 			tabsSwiper.slideTo($(this).index())
 			
 			var li = $(".swiper-slide-active ul li");
-			if(li.length == 0){
+			if(li.length == 0 && !loading){
+				 $(window).scrollTop(0);
 				reload();
 			}
 		})
-		$(".tabs a").click(function(e) {
-			e.preventDefault()
-		})
+//		$(".tabs a").click(function(e) {
+//			e.preventDefault()
+//		})
 		
 		var length = 10; //每页显示条数
 		function reload(){
@@ -198,17 +205,22 @@
 										</span>\
 									</p>\
 								</div>\
-						</a></li>';
+						</a></li>',
+						appendHtml = "";
 						
 			for(var i = 0; i < data.data.length; i++){
 				var article = data.data[i];
+				var date = new Date(article.createTime);
+				var format = date.format("MM-dd hh:mm");
 				var li = html.replace("[ARTICLEID]",article.articleId)
 							 .replace("[IMAGE]",article.image)
 							 .replace("[TITLE]",article.title)
-							 .replace("[CREATETIME]",article.createTime)
+							 .replace("[CREATETIME]",format)
 							 .replace("[PAGEVIEW]",article.pageView);
-				$(".swiper-slide-active ul").append(li);
+				appendHtml += li;
 			}
+			$(".swiper-slide-active ul").append(appendHtml);
+			
 			if(data.data.length < length){
 				var li = '<li class="no-more"><div style="text-align: center;">没有更多数据了</div></li>';
 				$(".swiper-slide-active ul").append(li);

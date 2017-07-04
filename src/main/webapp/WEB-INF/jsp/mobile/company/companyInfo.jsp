@@ -25,7 +25,7 @@
                     <a>
                         <p class="fin_title">关于【${user.company.companyName}】${introduction.title }</p>
                         <p>
-                        	<span class="puff_left">${user.personName }</span>
+                        	<span class="puff_left info_user">${user.personName }</span>
                         	<span class="puff_left time"><fmt:formatDate value="${introduction.createTime}" pattern="MM-dd hh:mm"/></span>
                         	<span class="puff_right changeToMine" id="changeToMine">修改成我的</span> 
                         </p>
@@ -86,6 +86,10 @@
 		var f = encodeURI(forward);
 		
 		window.location.href = "${contextPath}/mobile/changeToMine?f=" + f;
+	});
+	
+	$(".info_user").on("click",function(){
+		window.location.href = "${contextPath}/mobile/homePage?m=${user.userId}";
 	});
 </script>
 </html>

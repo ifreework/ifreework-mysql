@@ -7,8 +7,8 @@
 		<result column="USERNAME" property="username" />
 		<result column="PASSWORD" property="password" />
 		<result column="PERSON_NAME" property="personName" />
-		<result column="RIGHTS" property="rights" />
-		<result column="ROLE_ID" property="roleId" />
+		<result column="LABEL" property="label" />
+		<result column="WEIXIN_CARD_QRCODE" property="weixinCardQrcode" />
 		<result column="STATUS" property="status" />
 		<result column="SKIN" property="skin" />
 		<result column="EMAIL" property="email" />
@@ -77,8 +77,8 @@
 		USERNAME,
 		PASSWORD,
 		PERSON_NAME,
-		RIGHTS,
-		ROLE_ID,
+		LABEL,
+		WEIXIN_CARD_QRCODE,
 		STATUS,
 		SKIN,
 		EMAIL,
@@ -108,8 +108,8 @@
 			U.USERNAME,
 			U.PASSWORD,
 			U.PERSON_NAME,
-			U.RIGHTS,
-			U.ROLE_ID,
+			U.LABEL,
+			U.WEIXIN_CARD_QRCODE,
 			U.STATUS,
 			U.SKIN,
 			U.EMAIL,
@@ -255,11 +255,11 @@
 			<if test="personName != null ">
 				PERSON_NAME = #{personName},
 			</if>
-			<if test="rights != null ">
-				RIGHTS = #{rights},
+			<if test="label != null ">
+				LABEL = #{label},
 			</if>
-			<if test="roleId != null ">
-				ROLE_ID = #{roleId},
+			<if test="weixinCardQrcode != null ">
+				WEIXIN_CARD_QRCODE = #{weixinCardQrcode},
 			</if>
 			<if test="status != null ">
 				STATUS = #{status},
@@ -346,8 +346,8 @@
 		#{ username,jdbcType=VARCHAR },
 		#{ password,jdbcType=VARCHAR },
 		#{ personName,jdbcType=VARCHAR },
-		#{ rights,jdbcType=VARCHAR },
-		#{ roleId,jdbcType=VARCHAR },
+		#{ label,jdbcType=VARCHAR },
+		#{ weixinCardQrcode,jdbcType=VARCHAR },
 		#{ status,jdbcType=VARCHAR },
 		#{ skin,jdbcType=VARCHAR },
 		#{ email,jdbcType=VARCHAR },

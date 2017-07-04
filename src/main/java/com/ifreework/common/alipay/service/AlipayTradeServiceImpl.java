@@ -1,6 +1,5 @@
 package com.ifreework.common.alipay.service;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
@@ -29,10 +28,6 @@ import com.ifreework.common.alipay.request.AlipayTradePrecreateRequestBuilder;
 import com.ifreework.common.alipay.request.AlipayTradeQueryRequestBuilder;
 import com.ifreework.common.alipay.request.RequestBuilder;
 import com.ifreework.common.alipay.utils.AlipayNotify;
-import com.ifreework.util.FileUtil;
-import com.ifreework.util.ImageUtil;
-import com.ifreework.util.PropertiesUtil;
-import com.ifreework.util.TwoDimensionCode;
 
 /**
  * 
@@ -61,17 +56,17 @@ public class AlipayTradeServiceImpl extends AbsAlipayTradeServiceImpl {
 
 		if (res != null) {
 			if (AlipayConstant.SUCCESS.equals(res.getCode())) {// 请求二维码成功
-				String imgPath = PropertiesUtil.getProperty(FileUtil.getRootPath() ,
-						"userImgSavePath");
-				imgPath += "/alipay";
-
-				String fileName = String.format("temp/images%sqr-%s.png", File.separator, res.getOutTradeNo());
-
-				String filePath = new StringBuilder(imgPath).append(fileName).toString();
-				TwoDimensionCode.encoderQRCode(res.getQrCode(), filePath, "png", 256);
-				String baseImg = ImageUtil.getImageStr(filePath);
-				log.info("二维码编码：\t" + baseImg);
-				res.setQrCode(baseImg);
+//				String imgPath = PropertiesUtil.getProperty(FileUtil.getRootPath() ,
+//						"userImgSavePath");
+//				imgPath += "/alipay";
+//
+//				String fileName = String.format("temp/images%sqr-%s.png", File.separator, res.getOutTradeNo());
+//
+////				String filePath = new StringBuilder(imgPath).append(fileName).toString();
+////				TwoDimensionCode.encoderQRCode(res.getQrCode(), filePath, "png", 256);
+//				String baseImg = "";
+//				log.info("二维码编码：\t" + baseImg);
+//				res.setQrCode(baseImg);
 			}
 		} else {
 			res = new AlipayTradePrecreateResponse();

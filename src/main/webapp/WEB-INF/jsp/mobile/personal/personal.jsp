@@ -51,7 +51,7 @@
 					</a>
 				</div>
 				<div class="mess_iocn mess_iocn2 animated rotateIn">
-					<a href="${contextPath}/mobile/homePage?m=${user.userId}"> <i class="fa fa-home puff_left"></i>
+					<a href="${contextPath}/mobile/personalEdit"> <i class="fa fa-ellipsis-h puff_left"></i>
 					</a>
 				</div>
 			</div>
@@ -59,7 +59,7 @@
 			<div class="interest_list" style="border-bottom: 1rem #ededed solid;padding: 0">
 				<ul>
 					<li class="animated bounceInLeft clear_border" style="background: #fff;padding: 1rem;">
-						<a href="javascript:void(0);"> <img src="${user.imgPath }">
+						<a href="javascript:void(0);"> <img src="${user.imgPath }" style="width: 5rem;height: 4rem;">
 							<div class="list_r">
 								<p>
 									<span>${user.personName }</span>
@@ -173,6 +173,8 @@
 
 		<script type="text/javascript" src="${jsPath}/mobile/slide_wap.js"></script>
 		<script type="text/javascript" src="${jsPath}/mobile/common.js"></script>
+		<script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+		
 	</body>
 	<script type="text/javascript">
 		var openId = $.cookie("openId");

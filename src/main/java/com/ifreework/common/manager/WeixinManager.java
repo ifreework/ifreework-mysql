@@ -24,7 +24,13 @@ public class WeixinManager {
 	private static final String ACCESS_TOKEN_URL = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=APPID&secret=APPSECRET";
 	private static final String CREATE_MENU_URL = "https://api.weixin.qq.com/cgi-bin/menu/create?access_token=ACCESS_TOKEN";
 	private static final String AUTHORIZATION_URL = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=APPID&redirect_uri=REDIRECT_URI&response_type=code&scope=SCOPE&state=STATE#wechat_redirect";
-
+	private static final String JSAPI_URL = "https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token=ACCESS_TOKEN&type=jsapi";
+	
+	
+	private static final String TICKET_KEY = CacheConstant.WEIXIN_CACHE_PREFIX.toString() + "JSAPI_TICKET";
+	private static final String TICKET_EXPIRES_KEY = CacheConstant.WEIXIN_CACHE_PREFIX.toString()
+			+ "JSAPI_TICKET_EXPIRES";
+	
 	private static final String TOKEN_KEY = CacheConstant.WEIXIN_CACHE_PREFIX.toString() + "ACCESS_TOKEN";
 	private static final String TOKEN_EXPIRES_KEY = CacheConstant.WEIXIN_CACHE_PREFIX.toString()
 			+ "ACCESS_TOKEN_EXPIRES";
@@ -45,6 +51,8 @@ public class WeixinManager {
 
 		String requestUrl = ACCESS_TOKEN_URL.replace("APPID", appid).replace("APPSECRET", appsecret);
 		String resultStr = HttpRequestUtil.httpsRequest(requestUrl, "GET", null);
+		logger.info("Weixin AccessToken:{}",requestUrl);
+		
 		if (!StringUtil.isEmpty(resultStr)) {
 			JSONObject josn = JSON.parseObject(resultStr);
 			if (null != josn) {
@@ -112,4 +120,50 @@ public class WeixinManager {
 		logger.info("Weixin AuthorizationUrl is {}" ,url);
 		return url;
 	}
+	
+	
+	
+	/**
+	 * 描述：从微信端获取ticket，并保存在缓存中
+	 * @return 
+	 */
+	private static String resetJsapiTicket(){
+		CacheManager cacheManager = SpringManager.getCacheManager();
+		Cache<Object, Object> cache = cacheManager.getCache(CacheConstant.WEIXIN_CACHE_NAME.toString());
+		String ticket = null;
+		
+		String token = getAccessToken();
+
+		String requestUrl = JSAPI_URL.replace("ACCESS_TOKEN", token);
+		String resultStr = HttpRequestUtil.httpRequest(requestUrl);
+		
+		logger.info("Weixin JsapiTicket:{}",requestUrl);
+		if (!StringUtil.isEmpty(resultStr)) {
+			JSONObject josn = JSON.parseObject(resultStr);
+			if (null != josn) {
+				ticket = josn.getString("ticket");
+				long expiresTime = new Date().getTime();
+				
+				cache.put(TICKET_KEY, ticket);
+				cache.put(TICKET_EXPIRES_KEY, expiresTime);
+			}
+		}
+		return ticket;
+	} 
+	
+	/**
+	 * 描述：从缓存中获取AccessToken
+	 * @return 
+	 */
+	public static String getJsapiTicket() {
+		CacheManager cacheManager = SpringManager.getCacheManager();
+		Cache<Object, Object> cache = cacheManager.getCache(CacheConstant.WEIXIN_CACHE_NAME.toString());
+		long nowTime = new Date().getTime();
+		Long expiresTime = (Long) cache.get(TICKET_EXPIRES_KEY);
+		if (expiresTime == null || nowTime - expiresTime > EXPIRES_TIME) {
+			return resetJsapiTicket();
+		}
+		return (String) cache.get(TICKET_KEY);
+	}
+
 }

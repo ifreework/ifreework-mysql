@@ -63,6 +63,30 @@ public class ArticleController extends BaseControllerSupport {
 		return mv;
 	}
 	
+	
+	/**
+	 * 
+	 * 描述：跳转到文章页面
+	 */
+	@RequestMapping(value = "/mobile/articleSearch")
+	public ModelAndView articleSearch() {
+		ModelAndView mv = new ModelAndView();
+		PageData pd = this.getPageData();
+		String userId = pd.getString("m");
+		String title = pd.getString("q");
+		
+		User user = UserManager.getUser(userId);
+		mv.addObject("user", user);
+		if(!StringUtil.isEmpty(title)){
+			pd.put("title", title);
+			pd = articleService.queryPageList(pd);
+			mv.addObject("articleList", pd.getData());
+			mv.addObject("q", title);
+		}
+		mv.setViewName("/mobile/article/articleSearch");
+		return mv;
+	}
+	
 	/**
 	 * 
 	 * 描述：跳转到文章详情
@@ -75,6 +99,7 @@ public class ArticleController extends BaseControllerSupport {
 		String articleId = pd.getString("p");
 		User user = UserManager.getUser(userId);
 		Article article = articleService.getArticleById(articleId);
+		articleService.pageView(article);
 		mv.addObject("user", user);
 		mv.addObject("article", article);
 		mv.setViewName("/mobile/article/articleInfo");

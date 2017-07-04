@@ -154,7 +154,19 @@
 				<property name="requestLogManager" ref="requestLogService" />
 			</bean>
 		</mvc:interceptor>
-		<!-- -->
+		
+		<!-- 微信jssdk授权页面 -->
+		<mvc:interceptor>
+			<mvc:mapping path="/mobile/homePage" />
+			<mvc:mapping path="/mobile/personalEdit" />
+			<mvc:mapping path="/mobile/personal" />
+			<mvc:mapping path="/mobile/card" />
+			<bean
+				class="com.ifreework.common.shiro.interceptor.WeixinJSSDKHandlerInterceptor">
+			</bean>
+		</mvc:interceptor>
+		
+		<!-- 首页登录页面 -->
 		<mvc:interceptor>
 			<mvc:mapping path="/mobile/personal" />
 			<bean
@@ -163,17 +175,22 @@
 			</bean>
 		</mvc:interceptor>
 		
+		<!-- 首页登录验证页面 -->
 		<mvc:interceptor>
 			<mvc:mapping path="/mobile/register" />
 			<mvc:mapping path="/mobile/changeToMine" />
+			<mvc:mapping path="/mobile/personalEdit" />
 			<bean
 				class="com.ifreework.common.shiro.interceptor.WeixinOpenIdHandlerInterceptor">
 				<property name="oauth2RedirectUrl" value="/mobile/redirect?f=[FORWARD]" />
 			</bean>
 		</mvc:interceptor>
 		 
+		<!-- 微信注册登录页面 -->
 		<mvc:interceptor>
 			<mvc:mapping path="/mobile/changeToMine" />
+			<mvc:mapping path="/mobile/personal" />
+			<mvc:mapping path="/mobile/personalEdit" />
 			<bean
 				class="com.ifreework.common.shiro.interceptor.WeixinRegisterHandlerInterceptor">
 				<property name="registerUrl" value="/mobile/register?f=[FORWARD]" />

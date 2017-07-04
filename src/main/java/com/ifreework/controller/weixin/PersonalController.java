@@ -75,6 +75,29 @@ public class PersonalController extends BaseControllerSupport {
 		return mv;
 	}
 	
+	/**
+	 * 
+	 * 描述：跳转到个人中心页面
+	 */
+	@RequestMapping(value = "/mobile/personalEdit")
+	public ModelAndView personalEdit() {
+		ModelAndView mv = new ModelAndView();
+		String userId = ServletRequestManager.getCookieValue("openId");
+		User user = UserManager.getUser(userId);
+		mv.addObject("user", user);
+		mv.setViewName("/mobile/personal/personalEdit");
+		return mv;
+	}
+	
+	/**
+	 * 
+	 * 描述：跳转到个人中心页面
+	 */
+	@RequestMapping(value = "/mobile/personal/save")
+	public PageData personalSave(@ModelAttribute("user") User user) {
+		PageData pd = userService.update(user);
+		return pd;
+	}
 	
 	/**
 	 * 描述：跳转到注册页面

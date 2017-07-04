@@ -156,7 +156,7 @@ public class PageData extends HashMap implements Map {
 	 * @return
 	 */
 	public Object getData() {
-		return this.getString("data");
+		return this.get("data");
 	}
 
 	/**

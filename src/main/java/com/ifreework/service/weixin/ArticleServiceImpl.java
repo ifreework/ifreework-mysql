@@ -35,6 +35,18 @@ public class ArticleServiceImpl  implements ArticleService {
 		return articleMapper.getArticleById(articleId);
 	}
 
+	/**
+	 * 
+	 * 描述：页面访问量修改
+	 * @param companyIntroductionId 
+	 * @return
+	 */
+	@Override
+	public void pageView(Article article) {
+		int pageView = NumberUtil.random(1, 10);
+		article.setPageView(article.getPageView() + pageView);
+		update(article);
+	}
 	@Override
 	public PageData add(Article article) {
 		String articleId = StringUtil.uuid();
