@@ -2701,6 +2701,43 @@ body{
     height: 4rem;
 }
 
+.nav.album ul li {
+    width: 35%;
+    margin-left: 10%;
+    font-size: 1.5rem;
+    line-height: 2rem;
+}
+.nav.album ul li .img{
+	display: block;
+	padding: 0.2rem;
+	border: 0.1rem solid #CA9E9E;
+}
+.nav.album ul li img{
+	border-radius: 0;
+	height:10rem;
+}
+
+.nav.album ul li .fa{
+	color: #00ff00;
+	margin-left: 0.5rem;
+}
+
+.nav.album ul li .input ,.nav.album ul li .text{
+	margin:0.5rem;
+	display: block;
+	width: 100%;
+	text-align: left;
+	height: 2rem;
+}
+.nav.album ul li .input input{
+	line-height: 1.5rem;
+	font-size: 1.5rem;
+	width: 60%;
+	border-left:0; 
+	border-right:0; 
+	border-top:0; 
+}
+
 .left{
 	float: left!important;
 }

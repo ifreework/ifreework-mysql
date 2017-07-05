@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ifreework.mapper.weixin.AlbumImageMapper">
+	<sql id="albumImageColumns">
+		IMAGE_ID,
+		ALBUM_ID,
+		CONTENT,
+		REMARK
+	</sql>
+
+	<resultMap type="com.ifreework.entity.weixin.AlbumImage" id="albumImage">
+		<id column="IMAGE_ID" property="imageId"/>
+		<result column="ALBUM_ID" property="albumId"/>
+		<result column="CONTENT" property="content"/>
+		<result column="REMARK" property="remark"/>
+	</resultMap>
+
+	<select id="queryList" parameterType="pd" resultMap="albumImage">
+		select
+		<include refid="albumImageColumns" />
+		from  WEIXIN_ALBUM_IMAGE  where ALBUM_ID = #{a}
+	</select>
+
+	<select id="getAlbumImageById" parameterType="String" resultMap="albumImage">
+		select
+		<include refid="albumImageColumns" />
+		from  WEIXIN_ALBUM_IMAGE  where IMAGE_ID = #{imageId}
+	</select>
+
+	<insert id="add" parameterType="com.ifreework.entity.weixin.AlbumImage">
+		insert into WEIXIN_ALBUM_IMAGE (<include refid="albumImageColumns"/>) 
+		values 
+		(
+			#{ imageId,jdbcType=VARCHAR },
+			#{ albumId,jdbcType=VARCHAR },
+			#{ content,jdbcType=VARCHAR },
+			#{ remark,jdbcType=VARCHAR }
+		)
+	</insert>
+
+	<update id="update" parameterType="com.ifreework.entity.weixin.AlbumImage">
+		update  WEIXIN_ALBUM_IMAGE
+		<trim prefix="SET" suffixOverrides=",">  
+	        <if test="albumId != null ">  
+	           ALBUM_ID = #{albumId},
+	        </if>  
+	        <if test="content != null ">  
+	           CONTENT = #{content},
+	        </if>  
+	        <if test="remark != null ">  
+	           REMARK = #{remark}
+	        </if>  
+		</trim>
+			where 
+	        <if test="imageId != null ">  
+	           IMAGE_ID = #{imageId}
+	        </if>  
+	</update>
+
+	<delete id="delete" parameterType="string">
+		delete from WEIXIN_ALBUM_IMAGE WHERE
+		IMAGE_ID = #{imageId}
+	</delete>
+</mapper>

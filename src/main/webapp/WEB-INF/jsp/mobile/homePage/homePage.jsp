@@ -119,7 +119,9 @@
 		</div>
 
 		<div class="footer">
-			<a href="javascript:M.alert('该功能暂未开通')">免责声明</a> <a href="javascript:M.alert('该功能暂未开通')">关于我们</a> <a href="javascript:M.alert('该功能暂未开通')">用户中心</a>
+			<a href="${contextPath }/mobile/mzsm?m=${user.userId}">免责声明</a> 
+			<a href="javascript:M.alert('该功能暂未开通')">关于我们</a> 
+			<a href="javascript:M.alert('该功能暂未开通')">帮助中心</a>
 		</div>
 
 		<div class="navside">

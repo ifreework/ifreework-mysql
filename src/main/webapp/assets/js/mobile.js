@@ -222,7 +222,7 @@ M = function() {
 					        <div class="weui-mask_transparent"></div>\
 					        <div class="weui-toast">\
 					            <i class="{icon} weui-icon_toast"></i>\
-					            <p class="weui-toast__content">${message}</p>\
+					            <p class="weui-toast__content">{message}</p>\
 					        </div>\
 					    </div>',
 					    flag = flag ? flag : "success",

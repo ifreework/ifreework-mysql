@@ -101,7 +101,7 @@
 	            </ul>
 		    </div>
 		    <div class="id_bth inersest_bth animated bounceIn">
-		        <a href="javascript:void(0)" id="save">登录</a>
+		        <a href="javascript:void(0)" id="save">保存</a>
 		    </div>
 		</div>
 

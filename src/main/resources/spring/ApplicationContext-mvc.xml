@@ -161,12 +161,13 @@
 			<mvc:mapping path="/mobile/personalEdit" />
 			<mvc:mapping path="/mobile/personal" />
 			<mvc:mapping path="/mobile/card" />
+			<mvc:mapping path="/mobile/albumImage" />
 			<bean
 				class="com.ifreework.common.shiro.interceptor.WeixinJSSDKHandlerInterceptor">
 			</bean>
 		</mvc:interceptor>
 		
-		<!-- 首页登录页面 -->
+		<!-- 个人中心页面 -->
 		<mvc:interceptor>
 			<mvc:mapping path="/mobile/personal" />
 			<bean

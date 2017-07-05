@@ -67,6 +67,20 @@ public class HomePageController extends BaseControllerSupport {
 	
 	/**
 	 * 描述：跳转到个人名片页面
+	 */
+	@RequestMapping(value = "/mobile/mzsm")
+	public ModelAndView mzsm() {
+		ModelAndView mv = new ModelAndView();
+		PageData pd = this.getPageData();
+		String userId = pd.getString("m");
+		User user = UserManager.getUser(userId);
+		mv.addObject("user", user);
+		mv.setViewName("/mobile/homePage/mzsm");
+		return mv;
+	}
+	
+	/**
+	 * 描述：跳转到个人名片页面
 	 * @throws IOException 
 	 * @throws WriterException 
 	 */

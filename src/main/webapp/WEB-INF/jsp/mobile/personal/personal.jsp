@@ -112,7 +112,7 @@
 			<div class="Area">
 				<ul>
 					<li>
-						<a href="javascript:M.alert('该功能暂未开通')"> <img src="${imagePath }/mobile/icon_zn.png" class="animated bounceIn"> <span>我的相册</span>
+						<a href="${ contextPath }/mobile/album?m=${user.userId}"> <img src="${imagePath }/mobile/icon_zn.png" class="animated bounceIn"> <span>我的相册</span>
 						</a>
 					</li>
 					<li>

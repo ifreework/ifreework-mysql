@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ifreework.mapper.weixin.AlbumMapper">
+	<sql id="albumColumns">
+		ALBUM_ID,
+		TITLE,
+		REMARK,
+		CREATER,
+		CREATE_TIME
+	</sql>
+
+	<resultMap type="com.ifreework.entity.weixin.Album" id="album">
+		<id column="ALBUM_ID" property="albumId" />
+		<result column="TITLE" property="title" />
+		<result column="REMARK" property="remark" />
+		<result column="CREATER" property="creater" />
+		<result column="CREATE_TIME" property="createTime" />
+		<association property="albumImage" select="getAlbumImage" column="ALBUM_ID">
+		</association>
+	</resultMap>
+	
+	<resultMap type="com.ifreework.entity.weixin.AlbumImage" id="albumImage">
+		<id column="IMAGE_ID" property="imageId"/>
+		<result column="ALBUM_ID" property="albumId"/>
+		<result column="CONTENT" property="content"/>
+		<result column="REMARK" property="remark"/>
+	</resultMap>
+
+	<select id="queryList" parameterType="pd" resultMap="album">
+		select
+		<include refid="albumColumns" />
+		from WEIXIN_ALBUM where creater = #{m}
+	</select>
+
+	<select id="getAlbumById" parameterType="String" resultMap="album">
+		select
+		<include refid="albumColumns" />
+		from WEIXIN_ALBUM where ALBUM_ID = #{albumId}
+	</select>
+
+	<select id="getAlbumImage" parameterType="String" resultMap="albumImage">
+		select
+		IMAGE_ID,
+		ALBUM_ID,
+		CONTENT,
+		REMARK
+		from WEIXIN_ALBUM_IMAGE where ALBUM_ID = #{albumId} limit 1
+	</select>
+
+	<insert id="add" parameterType="com.ifreework.entity.weixin.Album">
+		insert into WEIXIN_ALBUM (
+		<include refid="albumColumns" />
+		)
+		values
+		(
+		#{ albumId,jdbcType=VARCHAR },
+		#{ title,jdbcType=VARCHAR },
+		#{
+		remark,jdbcType=VARCHAR },
+		#{ creater,jdbcType=VARCHAR },
+		#{
+		createTime,jdbcType=TIMESTAMP }
+		)
+	</insert>
+
+	<update id="update" parameterType="com.ifreework.entity.weixin.Album">
+		update WEIXIN_ALBUM
+		<trim prefix="SET" suffixOverrides=",">
+			<if test="title != null ">
+				TITLE = #{title},
+			</if>
+			<if test="remark != null ">
+				REMARK = #{remark},
+			</if>
+			<if test="creater != null ">
+				CREATER = #{creater},
+			</if>
+			<if test="createTime != null ">
+				CREATE_TIME = #{createTime}
+			</if>
+		</trim>
+		where
+		<if test="albumId != null ">
+			ALBUM_ID = #{albumId}
+		</if>
+	</update>
+
+	<delete id="delete" parameterType="string">
+		delete from WEIXIN_ALBUM WHERE
+		ALBUM_ID = #{albumId}
+	</delete>
+</mapper>
