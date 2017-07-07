@@ -74,6 +74,20 @@ public class UserCacheAspect {
 	@Pointcut(value = "execution(* com.ifreework.service.system.UserServiceImpl.login(..))")
 	private void cachePutPointcutByReturn() {
 	}
+	
+	
+	/**
+	 * 
+	 * 描述：通过用户ID获取用户信息时，先检查缓存
+	 * @Title: cachePutPointcut
+	 * @param 
+	 * @return   
+	 * @throws
+	 */
+	@Pointcut(value = "execution(* com.ifreework.service.system.UserServiceImpl.getUserById(..))")
+	private void cachePutPointcutByUserId() {
+	}
+	
 
 	@AfterReturning(value = "cachePutPointcutByReturn()", returning = "user")
 	public void cachePutByQuery(Object user) {

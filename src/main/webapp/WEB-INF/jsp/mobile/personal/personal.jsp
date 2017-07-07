@@ -46,10 +46,6 @@
 					</a>
 				</div>
 
-				<div class="mess_iocn animated rotateIn">
-					<a href="javascript:history.go(-1)"> <i class="fa fa-angle-left puff_left circle"></i>
-					</a>
-				</div>
 				<div class="mess_iocn mess_iocn2 animated rotateIn">
 					<a href="${contextPath}/mobile/personalEdit"> <i class="fa fa-ellipsis-h puff_left"></i>
 					</a>
@@ -154,7 +150,7 @@
 						</a>
 					</li>
 					<li class="animated bounceInRight">
-						<a href="${contextPath}/mobile/personal?m=${user.userId }"  class="navside_hover">
+						<a href="${contextPath}/mobile/personal?m=${user.userId }" class="navside_hover" >
 							<p>
 								<i class="fa fa-user"></i>
 							</p> <span>个人中心</span>

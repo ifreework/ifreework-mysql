@@ -50,7 +50,6 @@
 <body>
 	<div class="warpe">
 		<div class="head">
-			<a href="javascript:history.go(-1)" class="return"><i class="fa fa-chevron-left"></i> 返回</a>
 			我的优荐
 			<a href="${contextPath}/mobile/articleSearch?m=${user.userId}" class="search"><i class="fa fa-search"></i> </a>
 		</div>
@@ -116,14 +115,14 @@
 						</a>
 					</li>
 					<li class="animated bounceInRight">
-						<a href="${contextPath}/mobile/personal?m=${user.userId }"  class="navside_hover">
+						<a href="${contextPath}/mobile/personal?m=${user.userId }" >
 							<p>
 								<i class="fa fa-user"></i>
 							</p> <span>个人中心</span>
 						</a>
 					</li>
 					<li class="animated bounceInLeft">
-						<a href="${contextPath}/mobile/articleList?m=${user.userId }">
+						<a href="${contextPath}/mobile/articleList?m=${user.userId }" class="navside_hover">
 							<p>
 								<i class="fa fa-th-large"></i>
 							</p> <span>微分享</span>

@@ -7,7 +7,7 @@ import org.apache.shiro.cache.CacheManager;
 
 import com.ifreework.common.constant.CacheConstant;
 import com.ifreework.entity.system.User;
-import com.ifreework.mapper.system.UserMapper;
+import com.ifreework.service.system.UserService;
 import com.ifreework.util.StringUtil;
 
 /**
@@ -66,8 +66,8 @@ public class UserManager {
 	 * @throws
 	 */
 	public static User getUser(String userId){
-		UserMapper userMapper = SpringManager.getBean("userMapper",UserMapper.class);
-		return userMapper.getUserById(userId);
+		UserService userService = SpringManager.getBean("userService",UserService.class);
+		return userService.getUserById(userId);
 	}
 	
 	

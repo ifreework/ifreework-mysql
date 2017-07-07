@@ -52,6 +52,17 @@ public class HomePageController extends BaseControllerSupport {
 	}
 	
 	/**
+	 * 
+	 * 描述：跳转到微主页页面
+	 */
+	@RequestMapping(value = "/mobile/about")
+	public ModelAndView about() {
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("/mobile/about/about");
+		return mv;
+	}
+	
+	/**
 	 * 描述：跳转到个人名片页面
 	 */
 	@RequestMapping(value = "/mobile/card")

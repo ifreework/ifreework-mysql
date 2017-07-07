@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ifreework.mapper.weixin.LeaveMessageMapper">
+	<sql id="leaveMessageColumns">
+		LEAVE_MESSAGE_ID,
+		USER_ID,
+		TITLE,
+		CONTENT,
+		LEAVE_USER,
+		LEAVE_PHONE,
+		CREATE_TIME
+	</sql>
+
+	<resultMap type="com.ifreework.entity.weixin.LeaveMessage" id="leaveMessage">
+		<id column="LEAVE_MESSAGE_ID" property="leaveMessageId"/>
+		<result column="USER_ID" property="userId"/>
+		<result column="TITLE" property="title"/>
+		<result column="CONTENT" property="content"/>
+		<result column="LEAVE_USER" property="leaveUser"/>
+		<result column="LEAVE_PHONE" property="leavePhone"/>
+		<result column="CREATE_TIME" property="createTime"/>
+	</resultMap>
+
+	<select id="queryList" parameterType="pd" resultMap="leaveMessage">
+		select
+		<include refid="leaveMessageColumns" />
+		from  WEIXIN_LEAVE_MESSAGE  where '1' = '1'
+			<if test=" userId != null and  userId != ''">
+				and  USER_ID = #{m}
+			</if>
+	</select>
+
+	<select id="getLeaveMessageById" parameterType="String" resultMap="leaveMessage">
+		select
+		<include refid="leaveMessageColumns" />
+		from  WEIXIN_LEAVE_MESSAGE  where LEAVE_MESSAGE_ID = #{leaveMessageId}
+	</select>
+
+	<insert id="add" parameterType="com.ifreework.entity.weixin.LeaveMessage">
+		insert into WEIXIN_LEAVE_MESSAGE (<include refid="leaveMessageColumns"/>) 
+		values 
+		(
+			#{ leaveMessageId,jdbcType=VARCHAR },
+			#{ userId,jdbcType=VARCHAR },
+			#{ title,jdbcType=VARCHAR },
+			#{ content,jdbcType=VARCHAR },
+			#{ leaveUser,jdbcType=VARCHAR },
+			#{ leavePhone,jdbcType=VARCHAR },
+			#{ createTime,jdbcType=TIMESTAMP }
+		)
+	</insert>
+
+	<update id="update" parameterType="com.ifreework.entity.weixin.LeaveMessage">
+		update  WEIXIN_LEAVE_MESSAGE
+		<trim prefix="SET" suffixOverrides=",">  
+	        <if test="userId != null ">  
+	           USER_ID = #{userId},
+	        </if>  
+	        <if test="title != null ">  
+	           TITLE = #{title},
+	        </if>  
+	        <if test="content != null ">  
+	           CONTENT = #{content},
+	        </if>  
+	        <if test="leaveUser != null ">  
+	           LEAVE_USER = #{leaveUser},
+	        </if>  
+	        <if test="leavePhone != null ">  
+	           LEAVE_PHONE = #{leavePhone},
+	        </if>  
+	        <if test="createTime != null ">  
+	           CREATE_TIME = #{createTime}
+	        </if>  
+		</trim>
+			where 
+	        <if test="leaveMessageId != null ">  
+	           LEAVE_MESSAGE_ID = #{leaveMessageId}
+	        </if>  
+	</update>
+
+	<delete id="delete" parameterType="string">
+		delete from WEIXIN_LEAVE_MESSAGE WHERE
+		LEAVE_MESSAGE_ID = #{leaveMessageId}
+	</delete>
+</mapper>

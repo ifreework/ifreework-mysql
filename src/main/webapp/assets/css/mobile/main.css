@@ -2737,7 +2737,29 @@ body{
 	border-right:0; 
 	border-top:0; 
 }
+.nav.image ul li{
+	width: 23%;
+	margin-left: 8%;
+	overflow: hidden;
+}
+.nav.image ul li .img{
+	border: 0;
+	height: 10rem;
+	vertical-align: middle;
+}
 
+.nav.image ul li img{
+	height: auto;
+}
+.nav.album ul li .text{
+	text-align: center;
+}
+
+.leave_message .pro_t img{
+	width: 30%;
+	border-radius:50%;
+	margin: auto;
+}
 .left{
 	float: left!important;
 }

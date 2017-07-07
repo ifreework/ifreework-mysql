@@ -19,7 +19,7 @@
 			<a href="javascript:void(0)" class="search"><i class="fa fa-plus"></i> </a>
 		</div>
 		 
-		<div class="nav margin_top album">
+		<div class="nav margin_top album image">
 			<ul>
 				<c:forEach items="${albumImageList }" var="image">
 				<li>
@@ -27,7 +27,7 @@
 						<img src="${ image.content }"
 								class="animated bounceIn">
 					</span>
-					<span class="text"><i class="fa fa-minus" style="color: red;" onclick="deleteImage(this,'${image.imageId }')"></i></span>
+					<span class="text"><i class="fa fa-trash-o" style="color: #8C4545;" onclick="deleteImage(this,'${image.imageId }')"></i></span>
 				</li>
 				</c:forEach>
 			</ul>
@@ -40,7 +40,7 @@
 	var openId = $.cookie("openId");
 	var userId = "${userId}";
 	if(openId != userId){
-		$(".fa-plus,.fa-delete,.fa-check").hide();
+		$(".fa-plus,.fa-trash-o").hide();
 	}
 	
 	wx.config({
@@ -92,24 +92,28 @@
 								<img src="[localData]"\
 										class="animated bounceIn">\
 							</span>\
-							<span class="text"><i class="fa fa-minus" style="color: red;" onclick="deleteImage(this,\'[imageId]\')"></i></span>\
+							<span class="text"><i class="fa fa-trash-o" style="color: #8C4545;" onclick="deleteImage(this,\'[imageId]\')"></i></span>\
 						</li>';
 				html = html.replace("[localData]",data.localData).replace("[imageId]",data.imageId);
 			$(".album ul").prepend(html);
-			
+			previewImage();
 		}
 		
 		function previewImage(){
 			$(".nav img").unbind();
 			$(".nav img").on("click",function(){
-				var url = $(this).attr("url");
-				var urls = $(".nav img").attr("url");
+				var url = $(this).attr("src");
+				var urls = [];
+				$(".nav img").each(function(){
+					urls.push($(this).attr("src"));
+				});
 				 wx.previewImage({
 				    	current: url, // 当前显示图片的http链接
 				    	urls: urls // 需要预览的图片http链接列表
 				    });
 			});
 		}
+		previewImage();
 		
 	});
 	

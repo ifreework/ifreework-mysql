@@ -42,10 +42,6 @@
 				</a>
 			</div>
 			
-			<div class="mess_iocn animated rotateIn">
-				<a href="javascript:history.go(-1)"> <i class="fa fa-angle-left puff_left circle"></i>
-				</a>
-			</div>
 			<div class="mess_iocn mess_iocn2 animated rotateIn">
 				<a href="${contextPath}/mobile/homePage?m=${user.userId}"> <i class="fa fa-home puff_left"></i>
 				</a>
@@ -103,13 +99,13 @@
 								class="animated rotateIn">
 						</p> <span>我的优荐</span>
 				</a></li>
-				<li><a href="javascript:M.alert('该功能暂未开通')">
+				<li><a href="${ contextPath }/mobile/album?m=${user.userId}">
 						<p>
 							<img src="${imagePath }/mobile/icon_zn.png"
 								class="animated bounceIn">
 						</p> <span>我的相册</span>
 				</a></li>
-				<li><a href="javascript:M.alert('该功能暂未开通')">
+				<li><a href="${ contextPath }/mobile/leaveMessage?m=${user.userId}">
 						<p>
 							<img src="${imagePath }/mobile/icon_sq.png"
 								class="animated rotateIn">
@@ -120,7 +116,7 @@
 
 		<div class="footer">
 			<a href="${contextPath }/mobile/mzsm?m=${user.userId}">免责声明</a> 
-			<a href="javascript:M.alert('该功能暂未开通')">关于我们</a> 
+			<a href="${contextPath }/mobile/about">关于我们</a> 
 			<a href="javascript:M.alert('该功能暂未开通')">帮助中心</a>
 		</div>
 
