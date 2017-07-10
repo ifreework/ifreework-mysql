@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import com.ifreework.common.constant.Constant;
 import com.ifreework.common.entity.PageData;
+import com.ifreework.common.manager.AttachmentManager;
 import com.ifreework.common.manager.UserManager;
 import com.ifreework.entity.weixin.Article;
 import com.ifreework.mapper.weixin.ArticleMapper;
@@ -23,6 +24,7 @@ public class ArticleServiceImpl  implements ArticleService {
 	@Autowired
 	private ArticleMapper articleMapper;
 	
+	private final String HTML_FILE_PATH = "article/html";
 	@Override
 	public PageData queryPageList(PageData pd) {
 		List<Article> list = articleMapper.queryPageList(pd);
@@ -54,6 +56,7 @@ public class ArticleServiceImpl  implements ArticleService {
 		article.setCreater(UserManager.getUser().getUserId());
 		article.setCreateTime(new Date());
 		article.setPageView(NumberUtil.random(20000,30000));
+		setImage(article);
 		articleMapper.add(article);
 		PageData pd = new PageData();
 		pd.setResult(Constant.SUCCESS);
@@ -62,10 +65,30 @@ public class ArticleServiceImpl  implements ArticleService {
 
 	@Override
 	public PageData update(Article article) {
+		setImage(article);
 		articleMapper.update(article);
 		PageData pd = new PageData();
 		pd.setResult(Constant.SUCCESS);
 		return pd;
+	}
+	
+	/**
+	 * 
+	 * 描述：将下载地址改为下载路径
+	 * @param article 
+	 * @return
+	 */
+	private void setImage(Article article){
+		String image = article.getImage();
+		if(!StringUtil.isEmpty(image)){
+			String att = AttachmentManager.getDownloadUrl(image);
+			article.setImage(att);
+		}
+	}
+	
+	
+	private void setHtml(){
+		
 	}
 
 	@Override

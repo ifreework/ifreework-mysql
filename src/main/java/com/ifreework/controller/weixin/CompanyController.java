@@ -43,7 +43,8 @@ public class CompanyController extends BaseControllerSupport {
 	@RequestMapping(value = "/weixin/company/edit")
 	public ModelAndView edit() {
 		ModelAndView mv = this.getModelAndView();
-		Company company = companyService.getCompanyByUserId();
+		String companyId = this.getPageData().getString("companyId");
+		Company company = companyService.getCompanyById(companyId);
 		mv.addObject("company", company);
 		mv.setViewName("/weixin/company/edit");
 		return mv;

@@ -22,6 +22,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.ifreework.common.constant.Constant;
 import com.ifreework.common.entity.PageData;
+import com.ifreework.common.manager.FileManager;
 import com.ifreework.common.manager.ServletRequestManager;
 import com.ifreework.common.manager.SystemConfigManager;
 import com.ifreework.entity.system.Attachment;
@@ -44,7 +45,6 @@ import com.ifreework.util.StringUtil;
 @Service("fileUploadService")
 public class AttachmentServiceImpl implements AttachmentService {
 	private static Logger logger = LoggerFactory.getLogger(AttachmentServiceImpl.class);
-	private static final String REMOTEPATH = "/attachment"; // 文件保存支线
 
 	@Autowired
 	private AttachmentMapper attachmentMapper;
@@ -57,18 +57,12 @@ public class AttachmentServiceImpl implements AttachmentService {
 	 * @return   
 	 * @throws
 	 */
-	public PageData fileUpload(MultipartFile[] files) throws IOException {
+	public PageData fileUpload(MultipartFile[] files,String remotePath) throws IOException {
 		String attachmentId = "";
 		PageData pd = new PageData();
 
 		for (MultipartFile file : files) {
-
-			String filePath = "";
-			if ("1".equals(SystemConfigManager.get(Config.FTP_ENABLE))) { // 是否启用ftp上传
-				filePath = ftpUpload(file);
-			} else { // 未启用ftp的话，将文件保存在本地
-				filePath = localDiskUpload(file);
-			}
+			String filePath = FileManager.upload(file, remotePath);
 			Attachment attachment = new Attachment();
 			attachment.setAttachmentPath(filePath);
 			attachment.setAttachmentName(file.getOriginalFilename());
@@ -84,46 +78,6 @@ public class AttachmentServiceImpl implements AttachmentService {
 		return pd;
 	}
 
-	/**
-	 * 
-	 * 描述：本地磁盘上传
-	 * @Title: localDiskUpload
-	 * @param 
-	 * @return   
-	 * @throws
-	 */
-	private String localDiskUpload(MultipartFile file) throws IOException {
-		String filePath;
-		filePath = SystemConfigManager.get(Config.FILE_PATH) + REMOTEPATH;
-		try {
-			filePath = FileUtil.fileUpload(file, filePath);
-		} catch (IOException e) {
-			logger.error("file upload error is {}", e);
-			FileUtil.fileDelete(filePath);
-			throw e;
-		}
-		return filePath;
-	}
-
-	/**
-	 * 
-	 * 描述：ftp文件上传
-	 * @Title: ftpUpload
-	 * @param 
-	 * @return   
-	 * @throws
-	 */
-	private String ftpUpload(MultipartFile file) throws IOException {
-		String filePath;
-		String fileName = FileUtil.getUUIDName(file.getOriginalFilename());
-
-		FTPUtil.upload(SystemConfigManager.get(Config.FTP_ADDRESS), Integer.parseInt(SystemConfigManager.get(Config.FTP_PORT)),
-				SystemConfigManager.get(Config.FTP_USERNAME), SystemConfigManager.get(Config.FTP_PASSWORD), fileName, REMOTEPATH,
-				file.getInputStream());
-
-		filePath = REMOTEPATH + "/" + fileName;
-		return filePath;
-	}
 
 	/**
 	 * 

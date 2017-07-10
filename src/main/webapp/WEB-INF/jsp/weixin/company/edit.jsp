@@ -41,7 +41,7 @@ weixin.company.edit = function(){
     				success:function(param){
     					if(param.result === SUCCESS){
     						bootbox.alert("公司创建成功。","",function(){
-    							system.main.refresh();
+    							system.main.history();
     						});
     					}else{
     						bootbox.alert("数据异常，保存失败");
@@ -72,17 +72,10 @@ weixin.company.edit = function(){
 			}
 		});
 	}
-	
-	function showBody(){
-		weixinCompanyEdit.find("#edit-title").hide();
-		weixinCompanyEdit.find("#edit-body").show();
-		weixinCompanyEdit.find("#edit-footer").show();
-	}
 	return {
 		init: function(){
 			weixinCompanyEdit = $("#weixin-company-edit");
 			initValidator();
-			weixinCompanyEdit.find("#edit-title").on("click",showBody);
 			weixinCompanyEdit.find("#img-upload").on("click",openDialog);
 			weixinCompanyEdit.find("#btn-save").on("click",save);
 		}
@@ -99,14 +92,7 @@ $().ready(function(){
          <span class="text">工作室编辑</span>
     </div>
 	<div class="container-body">
-		<div id="edit-title" style="display: ${company.companyId == null ? 'block' :'none' }">
-			<div class="text-center margin-20">您尚未创建自己的工作室，请点击下方按钮创建属于自己的工作室。</div>
-			<div class="text-center">
-				<a id="create-company" class="btn btn-sky" href="javascript:void(0);"><i class="fa fa-plus"></i>创建工作室</a>
-			</div>
-		</div>
-		
-   		<div class="row" id="edit-body" style="display: ${company.companyId == null ? 'none' :'block' }">
+   		<div class="row" id="edit-body">
            <div class="col-lg-12 col-sm-12 col-xs-12">
                          <form id="saveForm" method="post" class="form-horizontal">
                             <div class="form-group has-feedback row">
@@ -156,7 +142,7 @@ $().ready(function(){
                 </div>
             </div>
    	</div>
-	<div class="text-center container-footer" id="edit-footer" style="display: ${company.companyId == null ? 'none' :'block' }">
+	<div class="text-center container-footer" id="edit-footer">
 		<a class="btn btn-primary" href="javascript:void(0);" id="btn-save"><i class="fa fa-save"></i>保存</a>
 	</div>
 	</div>

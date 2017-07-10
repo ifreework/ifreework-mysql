@@ -28,7 +28,7 @@ import com.ifreework.common.entity.PageData;
  *     
  */
 public interface AttachmentService {
-	public abstract PageData fileUpload(MultipartFile[] files) throws IOException;
+	public abstract PageData fileUpload(MultipartFile[] files,String remotePath) throws IOException;
 	public void download(String attachmentId) ;
 	public void delete(String Attachment);
 }

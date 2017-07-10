@@ -38,6 +38,47 @@
         </div>
     </div>
     
+    	<div class="main">
+		<div class="recommend">
+			<div class="title">
+				相关阅读：
+			</div>
+			<div class="content">
+				<ul>
+					<li>
+						<a href="#">业界良心，北大博士精心推荐24字公开课程</a>
+					</li>
+					<li>
+						<a href="#">震惊中外，他喝下二斤白酒却能开车回家</a>
+					</li>
+					<li>
+						<a href="#">58岁大妈皮肤却比少女水嫩的秘密</a>
+					</li>
+					<li>
+						<a href="#">这样吃饭你到80岁都不会显老</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+	
+	<div class="main">
+        <div class="pictitle">
+            <span class="picbg"></span>
+            <span>热销产品推荐</span>
+            <a href="#" class="puff_right">更多 ></a>
+        </div>
+        <div class="bannerside">
+            <a href="#"><img src="${imagePath }/mobile/pic1.jpg"></a>
+        </div>
+        <div class="bannerside">
+            <a href="#"><img src="${imagePath }/mobile/pic2.jpg"></a>
+        </div>
+        <div class="bannerside">
+            <a href="#"><img src="${imagePath }/mobile/pic3.jpg"></a>
+        </div>
+   	</div>
+   	
     <div class="main small_card">
 		<div class="small_card_img">
 				<a href="#"><img src="${imagePath }/mobile/pic8.jpg"

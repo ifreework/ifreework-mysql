@@ -58,7 +58,8 @@ public class AttachmentController extends BaseControllerSupport {
 	@RequestMapping("/fileUpload")
 	public PageData fileUpload(@RequestParam(required=false) MultipartFile[] file){
 		try {
-			return attachmentService.fileUpload(file);
+			String remotePath = this.getPageData().getString("remotePath"); //文件存储路径
+			return attachmentService.fileUpload(file,remotePath);
 		} catch (IOException e) {
 			logger.error("File upload error is {}",e);
 			PageData pd = new PageData();
