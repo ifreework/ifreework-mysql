@@ -12,7 +12,6 @@ import com.ifreework.entity.system.Config;
  * @version 1.0
  */
 public class SystemConfigManager {
-
 	/**
 	 * 
 	 * 描述：获取系统配置属性

@@ -634,3 +634,49 @@ textarea, input[type="text"], input[type="password"], input[type="datetime"], in
 .table-message td:HOVER  a.hide {
 	display: inline-block!important;
 }
+
+
+/************************************ dropzone ******************************************************/
+div.dropzone {
+    border: 0px solid rgba(0, 0, 0, 0.3);
+    background: transparent;
+    padding: 0;
+    display: inline-block;
+    min-height:0px;
+}
+
+div.dropzone .dz-message{
+	display:none;
+	
+}
+
+div.dropzone .dz-file-button {
+	width: 120px;
+	height: 120px;;
+	margin: 0;
+	border: 1px solid;
+	font-size: 50px;
+	line-height: 120px;
+	text-align: center;
+	cursor: pointer;
+	display: inline-block; 
+	float: right;
+}
+
+div.dropzone .dz-preview{
+	margin:0;
+	margin-right: 15px;
+}
+div.dropzone .dz-preview .dz-image {
+	border-radius: 0;
+}
+
+
+div.dropzone .dz-preview.dz-error .dz-error-message{
+	top: -6px;
+}
+.dropzone .dz-preview .dz-error-message:after{
+	top:33px;
+	border-bottom: 0;
+	border-top:6px solid #be2626;
+}

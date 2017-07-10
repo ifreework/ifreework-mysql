@@ -66,7 +66,7 @@ public class PageData extends HashMap implements Map {
 	private Integer getStart() {
 		Integer length = (Integer) map.get("length");
 		String start = (String) this.get("start");
-		if (StringUtil.isEmpty(start)) {
+		if (StringUtil.isEmpty(start) || length == null || length == 0) {
 			return null;
 		}
 		Integer i = Integer.parseInt(start)/length;

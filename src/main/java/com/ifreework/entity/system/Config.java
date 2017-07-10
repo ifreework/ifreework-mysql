@@ -29,7 +29,7 @@ public class Config implements Serializable{
 	
 	public static final String FILE_PATH = "file_path"; //本地文件保存路径
 	public static final String FILE_TEMP_PATH = "file_temp_path"; //临时文件保存路径
-	
+	public static final String FILE_DOWNLOAD_URL = "file_download_url"; //文件下载路径
 	
 	public static final String FTP_ENABLE = "ftp_enable";  // 是否启用ftp服务器
 	

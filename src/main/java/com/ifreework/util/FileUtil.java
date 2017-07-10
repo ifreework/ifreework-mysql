@@ -108,6 +108,8 @@ public class FileUtil {
 		String fileName = UUID.randomUUID().toString().replace("-", ""); // 扩展名格式：
 		if (fileStr.lastIndexOf(".") >= 0) {
 			fileName += fileStr.substring(fileStr.lastIndexOf("."));
+		}else{
+			fileName += "." + fileStr;
 		}
 		return fileName;
 	}
@@ -200,6 +202,23 @@ public class FileUtil {
 		String fileName = getUUIDName(file.getOriginalFilename());
 		log.debug("Upload file save path is {}/{}",filePath,fileName);
 		return copyFile(file.getInputStream(), filePath, fileName);
+	}
+	
+
+
+	/**
+	 * 
+	 * 描述：文件上传，根据文件流
+	 * @param in 文件流
+	 * @param fileType 文件类型
+	 * @param filePath 文件保存路径
+	 * @return
+	 * @throws IOException 
+	 */
+	public static String fileUpload(InputStream in,String fileType, String filePath) throws IOException {
+		String fileName = getUUIDName(fileType);
+		log.debug("Upload file save path is {}/{}",filePath,fileName);
+		return copyFile(in, filePath, fileName);
 	}
 
 	/**

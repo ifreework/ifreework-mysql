@@ -12,10 +12,8 @@ import org.springframework.stereotype.Service;
 import com.ifreework.common.constant.Constant;
 import com.ifreework.common.entity.PageData;
 import com.ifreework.common.manager.UserManager;
-import com.ifreework.entity.system.User;
 import com.ifreework.entity.weixin.Company;
 import com.ifreework.mapper.weixin.CompanyMapper;
-import com.ifreework.service.system.UserService;
 import com.ifreework.util.StringUtil;
 
 
@@ -24,8 +22,6 @@ public class CompanyServiceImpl  implements CompanyService {
 	@Autowired
 	private CompanyMapper companyMapper;
 	
-	@Autowired
-	private UserService userService;
 	
 	@Override
 	public PageData queryPageList(PageData pd) {
@@ -56,10 +52,6 @@ public class CompanyServiceImpl  implements CompanyService {
 		company.setCreater(UserManager.getUser().getUserId());
 		company.setCreateTime(new Date());
 		companyMapper.add(company);
-		User user = new User();
-		user.setUserId(UserManager.getUser().getUserId());
-		user.setCompanyId(companyId);
-		userService.update(user);
 		PageData pd = new PageData();
 		pd.setResult(Constant.SUCCESS);
 		return pd;

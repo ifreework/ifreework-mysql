@@ -1,5 +1,6 @@
 package com.ifreework.controller.weixin;
 
+import java.io.IOException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -150,7 +151,7 @@ public class ArticleController extends BaseControllerSupport {
 
 	@RequestMapping(value = "/weixin/article/save")
 	@ResponseBody
-	public PageData save(@ModelAttribute("article") Article article) {
+	public PageData save(@ModelAttribute("article") Article article) throws IOException {
 		PageData pd;
 		if (StringUtil.isEmpty(article.getArticleId())) {
 			pd = articleService.add(article);
