@@ -47,7 +47,7 @@ public class ArticleServiceImpl  implements ArticleService {
 			}
 			article.setContent(content);
 		}
-		return article;
+		return articleMapper.getArticleById(articleId);
 	}
 
 	/**
